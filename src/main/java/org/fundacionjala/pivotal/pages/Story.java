@@ -2,12 +2,16 @@ package org.fundacionjala.pivotal.pages;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.PageFactoryFinder;
 import org.springframework.stereotype.Component;
 
 /**
  *  carlangas es el autor de esta
  */
 public class Story extends AbstractPage {
+    //*[@id="main"]/div[1]/div/div[2]/div[2]/div[1]/section/ol/li[1]/header/div/div/div[2]/a
+    
     @FindBy(name = "story[name]")
     private WebElement storyName;
 
@@ -19,7 +23,6 @@ public class Story extends AbstractPage {
 
     @FindBy(id="panel_backlog_2324243")
     private WebElement addStoryButton;
-
 
 
     public void clickAddButton() {
