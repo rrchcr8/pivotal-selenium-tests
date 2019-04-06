@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import org.fundacionjala.core.ui.AbstractPage;
 
+import java.util.Map;
+
 /**
  * this class represented a login page.
  */
@@ -24,7 +26,7 @@ public class Project extends AbstractPage {
     @FindBy(css = ".tc-account-selector__option-list li:nth-of-type(1)")
     private WebElement accountSelectorOptionone;
 
-    @FindBy(xpath = "//*[@id=\"modal_area\"]/div/div[2]/div/form/footer/button[2]")
+    @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
 
     /**
@@ -45,8 +47,10 @@ public class Project extends AbstractPage {
 
     /**
      * Open account list.
+     *
+     *@param strAccount value of account.
      */
-    public void openSelectAccountCombobox() {
+    public void openSelectAccountCombobox(final String strAccount) {
         action.click(accountSelector);
     }
 
@@ -67,12 +71,12 @@ public class Project extends AbstractPage {
     /**
      * Create new project by given name.
      *
-     * @param projectName value
+     * @param projectElements value
      */
-    public void createNewProject(final String projectName) {
+    public void createNewProject(final Map<String, String> projectElements) {
         clickCreateNewProjectButton();
-        setProjectNameTextField(projectName);
-        openSelectAccountCombobox();
+        setProjectNameTextField(projectElements.get("name"));
+        openSelectAccountCombobox(projectElements.get("account"));
         selectAccount();
         clickCreateButton();
     }

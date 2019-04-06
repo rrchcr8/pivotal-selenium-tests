@@ -1,5 +1,9 @@
 @bvt
 Feature: Project
 
-  Scenario:
-    Given user creates a default project as "AWT02"
+  Scenario: create new project
+    Given user creates a default project as
+      | name    | awt-02  |
+      | account | Tester  |
+      | privacy | Private |
+

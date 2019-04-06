@@ -1,6 +1,5 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.fundacionjala.pivotal.pages.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,5 @@ public class CommonSteps {
         String userNameKey = String.format("credentials.%s.username", key);
         String passwordKey = String.format("credentials.%s.password", key);
         login.loginAs(Environment.getInstance().getValue(userNameKey), Environment.getInstance().getValue(passwordKey));
-    }
-    /**
-     * Create a default project.
-     *
-     * @param name for create project.
-     */
-    @And("user creates a default project as {string}")
-    public void userCreatesNewProjectAs(final String name) {
-        project.createNewProject(name);
     }
 }
