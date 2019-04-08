@@ -1,5 +1,5 @@
-#@bvt
-                                       ##Feature: Story
-                                       ##
-                                       ##  Scenario:
-                                       ##    Given create a Story called perreo
+@bvt
+Feature: Story
+
+  Scenario:
+    Given create a Story called historia sin fin
