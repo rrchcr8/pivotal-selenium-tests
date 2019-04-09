@@ -3,102 +3,138 @@ package org.fundacionjala.pivotal.pages;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.ui.Wait;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+/** Dashboard page. **/
+@Component
 public class Dashboard extends AbstractPage {
-    private static final Logger LOGGER = Logger.getLogger(Dashboard.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(Dashboard.class.getName());
 
     @FindBy(css = ".Dashboard__Tabs__tab.Dashboard__Tabs__tab--active")
-    WebElement projects;
+    private WebElement projects;
 
     @FindBys({
-            @FindBy(className="Dashboard__Tabs__tab"),
+            @FindBy(className = "Dashboard__Tabs__tab"),
             @FindBy(linkText = "Workspaces")
     })
-    WebElement workspaces;
+    private WebElement workspaces;
 
-    @FindBy(id="create-project-button")
-    WebElement createProject;
+    @FindBy(id = "create-project-button")
+    private WebElement createProject;
 
-    @FindBy(id="create-workspace-button")
-    WebElement createWorkSpace;
+    @FindBy(id = "create-workspace-button")
+    private WebElement createWorkSpace;
 
-    @FindBy(id="projects-search-bar")
-    WebElement searchProject;
+    @FindBy(id = "projects-search-bar")
+    private WebElement searchProject;
 
     @FindBy(className = "WorkspaceTile__name")
-    List<WebElement> worksSpaceNames;
+    private List<WebElement> worksSpaceNames;
 
     @FindBy(className = "projectPaneSection__header__heading--count")
-    WebElement amountOfProjects;
+    private WebElement amountOfProjects;
 
     @FindBy(className = "projectTileHeader__projectName")
-    List<WebElement> projectNames;
+    private List<WebElement> projectNames;
 
+    /** Create project. */
     public void createProjectButton() {
-        action.click(createProject);
+        this.action.click(this.createProject);
         //return new CreateProjectDialog();
     }
 
+    /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
-        action.click(workspaces);
-        wait.withTimeout(WAIT_TIME, SECONDS);
+        this.action.click(this.workspaces);
+        this.wait.withTimeout(WAIT_TIME, SECONDS);
     }
 
-    public boolean existWorkSpace(String name) {
-        return hasElementWithName(worksSpaceNames, name);
+    /**
+     * Check if exist a workspace by name.
+     * @param name string to search.
+     * @return boolean.
+     **/
+    public boolean existWorkSpace(final String name) {
+        return hasElementWithName(this.worksSpaceNames, name);
     }
 
-    public boolean existProject(String name) {
-        return hasElementWithName(projectNames, name);
+    /**
+     * Check if exist a project by name.
+     * @param name string to search.
+     * @return boolean
+     **/
+    public boolean existProject(final String name) {
+        return hasElementWithName(this.projectNames, name);
     }
 
-    private boolean hasElementWithName(List<WebElement> list, String name) {
-        for (WebElement element : list) {
-            if(element.getText().equals(name)){
+    /**
+     * Check if exist and element in the list with name.
+     * @param list list where search.
+     * @param name name to search
+     * @return boolean.
+     **/
+    private boolean hasElementWithName(final List<WebElement> list,
+                                       final String name) {
+        for (final WebElement element : list) {
+            if (element.getText().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
-    private WebElement getElementWithName(List<WebElement> list, String name) throws Exception {
-        for (WebElement element : list) {
-            if(element.getText().equals(name)){
+    private WebElement getElementWithName(final List<WebElement> list,
+                                          final String name) throws Exception {
+        for (final WebElement element : list) {
+            if (element.getText().equals(name)) {
                 return element;
             }
         }
         throw new Exception("Web element not found");
     }
 
-    public void goToProject(String name) {
+    /**
+     * Go to project with name.
+     * @param name string project name.
+     */
+    public void goToProject(final String name) {
         try {
-            WebElement project = getElementWithName(projectNames, name);
-            action.click(project);
+            final WebElement project =
+                    getElementWithName(this.projectNames, name);
+            this.action.click(project);
             // return new ProjectPage();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.warn("The Project web element was not find ", e);
         }
     }
 
-    public void goToWorkspace(String name) {
+    /**
+     * Go to workspace with name.
+     * @param name string workspace.
+     */
+    public void goToWorkspace(final String name) {
         try {
-            WebElement project = getElementWithName(worksSpaceNames, name);
-            action.click(project);
+            final WebElement project =
+                    getElementWithName(this.worksSpaceNames, name);
+            this.action.click(project);
             // return new ProjectPage();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.warn("The Workspace web element was not find ", e);
         }
     }
 
+    /**
+     * Get amount of projects.
+     * @return int amount.
+     */
     public int getAmountOfProjects() {
-        return Integer.valueOf(amountOfProjects.getText());
+        return Integer.valueOf(this.amountOfProjects.getText());
     }
 }

@@ -8,45 +8,54 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/** Header page. **/
 @Component
 public class Header extends AbstractPage {
     @FindBy(className = "tc_header_item tc_header_logo")
     private WebElement goDashboard;
 
     @FindBy(className = "tc_projects_dropdown_link tc_context_name")
-    WebElement projecMenu;
+    private WebElement projecMenu;
 
     @FindBy(className = "Dropdown__button _2Oy9G__NotificationsBell__button")
-    WebElement notifications;
+    private WebElement notifications;
 
-    @FindBy(css="div[data-aid='ProfileDropdown'] .zWDds__Button")
-    WebElement profile;
+    @FindBy(css = "div[data-aid='ProfileDropdown'] .zWDds__Button")
+    private WebElement profile;
 
-    @FindBy(css="div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
-    WebElement whatsNew;
+    @FindBy(css = "div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
+    private WebElement whatsNew;
 
+    /**
+     * Go to dashboard page.
+     * @return Dashboard page.
+     */
     public Dashboard goToDashBoard() {
-        action.click(goDashboard);
+        this.action.click(this.goDashboard);
         return new Dashboard();
     }
 
+    /** This method open project menu. */
     public void openProjectMenu() {
-        action.click(projecMenu);
+        this.action.click(this.projecMenu);
     }
 
+    /** This method open profile. */
     public void openProfile() {
-        action.click(profile);
+        this.action.click(this.profile);
     }
 
+    /** This method open whats new. */
     public void openWhatsNew() {
-        action.click(whatsNew);
+        this.action.click(this.whatsNew);
     }
 
+    /** This method open help. */
     public void openHelp() {
-        List<WebElement> buttons = driver.findElements(By.cssSelector(
+        final List<WebElement> buttons = this.driver.findElements(By.cssSelector(
                 ".zWDds__Button.TtSTu__Button--header.Dropdown__button"));
-        for (WebElement element : buttons) {
-            if(element != profile && element != whatsNew) {
+        for (final WebElement element : buttons) {
+            if (element != this.profile && element != this.whatsNew) {
                 element.click();
                 return;
             }
