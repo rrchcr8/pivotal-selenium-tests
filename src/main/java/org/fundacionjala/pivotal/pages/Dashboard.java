@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.pages;
 
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -47,7 +48,6 @@ public class Dashboard extends AbstractPage {
     /** Create project. */
     public void createProjectButton() {
         this.action.click(this.createProject);
-        //return new CreateProjectDialog();
     }
 
     /** Go to work space tab. **/
@@ -95,16 +95,16 @@ public class Dashboard extends AbstractPage {
      * @param list list of webelements.
      * @param name string to search.
      * @return boolean.
-     * @throws Exception exception if item not found.
+     * @throws NoSuchElementException exception if item not found.
      */
     private WebElement getElementWithName(final List<WebElement> list,
-                                          final String name) throws Exception {
+                                          final String name) throws NoSuchElementException {
         for (final WebElement element : list) {
             if (element.getText().equals(name)) {
                 return element;
             }
         }
-        throw new Exception("Web element not found");
+        throw new NoSuchElementException("Web element not found");
     }
 
     /**
@@ -116,8 +116,7 @@ public class Dashboard extends AbstractPage {
             final WebElement project =
                     getElementWithName(this.projectNames, name);
             this.action.click(project);
-            // return new ProjectPage();
-        } catch (final Exception e) {
+        } catch (final NoSuchElementException e) {
             LOGGER.warn("The Project web element was not find ", e);
         }
     }
@@ -131,8 +130,7 @@ public class Dashboard extends AbstractPage {
             final WebElement project =
                     getElementWithName(this.worksSpaceNames, name);
             this.action.click(project);
-            // return new ProjectPage();
-        } catch (final Exception e) {
+        } catch (final NoSuchElementException e) {
             LOGGER.warn("The Workspace web element was not find ", e);
         }
     }
