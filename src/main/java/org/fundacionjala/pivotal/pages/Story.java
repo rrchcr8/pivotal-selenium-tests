@@ -63,8 +63,7 @@ public class Story extends AbstractPage {
     /**
      * another locators for non required fields.
      */
-    @FindBy(xpath = ".//*[@id=\"view531\"]/section/section[2]/div/div/div/div"
-            + "[2]/div/button[1]")
+    @FindBy(className = "BlockerEdit__add___z26dSKQ8")
     private WebElement addblockersButton;
 
 
