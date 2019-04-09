@@ -90,6 +90,13 @@ public class Dashboard extends AbstractPage {
         return false;
     }
 
+    /**
+     * check if a name exist in web elements list.
+     * @param list list of webelements.
+     * @param name string to search.
+     * @return boolean.
+     * @throws Exception exception if item not found.
+     */
     private WebElement getElementWithName(final List<WebElement> list,
                                           final String name) throws Exception {
         for (final WebElement element : list) {
