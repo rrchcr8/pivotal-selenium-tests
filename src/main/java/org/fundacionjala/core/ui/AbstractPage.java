@@ -14,6 +14,7 @@ public abstract class AbstractPage {
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected WebDriverAction action;
+    public static final int WAIT_TIME = 60;
 
     /**
      * Constructor of class.
