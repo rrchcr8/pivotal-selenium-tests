@@ -63,7 +63,8 @@ public class Story extends AbstractPage {
     /**
      * another locators for non required fields.
      */
-    @FindBy(xpath = ".//*[@id=\"view531\"]/section/section[2]/div/div/div/div[2]/div/button[1]")
+    @FindBy(xpath = ".//*[@id=\"view531\"]/section/section[2]/div/div/div/div"
+            + "[2]/div/button[1]")
     private WebElement addblockersButton;
 
 
@@ -75,6 +76,7 @@ public class Story extends AbstractPage {
     }
     /**
      * Basic method with the minimum requerid for create a story.
+     * @param strStoryName of the story that you want to create
      */
     public void setStoryNameTextField(final String strStoryName) {
         action.setValue(storyName, strStoryName);
@@ -87,12 +89,12 @@ public class Story extends AbstractPage {
     }
     /**
      * Basic method with the minimum requerid for create a story.
+     * @param  name of the story
      */
     public void createStory(final String name) {
         clickAddButton();
         setStoryNameTextField(name);
         clickSaveButton();
     }
-
 
 }
