@@ -31,7 +31,7 @@ public class ScenarioContext {
      * @param value object value
      */
     public void setContext(final String key, final Object value) {
-        this.scenarioContext.put(key.toString(), value);
+        this.scenarioContext.put(key, value);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ScenarioContext {
      * @return object value.
      */
     public Object getContext(final String key) {
-        return this.scenarioContext.get(key.toString());
+        return this.scenarioContext.get(key);
     }
 
     /**

@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.ProjectService;
 import org.fundacionjala.core.api.services.StoryService;
 import org.fundacionjala.pivotal.pages.Tasks;
@@ -15,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/** This class will have steps for task feature. **/
 public class TaskSteps {
+    private static final Logger LOGGER =
+            Logger.getLogger(TaskSteps.class.getName());
 
     @Autowired
     private Tasks tasksPanel;
@@ -25,7 +29,7 @@ public class TaskSteps {
         final int id = ProjectService.createProject("My test project");
         ScenarioContext.getInstance().setContext("defaultProjectId", id);
         final int taskId = StoryService.createStory(id, "Task test");
-        ScenarioContext.getInstance().setContext("defaultTaskId", id);
+        ScenarioContext.getInstance().setContext("defaultTaskId", taskId);
     }
 
     @When("Create a task with text {string}")
@@ -65,19 +69,19 @@ public class TaskSteps {
 
     @Before
     public void before(final Scenario scenario) {
-        System.out.println("------------------------------");
-        System.out.println(scenario.getName() + " Status - " + scenario.getStatus());
-        System.out.println("------------------------------");
+        LOGGER.info(String.format("@Before %s  Status - %s", scenario.getName(),
+                scenario.getStatus()));
     }
 
     @After
     public void after(final Scenario scenario) {
-        System.out.println("------------------------------");
-        System.out.println(scenario.getName() + " Status - " + scenario.getStatus());
+        LOGGER.info(String.format("@After.1 %s  Status - %s", scenario.getName(),
+                scenario.getStatus()));
         final int projectId = (Integer) ScenarioContext.getInstance()
                 .getContext("defaultProjectId");
         ProjectService.deleteProject(projectId);
-        System.out.println("------------------------------");
+        LOGGER.info(String.format("@After.2 %s  Status - %s", scenario.getName(),
+                scenario.getStatus()));
     }
 
     @When("Delete task")
