@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** This class represent scenario context. **/
-public class ScenarioContext {
+public final class ScenarioContext {
 
     private final Map<String, Object> scenarioContext;
 
-    private static final ScenarioContext context = new ScenarioContext();
+    private static final ScenarioContext CONTEXT = new ScenarioContext();
 
     /** Default constructor. **/
     private ScenarioContext() {
@@ -17,16 +17,14 @@ public class ScenarioContext {
 
     /**
      * Get context instance.
-     *
      * @return ScenarioContext.
      */
     public static ScenarioContext getInstance() {
-        return context;
+        return CONTEXT;
     }
 
     /**
      * Set an element in context.
-     *
      * @param key   string key
      * @param value object value
      */
@@ -36,7 +34,6 @@ public class ScenarioContext {
 
     /**
      * This method get context value for key.
-     *
      * @param key string
      * @return object value.
      */
@@ -46,7 +43,6 @@ public class ScenarioContext {
 
     /**
      * This method check if a key is in the context.
-     *
      * @param key string
      * @return boolean
      **/
