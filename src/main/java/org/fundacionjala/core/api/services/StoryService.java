@@ -12,7 +12,7 @@ public final class StoryService {
             .concat("/projects/%d/stories");
 
     /** Private constructor. */
-    private StoryManager() {
+    private StoryService() {
     }
 
     /**
