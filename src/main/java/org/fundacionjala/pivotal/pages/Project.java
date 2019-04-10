@@ -1,12 +1,11 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
-
-import org.fundacionjala.core.ui.AbstractPage;
 
 import java.util.Map;
 
@@ -37,7 +36,31 @@ public class Project extends AbstractPage {
     @FindBy(css = "raw_context_name")
     private WebElement titleOnDashboard;
 
-    private String ProjectName;
+    @FindBy(id = "delete_link")
+    private WebElement deleteLink;
+
+    @FindBy(id = "confirm_delete")
+    private WebElement confirmDelete;
+
+    @FindBy(id = "project_name")
+    private WebElement editProjectNameField;
+
+    @FindBy(id = "project_description")
+    private WebElement editProjectDescriptionField;
+
+    @FindBy(xpath = "//input[@id='project_enable_tasks' and @type='checkbox']")
+    private WebElement editProjectEnableTask;
+
+    @FindBy(xpath = "//input[@id='project_public' and @type='checkbox']")
+    private WebElement editProjectPrivacy;
+
+    @FindBy(xpath = "//input[@name='commit' and @type='submit']")
+    private WebElement saveButtonOnEditProject;
+
+    @FindBy(id = "save_success_bar")
+    private WebElement successBar;
+
+    private String projectName;
     /**
      * Clicks the create new project button.
      */
@@ -51,7 +74,7 @@ public class Project extends AbstractPage {
      * @param strProjectName value of input.
      */
     public void setProjectNameTextField(final String strProjectName) {
-        this.ProjectName = strProjectName;
+        this.projectName = strProjectName;
         action.setValue(projectNameField, strProjectName);
     }
 
@@ -79,7 +102,12 @@ public class Project extends AbstractPage {
         }
     }
 
-    private boolean isAccountListed(String accountName) {
+    /**
+     * Check if account is listed.
+     * @param accountName name of account
+     * @return Boolean true if it is displayed
+     */
+    private boolean isAccountListed(final String accountName) {
         boolean exist;
         try {
             exist = driver.findElement(By.xpath("//div[text()='" + accountName + "']")).isDisplayed();
@@ -143,6 +171,131 @@ public class Project extends AbstractPage {
      * @return context value on project name
      */
     public String getProjectName() {
-        return this.ProjectName;
+        return this.projectName;
+    }
+
+    /**
+     * Method to keep project's name to context.
+     * @param strProjectName project name
+     */
+    public void setProjectName(final String strProjectName) {
+        this.projectName = strProjectName;
+    }
+
+    /**
+     * Given a project name open settings section.
+     * @param projectName Name of project
+     */
+    public void openProjectSettingsbyName(final String projectName) {
+        WebElement projectItem = driver.findElement(
+                By.xpath("//a[@data-aid='project-name' and contains(text(),'" + projectName + "')]"));
+        String linkText = projectItem.getAttribute("css=a@href");
+        WebElement projectItemSettingElement = driver.findElement(
+                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "')]")
+        );
+        action.click(projectItemSettingElement);
+    }
+
+    /**
+     * Delete through link option.
+     */
+    public void clickOnDeleteProjectLink() {
+        action.click(deleteLink);
+    }
+
+    /**
+     * Cofirm deletion.
+     */
+    public void clickOnDeleteButton() {
+        action.click(confirmDelete);
+    }
+
+    /**
+     * To check if project is listed.
+      * @return Boolean tru if it is seeing on page
+     */
+    public boolean isProjectListed() {
+        boolean listed;
+        try {
+            listed = driver.findElement(
+                    By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]"))
+                    .isDisplayed();
+        } catch (NoSuchElementException e) {
+            listed = false;
+        }
+        return listed;
+    }
+
+    /**
+     * Set values on form as specified.
+     * @param projectAttributes Attributes to set on form
+     */
+    public void setValuesOnEditProjectForm(final Map<String, String> projectAttributes) {
+
+        setEditProjectTitle(projectAttributes.get("title"));
+        setEditProjectDescription(projectAttributes.get("description"));
+        setEditProjectAccount(projectAttributes.get("account"));
+        setEditProjectTaskEnable(projectAttributes.get("taskEnable"));
+        setEditProjectPrivacy(projectAttributes.get("privacy"));
+    }
+
+    /**
+     * change check status if different.
+     * @param privacy between private and public
+     */
+    private void setEditProjectPrivacy(final String privacy) {
+        if (editProjectPrivacy.isSelected() && "private".equals(privacy)) {
+            action.click(editProjectPrivacy);
+        }
+    }
+
+    /**
+     * change check status if different.
+     * @param taskEnable between allow or disallow
+     */
+    private void setEditProjectTaskEnable(final String taskEnable) {
+        if (editProjectPrivacy.isSelected() && "Allow".equals(taskEnable)) {
+            action.click(editProjectEnableTask);
+        }
+    }
+
+    /**
+     * Proccess to change account.
+     * @param account account name
+     */
+    private void setEditProjectAccount(final String account) {
+    }
+
+    /**
+     * Set value to description field.
+     * @param description the desired value
+     */
+    private void setEditProjectDescription(final String description) {
+        action.setValue(editProjectDescriptionField, description);
+
+    }
+
+    /**
+     * Set value to title field.
+     * @param title desired title
+     */
+    private void setEditProjectTitle(final String title) {
+        action.setValue(editProjectNameField, title);
+    }
+
+    /**
+     * Click to save button on edit project form.
+     */
+    public void saveFormOnEditProject() {
+        action.click(saveButtonOnEditProject);
+    }
+
+    /**
+     * validate message of success.
+     * @return Boolean if message was displayed
+     */
+    public boolean getResponseMessage() {
+        return successBar.isDisplayed();
+
     }
 }
