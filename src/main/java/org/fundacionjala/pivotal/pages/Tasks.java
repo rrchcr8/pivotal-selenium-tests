@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/** Task panel. **/
+/**
+ * Task panel.
+ **/
 @Component
 public class Tasks extends AbstractPage {
     @FindBy(css = "div[data-aid=\"Tasks\"] h4")
@@ -30,16 +32,29 @@ public class Tasks extends AbstractPage {
     })
     private WebElement addTaskBtn;
 
+    /**
+     * This method click on add task button.
+     **/
     public void clickOnAddTaskButton() {
         this.action.click(this.addTaskBtn);
     }
 
+    /**
+     * This method set text in a task.
+     *
+     * @param text string
+     **/
     public void setTaskText(final String text) {
         this.taskText.sendKeys(Keys.TAB);
         this.taskText.clear();
         this.taskText.sendKeys(text);
     }
 
+    /**
+     * This method select a task with text provided.
+     *
+     * @param text string.
+     **/
     public void selectTask(final String text) {
         for (final WebElement element : this.tasksNames) {
             if (element.getText().equals(text)) {
@@ -49,14 +64,28 @@ public class Tasks extends AbstractPage {
         }
     }
 
+    /**
+     * This method save the task.
+     **/
     public void clickOnSave() {
         this.action.click(this.saveTask);
     }
 
+    /**
+     * This method delete a task.
+     *
+     * @param text string.
+     */
     public void deleteTask(final String text) {
 
     }
 
+    /**
+     * This method check if exist a task with text.
+     *
+     * @param text string
+     * @return boolean
+     **/
     public boolean existTask(final String text) {
         for (final WebElement element : this.tasksNames) {
             if (element.getText().equals(text)) {
