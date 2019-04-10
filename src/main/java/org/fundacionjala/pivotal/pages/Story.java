@@ -12,7 +12,7 @@ public class Story extends AbstractPage {
     /**
      * This is the add story button.
      */
-    @FindBy(id = "panel_backlog_2324243")
+    @FindBy(css="a[data-aid='AddButton']" )
     private WebElement addStoryButton;
     /**
      * This is the save button.
@@ -65,6 +65,10 @@ public class Story extends AbstractPage {
      */
     @FindBy(className = "BlockerEdit__add___z26dSKQ8")
     private WebElement addblockersButton;
+
+    public Story(WebElement addStoryButton) {
+        this.addStoryButton = addStoryButton;
+    }
 
 
     /**
