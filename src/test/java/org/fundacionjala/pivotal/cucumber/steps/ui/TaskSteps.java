@@ -51,15 +51,18 @@ public class TaskSteps {
     @Then("Verify that task was created")
     public void verifyThatTaskWasCreated() {
         final String text = (String) ScenarioContext.getInstance()
-                .getContext("taskName");
+                .getContext(TASK_NAME);
         assertTrue(this.tasksPanel.existTask(text));
     }
 
-    /** Step to modify a task. **/
+    /**
+     * Step to modify a task.
+     * @param newText new task value.
+     **/
     @When("Modify text by {string}")
     public void modifyTextBy(final String newText) {
         final String text = (String) ScenarioContext.getInstance()
-                .getContext("taskName");
+                .getContext(TASK_NAME);
         this.tasksPanel.selectTask(text);
         this.tasksPanel.setTaskText(newText);
         this.tasksPanel.clickOnSave();

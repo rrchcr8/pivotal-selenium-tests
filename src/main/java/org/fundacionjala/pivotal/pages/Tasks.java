@@ -1,6 +1,7 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -41,7 +42,6 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method set text in a task.
-     *
      * @param text string
      **/
     public void setTaskText(final String text) {
@@ -52,7 +52,6 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method select a task with text provided.
-     *
      * @param text string.
      **/
     public void selectTask(final String text) {
@@ -72,17 +71,22 @@ public class Tasks extends AbstractPage {
     }
 
     /**
-     * This method delete a task.
-     *
+     * This method search a task and delete a it.
      * @param text string.
      */
     public void deleteTask(final String text) {
-
+        for (final WebElement element : this.tasksNames) {
+            if (element.getText().equals(text)) {
+                getParent(getParent(getParent(element)))
+                        .findElement(By.xpath("//nav //button"))
+                        .click();
+                return;
+            }
+        }
     }
 
     /**
      * This method check if exist a task with text.
-     *
      * @param text string
      * @return boolean
      **/
