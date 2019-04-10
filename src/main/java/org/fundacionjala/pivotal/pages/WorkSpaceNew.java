@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.fundacionjala.core.ui.AbstractPage;
 
 @Component
-public class WorkSpace extends AbstractPage {
+public class WorkSpaceNew extends AbstractPage {
 
     @FindBy(css = "Dashboard__Tabs__tab Dashboard__Tabs__tab--active")
     private WebElement dashboardLink;
@@ -46,15 +46,10 @@ public class WorkSpace extends AbstractPage {
         action.click(createButton);
     }
 
-    public boolean checkValueOnLabelWorkSpaceName(final String strWorkSpaceName) {
+    public String getWorkSpaceLabel() {
 
-        String name = labelWorkSpaceName.getText();
-        if (name == strWorkSpaceName ){
-            return true;
-        }
-        else{
-            return false;
-        }
+         return labelWorkSpaceName.getText();
+
     }
 
 }
