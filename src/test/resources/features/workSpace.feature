@@ -27,6 +27,7 @@ Feature: New Workspace
     Given an workspace
     When the user clicks on workspace settings button
     And click delete workspace.
+    And click delete confirm.
     Then workspace should be deleted.
 
 

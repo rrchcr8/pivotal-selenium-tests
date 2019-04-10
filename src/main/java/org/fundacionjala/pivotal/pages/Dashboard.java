@@ -50,6 +50,11 @@ public class Dashboard extends AbstractPage {
         this.action.click(this.createProject);
     }
 
+    /** Create workspace. **/
+    public void createWorkSpaceButton() {
+        this.action.click(this.createWorkSpace);
+    }
+
     /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
@@ -58,6 +63,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist a workspace by name.
+     *
      * @param name string to search.
      * @return boolean.
      **/
@@ -67,6 +73,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist a project by name.
+     *
      * @param name string to search.
      * @return boolean
      **/
@@ -76,6 +83,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist and element in the list with name.
+     *
      * @param list list where search.
      * @param name name to search
      * @return boolean.
@@ -92,6 +100,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * check if a name exist in web elements list.
+     *
      * @param list list of webelements.
      * @param name string to search.
      * @return boolean.
@@ -109,6 +118,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Go to project with name.
+     *
      * @param name string project name.
      */
     public void goToProject(final String name) {
@@ -123,6 +133,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Go to workspace with name.
+     *
      * @param name string workspace.
      */
     public void goToWorkspace(final String name) {
@@ -137,6 +148,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Get amount of projects.
+     *
      * @return int amount.
      */
     public int getAmountOfProjects() {

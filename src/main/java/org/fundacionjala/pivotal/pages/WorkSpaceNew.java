@@ -3,7 +3,6 @@ package org.fundacionjala.pivotal.pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
-
 import org.fundacionjala.core.ui.AbstractPage;
 
 @Component
