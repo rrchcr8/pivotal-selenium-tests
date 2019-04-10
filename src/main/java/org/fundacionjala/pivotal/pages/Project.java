@@ -1,5 +1,7 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -23,12 +25,19 @@ public class Project extends AbstractPage {
     @FindBy(css = ".tc-account-selector")
     private WebElement accountSelector;
 
-    @FindBy(css = ".tc-account-selector__option-list li:nth-of-type(1)")
-    private WebElement accountSelectorOptionone;
-
     @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
 
+    @FindBy(css = ".tc-account-selector__create-account-icon")
+    private WebElement newAccountOption;
+
+    @FindBy(css = ".tc-account-creator__name")
+    private WebElement newAccountField;
+
+    @FindBy(css = "raw_context_name")
+    private WebElement titleOnDashboard;
+
+    private String ProjectName;
     /**
      * Clicks the create new project button.
      */
@@ -42,23 +51,51 @@ public class Project extends AbstractPage {
      * @param strProjectName value of input.
      */
     public void setProjectNameTextField(final String strProjectName) {
+        this.ProjectName = strProjectName;
         action.setValue(projectNameField, strProjectName);
     }
 
     /**
      * Open account list.
-     *
-     *@param strAccount value of account.
-     */
-    public void openSelectAccountCombobox(final String strAccount) {
+     **/
+    public void openSelectAccountCombobox() {
         action.click(accountSelector);
     }
 
     /**
      * Select an option from list.
+     * @param accountName to select an account from list
      */
-    public void selectAccount() {
-        action.click(accountSelectorOptionone);
+    public void selectAccount(final String accountName) {
+
+        boolean onListAccount = isAccountListed(accountName);
+
+        if (!onListAccount) {
+            action.click(newAccountOption);
+            createAccount(accountName);
+        } else {
+            WebElement accountSelectorByName = driver.findElement(By.xpath("//div[text()='" + accountName + "']"));
+            action.click(accountSelectorByName);
+        }
+    }
+
+    private boolean isAccountListed(String accountName) {
+        boolean exist;
+        try {
+            exist = driver.findElement(By.xpath("//div[text()='" + accountName + "']")).isDisplayed();
+        } catch (NoSuchElementException e) {
+            exist = false;
+        }
+        return exist;
+    }
+
+    /**
+     * Create an account by given name.
+     * @param accountName name of the new account
+     */
+    private void createAccount(final String accountName) {
+
+        action.setValue(newAccountField, accountName);
     }
 
     /**
@@ -75,9 +112,37 @@ public class Project extends AbstractPage {
      */
     public void createNewProject(final Map<String, String> projectElements) {
         clickCreateNewProjectButton();
-        setProjectNameTextField(projectElements.get("name"));
-        openSelectAccountCombobox(projectElements.get("account"));
-        selectAccount();
+        String projectName = projectElements.get("name");
+        setProjectNameTextField(projectName);
+        openSelectAccountCombobox();
+        selectAccount(projectElements.get("account"));
+        selectProjectPrivacy(projectElements.get("privacy"));
         clickCreateButton();
+    }
+
+    /**
+     * Method to select privacy based on election.
+     * @param privacy option public or private
+     */
+    public void selectProjectPrivacy(final String privacy) {
+        WebElement accountPrivacyOption = driver.findElement(
+                By.xpath("//input[@type='radio' and @data-aid='" + privacy + "']"));
+        action.click(accountPrivacyOption);
+    }
+
+    /**
+     * Capture project's name on dashboard.
+     * @return title text displayed on dashboard
+     */
+    public String getProjectNameOnDashboard() {
+        return  titleOnDashboard.getText();
+    }
+
+    /**
+     * Method to return project's name from context.
+     * @return context value on project name
+     */
+    public String getProjectName() {
+        return this.ProjectName;
     }
 }

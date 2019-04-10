@@ -1,8 +1,10 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import org.fundacionjala.pivotal.pages.Project;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
 
 import java.util.Map;
@@ -22,5 +24,11 @@ public class ProjectSteps {
     @Given("user creates a default project as")
     public void userCreatesNewProjectAs(final Map<String, String> projectAttributes) {
         project.createNewProject(projectAttributes);
+    }
+
+    @Then("validate the project is created with specify name")
+    public void validateTheProjectIsCreatedWithSpecifyName() {
+        String actual = project.getProjectNameOnDashboard();
+        Assert.assertEquals(actual, project.getProjectName(), "Project name match");
     }
 }
