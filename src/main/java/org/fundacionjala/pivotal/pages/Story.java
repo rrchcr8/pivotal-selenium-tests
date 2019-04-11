@@ -4,10 +4,12 @@ import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.springframework.stereotype.Component;
 
 /**
  * This is the story page.
  */
+@Component
 public class Story extends AbstractPage {
     /**
      * This is the add story button.
