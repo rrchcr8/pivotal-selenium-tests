@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.ProjectService;
 import org.fundacionjala.core.api.services.StoryService;
 import org.fundacionjala.pivotal.pages.Tasks;
+import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertFalse;

@@ -1,4 +1,4 @@
-package org.fundacionjala.core.api.util;
+package org.fundacionjala.util;
 
 import org.fundacionjala.core.Environment;
 
