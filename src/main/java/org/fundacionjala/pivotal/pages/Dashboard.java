@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.pages;
 
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -153,5 +154,22 @@ public class Dashboard extends AbstractPage {
      */
     public int getAmountOfProjects() {
         return Integer.valueOf(this.amountOfProjects.getText());
+    }
+
+    /**
+     * This method click on settings workspace with name provided.
+     *
+     * @param name string workspace name.
+     */
+    public WorkSpaceSettings clickWorkSpaceSettings(final String name) throws NoSuchElementException {
+        for (final WebElement element : this.worksSpaceNames) {
+            if (element.getText().equals(name)) {
+                getParent(getParent(element))
+                        .findElement(By.xpath("//div//span//a[contains(@class,'SettingsIcon__cog projectTileHeader__hoverable')]"))
+                        .click();
+                return new WorkSpaceSettings();
+            }
+        }
+        throw new NoSuchElementException("The work space with name " + name + " was not find");
     }
 }

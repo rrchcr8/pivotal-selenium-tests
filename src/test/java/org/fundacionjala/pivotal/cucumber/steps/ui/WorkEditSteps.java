@@ -1,64 +1,57 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.assertTrue;
 
 
 public class WorkEditSteps {
-    public WorkEditSteps() {
-        @Given("an workspace")
-        // obtener la pagina de workspace
-        public void clickDashboardLink() {
-            action.click(dashboardLink);
-        }
+    @Autowired
+    Dashboard dashboard;
+    @Autowired
+    Header header;
 
-       @When("clicks on workspace settings button")
-
-        public void clickSettingsLink() {
-            action.click(settingsLink);
-        }
-
-
-        @And("edit workspace’s title")
-        public void setWorkSpacename(final String strname) {
-            action.setValue(setWorkSpacename, strname);
-        }
-
-         @And ("clicks on Save Button")
-        public void clickSaveButton() {
-            action.click(saveButton);
-        }
-
-
-
-        @Then("workspace title should be edited")
-
-        public String getWorkSpaceLabel() {
-
-            return workSpaceLabel.getText();
-
-        }
-
-
-
-
-
-        @And("^click delete workspace\\.$", () -> {
-        });
-        @Then("^workspace should be deleted\\.$", () -> {
-        });
-        @When("^the user clicks on workspace name$", () -> {
-        });
-        @And("^clicks on Add Projects$", () -> {
-        });
-        @And("^to selected a project from list$", () -> {
-        });
-        @And("^click Save Workspace Changes$", () -> {
-        });
-        @Then("^Project is displayed on WorkSpace board$", () -> {
-        });
+    @Given("an workspace")
+    // obtener la pagina de workspace
+    public void clickDashboardLink() {
+        this.header.goToDashBoard();
     }
+
+    @And("edit workspace’s title")
+    public void setWorkSpacename(final String strname) {
+
+        final WorkSpaceSettings settingsPage =
+                (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
+                        "ws_settings_page");
+        ScenarioContext.getInstance().setContext("ws_name", strname);
+        settingsPage.setName(strname);
+    }
+
+    @And("clicks on Save Button")
+    public void clickSaveButton() {
+        final WorkSpaceSettings settingsPage =
+                (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
+                        "ws_settings_page");
+        settingsPage.clickOnSave();
+
+    }
+
+
+    @Then("workspace title should be edited")
+    public String getWorkSpaceLabel() {
+        final String name = (String) ScenarioContext.getInstance().getContext(
+                "ws_name");
+        this.dashboard.goToWorkSpaceTab();
+        assertTrue(this.dashboard.existWorkSpace(name));
+    }
+
+
 }
 
 

@@ -18,7 +18,7 @@ Feature: New Workspace
     Given an workspace
     When the user clicks on workspace settings button
     And edit workspace’s title
-    Then workspace title should be edited.
+    Then workspace title should be edited
 
 
  # Test Case 3
@@ -26,17 +26,7 @@ Feature: New Workspace
 
     Given an workspace
     When the user clicks on workspace settings button
-    And click delete workspace.
-    And click delete confirm.
-    Then workspace should be deleted.
+    And click delete workspace
+    And click delete confirm
+    Then workspace should be deleted
 
-
-     # Test Case 4
-  Scenario:  Project can be added to a WorkSpace.
-
-    Given an workspace
-    When the user clicks on workspace name
-    And clicks on Add Projects
-    And to selected a project from list
-    And click Save Workspace Changes
-    Then Project is displayed on WorkSpace board
