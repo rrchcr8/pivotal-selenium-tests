@@ -1,2 +1,2 @@
-/** Package for api. **/
+/** Package for utilities. **/
 package org.fundacionjala.core.api.util;
