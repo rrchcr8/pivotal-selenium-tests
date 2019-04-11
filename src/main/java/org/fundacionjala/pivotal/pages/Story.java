@@ -19,11 +19,13 @@ public class Story extends AbstractPage {
     /**
      * This is the save button.
      */
-    @FindBy(id = "story_close_c205")
+    @FindBy(className ="autosaves button std save" )
     private WebElement saveButton;
     /**
      * This is the cancel button.
      */
+    //<button class="autosaves cancel clear" type="reset" id=
+      //      "story_submit_cancel_c654" tabindex="-1">Cancel</button>
     @FindBy(id = "story_submit_cancel_c205")
     private WebElement cancelButton;
     /**
