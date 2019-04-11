@@ -19,7 +19,7 @@ public class Story extends AbstractPage {
     /**
      * This is the save button.
      */
-    @FindBy(className ="autosaves button std save" )
+    @FindBy(css =".autosaves.button.std.save" )
     private WebElement saveButton;
     /**
      * This is the cancel button.
@@ -68,12 +68,6 @@ public class Story extends AbstractPage {
      */
     @FindBy(className = "BlockerEdit__add___z26dSKQ8")
     private WebElement addblockersButton;
-
-    public Story(WebElement addStoryButton) {
-        this.addStoryButton = addStoryButton;
-    }
-
-
     /**
      * Basic method with the minimum requerid for create a story.
      */

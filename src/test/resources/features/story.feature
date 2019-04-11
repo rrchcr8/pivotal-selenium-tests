@@ -2,6 +2,7 @@
 Feature: Story
 
   Scenario:
+    Given logs in with user "owner1"
     Given a project called 'awt-02'
 #    When click on the project link
 #    And click on add Story
