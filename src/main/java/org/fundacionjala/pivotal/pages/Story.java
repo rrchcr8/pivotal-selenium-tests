@@ -24,9 +24,8 @@ public class Story extends AbstractPage {
     /**
      * This is the cancel button.
      */
-    //<button class="autosaves cancel clear" type="reset" id=
-      //      "story_submit_cancel_c654" tabindex="-1">Cancel</button>
-    @FindBy(id = "story_submit_cancel_c205")
+    //@FindBy(id = "story_submit_cancel_c205")
+    @FindBy(className = "autosaves cancel clear")
     private WebElement cancelButton;
     /**
      * This is the story page.
