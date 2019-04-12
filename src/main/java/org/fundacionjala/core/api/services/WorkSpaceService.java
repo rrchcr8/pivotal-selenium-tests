@@ -27,4 +27,28 @@ public final class WorkSpaceService {
         return RequestManager.postRequest(BASE_URL, parameters).body().jsonPath().get("id");
     }
 
+    /**
+     * this method edit a workspace and return its Id.
+     *
+     * @param workspaceId int
+     * @param name        string
+     * @return int
+     */
+    public static int workedit(final int workspaceId, final String name) {
+        final Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        return RequestManager.putRequest(String.format(BASE_URL,
+                workspaceId), parameters)
+                .body().jsonPath().get("id");
+    }
+
+    /**
+     * Deletes the specified story in the specified project.
+     *
+     * @param workspaceId the ID of the Work Space.
+     */
+    public static void deleteworkspaceId(final int workspaceId) {
+        RequestManager.deleteRequest(String.format(BASE_URL.concat("/%d"),
+                workspaceId));
+    }
 }

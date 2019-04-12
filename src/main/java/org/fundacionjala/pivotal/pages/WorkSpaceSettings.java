@@ -24,19 +24,26 @@ public class WorkSpaceSettings extends AbstractPage {
     @FindBy(className = "save_bar__submit")
     private WebElement saveButton;
 
+    /** This represent click action on delete link. */
     public void clickOnDeleteLink() {
         this.action.click(this.deleteLink);
     }
 
+    /** This represent click action on confirm delete. */
     public void clickOnConfirmDelete() {
         this.action.click(this.confirmDelete);
     }
 
+    /** This represent click action on save. */
     public void clickOnSave() {
         this.action.click(this.saveButton);
     }
 
-
+    /**
+     * This method set name on the edit field.
+     *
+     * @param newName
+     */
     public void setName(final String newName) {
         this.name.sendKeys(newName);
     }

@@ -1,10 +1,11 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
-import org.fundacionjala.core.ui.AbstractPage;
 
+/** This class represent page to create new workspace. */
 @Component
 public class WorkSpaceNew extends AbstractPage {
 
@@ -24,31 +25,37 @@ public class WorkSpaceNew extends AbstractPage {
     private WebElement labelWorkSpaceName;
 
 
-    /**
-     * Clicks the next button.
-     */
+    /** Clicks the next button. */
     public void clickDashboardLink() {
-        action.click(dashboardLink);
+        this.action.click(this.dashboardLink);
     }
 
-
+    /** this method represent click action on create button. */
     public void clickCreateWorkSpaceButton() {
-        action.click(createWorkSpaceButton);
+        this.action.click(this.createWorkSpaceButton);
     }
 
-
+    /**
+     * this method write a name in the text box of workspace name.
+     *
+     * @param strname string
+     */
     public void setName(final String strname) {
-        action.setValue(textBoxname, strname);
+        this.action.setValue(this.textBoxname, strname);
     }
 
+    /** This method represent a click action on create button. */
     public void clickCreateButton() {
-        action.click(createButton);
+        this.action.click(this.createButton);
     }
 
+    /**
+     * This method get the workspace label.
+     *
+     * @return string
+     */
     public String getWorkSpaceLabel() {
-
-         return labelWorkSpaceName.getText();
-
+        return this.labelWorkSpaceName.getText();
     }
 
 }
