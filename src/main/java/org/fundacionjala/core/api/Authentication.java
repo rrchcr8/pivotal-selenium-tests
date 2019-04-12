@@ -47,7 +47,6 @@ public final class Authentication {
                 .build();
         this.requestSpecification.baseUri(Environment.getInstance()
                 .getValue("url.api"));
-
     }
 
     /**

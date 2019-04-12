@@ -15,8 +15,8 @@ public final class StringUtil {
      * @return string specific url.
      */
     public static String getExplicitEndpoint(final String bareUrl) {
-        final String baseUrl = (String) ScenarioContext.getInstance()
-                .getContext("url.api");
+        final String baseUrl = (String) ScenarioContext
+                .getContextAsString("url.api");
         if (bareUrl.contains("{")) {
             final StringBuilder result = new StringBuilder();
             result.append(baseUrl);
@@ -51,7 +51,7 @@ public final class StringUtil {
      * @param key string key.
      * @return value in the context for key.
      */
-    private static String getValue(final String key) {
+    public static String getValue(final String key) {
         if (key.contains(".")) {
             final String mainKey = getKey(key, '.');
             final JsonPath value = (JsonPath) ScenarioContext.getInstance()
@@ -60,7 +60,7 @@ public final class StringUtil {
             return value.get(subKey).toString();
 
         } else {
-            return String.valueOf(ScenarioContext.getInstance().getContext(key));
+            return String.valueOf(ScenarioContext.getContextAsString(key));
         }
     }
 

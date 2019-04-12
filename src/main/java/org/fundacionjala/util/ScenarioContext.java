@@ -1,5 +1,7 @@
 package org.fundacionjala.util;
 
+import org.fundacionjala.core.Environment;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +10,19 @@ public final class ScenarioContext {
 
     private final Map<String, Object> scenarioContext;
 
+    public static final String API_URL_KEY = "url.api";
+
     private static final ScenarioContext CONTEXT = new ScenarioContext();
 
     /** Default constructor. **/
     private ScenarioContext() {
         this.scenarioContext = new HashMap<>();
+        try {
+            final String baseUrl = Environment.getInstance().getValue(API_URL_KEY);
+        } catch (ExceptionInInitializerError e) {
+            
+        }
+        this.setContext(API_URL_KEY, baseUrl);
     }
 
     /**
@@ -39,6 +49,15 @@ public final class ScenarioContext {
      */
     public Object getContext(final String key) {
         return this.scenarioContext.get(key);
+    }
+
+    /**
+     * This method get context string value for key.
+     * @param key string
+     * @return object value.
+     */
+    public static String getContextAsString(final String key) {
+        return CONTEXT.scenarioContext.get(key).toString();
     }
 
     /**
