@@ -1,15 +1,15 @@
 package org.fundacionjala.core.api.services;
 
+import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.api.RequestManager;
-import org.fundacionjala.util.Properties;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /** This class have project api rest services. */
 public final class ProjectService {
-    private static final String BASE_URL = Properties.getValue("url.api")
-            .concat("/projects/");
+    private static final String BASE_URL = Environment.getInstance()
+            .getValue("url.api").concat("/projects/");
 
     /** Private constructor. */
     private ProjectService() {
