@@ -1,6 +1,7 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.Given;
+import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +27,7 @@ public class CommonSteps {
     public void logsInWithUser(final String key) {
         String userNameKey = String.format("credentials.%s.username", key);
         String passwordKey = String.format("credentials.%s.password", key);
+        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.base"));
         login.loginAs(Environment.getInstance().getValue(userNameKey), Environment.getInstance().getValue(passwordKey));
     }
 }

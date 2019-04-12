@@ -11,8 +11,9 @@
   },
   "url": {
     "base": "https://www.pivotaltracker.com/signin"
+    "api": "https://www.pivotaltracker.com/services/v5"
   },
-  "tags": "(not @wip) and @bvt",
+  "tags": " --tags ~@wip",
   "local": {
     "browser": "chrome"
   },
