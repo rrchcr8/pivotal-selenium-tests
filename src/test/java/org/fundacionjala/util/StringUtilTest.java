@@ -13,6 +13,8 @@ public class StringUtilTest {
     /** This method load basic data for testcases. **/
     @Before
     public void setup() {
+        ScenarioContext.getInstance().setContext("url.api",
+                "https://www.pivotaltracker.com/services/v5");
         ScenarioContext.getInstance().setContext("project_id", "23");
         ScenarioContext.getInstance().setContext("workspace_id", "52");
         ScenarioContext.getInstance().setContext("project",

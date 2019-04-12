@@ -4,7 +4,6 @@ import io.restassured.path.json.JsonPath;
 
 /** This utility class manage string endpoints. **/
 public final class StringUtil {
-    private static final String BASE_URL = Properties.getValue("url.api");
 
     /** Default constructor. **/
     private StringUtil() {
@@ -16,9 +15,11 @@ public final class StringUtil {
      * @return string specific url.
      */
     public static String getExplicitEndpoint(final String bareUrl) {
+        final String baseUrl = (String) ScenarioContext.getInstance()
+                .getContext("url.api");
         if (bareUrl.contains("{")) {
             final StringBuilder result = new StringBuilder();
-            result.append(BASE_URL);
+            result.append(baseUrl);
             for (final String part : bareUrl.split("\\{")) {
                 if (part.contains("}")) {
                     final String key = getKey(part, '}');
@@ -31,7 +32,7 @@ public final class StringUtil {
             }
             return result.toString();
         }
-        return BASE_URL.concat(bareUrl);
+        return baseUrl.concat(bareUrl);
     }
 
     /**
