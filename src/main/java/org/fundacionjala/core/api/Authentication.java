@@ -2,7 +2,7 @@ package org.fundacionjala.core.api;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
-import org.fundacionjala.core.api.util.Properties;
+import org.fundacionjala.util.Properties;
 
 /**
  * It establishes the connection with Pivotal Tracker. It is a singleton class.
