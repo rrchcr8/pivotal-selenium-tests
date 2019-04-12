@@ -43,7 +43,7 @@ public class Story extends AbstractPage {
      * another locators for non required fields.
      */
     //@FindBy(id = "story_type_dropdown_c517")
-    @FindBy(css =".selection.item_feature" )
+    @FindBy(css = ".selection.item_feature")
     private WebElement feature;
     /**
      * another locators for non required fields.
