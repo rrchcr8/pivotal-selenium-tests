@@ -6,6 +6,10 @@ import io.restassured.path.json.JsonPath;
 public final class StringUtil {
     private static final String BASE_URL = Properties.getValue("url.api");
 
+    /** Default constructor. **/
+    private StringUtil() {
+    }
+
     /**
      * This method build explicit endpoint from a format url.
      * @param bareUrl url format.
@@ -31,9 +35,10 @@ public final class StringUtil {
     }
 
     /**
-     * @param line
-     * @param keyLimit
-     * @return
+     * This method get a substring from a line until keyLimit.
+     * @param line     string
+     * @param keyLimit char limit of substring.
+     * @return substring from begining to keylimit
      */
     private static String getKey(final String line, final char keyLimit) {
         final int index = line.indexOf(keyLimit);
@@ -41,8 +46,9 @@ public final class StringUtil {
     }
 
     /**
-     * @param key
-     * @return
+     * This method get the value associated with key in the ScenarioContext.
+     * @param key string key.
+     * @return value in the context for key.
      */
     private static String getValue(final String key) {
         if (key.contains(".")) {
@@ -58,8 +64,10 @@ public final class StringUtil {
     }
 
     /**
-     * @param line
-     * @return
+     * This method get a substring from keyLimit to end of the line string.
+     * @param line     string.
+     * @param keyLimit char limit of substring.
+     * @return substring from keylimit to end.
      */
     private static String getRestPart(final String line, final char keyLimit) {
         final int index = line.indexOf(keyLimit);
