@@ -23,6 +23,7 @@ public class StorySteps {
     @Given("a project called {string}")
     public void aProjectCalled(final String arg0) {
     dashboard.goToProject(arg0);
-    story.clickAddButton();
+    //story.clickAddButton();
+    story.createStory("second test");
     }
 }
