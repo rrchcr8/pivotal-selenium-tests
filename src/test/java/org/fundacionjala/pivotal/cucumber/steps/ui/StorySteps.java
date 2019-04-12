@@ -17,7 +17,7 @@ public class StorySteps {
     @Autowired
     private Story story;
     /**
-     * Given step.
+     * Given step for story feature.
      * @param arg0 is the name of the project.
      */
     @Given("a project called {string}")
