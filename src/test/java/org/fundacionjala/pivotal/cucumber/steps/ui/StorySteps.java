@@ -24,6 +24,6 @@ public class StorySteps {
     public void aProjectCalled(final String arg0) {
     dashboard.goToProject(arg0);
     //story.clickAddButton()1;
-    story.createStory("second test");
+    story.createStory("third test");
     }
 }
