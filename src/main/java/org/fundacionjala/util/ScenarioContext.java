@@ -1,4 +1,4 @@
-package org.fundacionjala.pivotal.cucumber.steps.ui;
+package org.fundacionjala.util;
 
 import java.util.HashMap;
 import java.util.Map;
