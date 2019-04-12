@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
-
 /**
  * This is the story page.
  */
@@ -14,12 +13,12 @@ public class Story extends AbstractPage {
     /**
      * This is the add story button.
      */
-    @FindBy(css="a[data-aid='AddButton']" )
+    @FindBy(css = "a[data-aid='AddButton']")
     private WebElement addStoryButton;
     /**
      * This is the save button.
      */
-    @FindBy(css =".autosaves.button.std.save" )
+    @FindBy(css = ".autosaves.button.std.save")
     private WebElement saveButton;
     /**
      * This is the cancel button.
