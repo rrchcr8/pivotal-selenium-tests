@@ -24,49 +24,47 @@ public class Story extends AbstractPage {
      * This is the cancel button.
      */
     //@FindBy(id = "story_submit_cancel_c205")
-    @FindBy(className = "autosaves cancel clear")
+    //@FindBy(className = "autosaves cancel clear")
+    @FindBy(css = ".autosaves.cancel.clear")
     private WebElement cancelButton;
     /**
      * This is the story page.
      */
-    @FindBy(name = "story[name]")
+    //@FindBy(name = "story[name]")
+    @FindBy(css = "textarea[name='story[name]']")
     private WebElement storyName;
     /**
      * another locators for non required fields.
      */
-    @FindBy(id = "story_copy_id_value_c205")
+    //@FindBy(id = "story_copy_id_value_c205")
+    @FindBy(css = ".autosaves.id.text_value")
     private WebElement idStoryField;
     /**
      * another locators for non required fields.
      */
-    //*[@id="story_type_dropdown_c517"]/span
-    @FindBy(id = "story_type_dropdown_c517")
+    //@FindBy(id = "story_type_dropdown_c517")
+    @FindBy(css =".selection.item_feature" )
     private WebElement feature;
     /**
      * another locators for non required fields.
      */
-    @FindBy(id = "story_estimate_dropdown_c517")
+    @FindBy(css = ".selection.item_1")
     private WebElement points;
     /**
      * another locators for non required fields.
      */
-    @FindBy(id = "story_requested_by_id_dropdown_c517")
+    @FindBy(css = ".name.hbsAvatarName")
     private WebElement requested;
     /**
      * another locators for non required fields.
      */
-    @FindBy(how = How.XPATH, using = ".//*[@id=\"add_owner_c517\"]")
+    @FindBy(how = How.XPATH, using = ".//*[@id='add_owner_c517']")
     private WebElement addStoryOwner;
     /**
      * another locators for non required fields.
      */
-    @FindBy(xpath = ".//*[@id=\"blocker-edit-new\"]")
+    @FindBy(xpath = ".//*[@id='blocker-edit-new']")
     private WebElement blockersTextField;
-    /**
-     * another locators for non required fields.
-     */
-    @FindBy(className = "BlockerEdit__add___z26dSKQ8")
-    private WebElement addblockersButton;
     /**
      * Basic method with the minimum requerid for create a story.
      */
