@@ -1,5 +1,6 @@
 package org.fundacionjala.util;
 
+import org.apache.log4j.Logger;
 import org.fundacionjala.core.Environment;
 
 import java.util.HashMap;
@@ -7,6 +8,8 @@ import java.util.Map;
 
 /** This class represent scenario context. **/
 public final class ScenarioContext {
+    private static final Logger LOGGER =
+            Logger.getLogger(ScenarioContext.class.getName());
 
     private final Map<String, Object> scenarioContext;
 
@@ -17,16 +20,18 @@ public final class ScenarioContext {
     /** Default constructor. **/
     private ScenarioContext() {
         this.scenarioContext = new HashMap<>();
+        String baseUrl = "https://www.pivotaltracker.com/services/v5";
         try {
-            final String baseUrl = Environment.getInstance().getValue(API_URL_KEY);
-        } catch (ExceptionInInitializerError e) {
-            
+            baseUrl = Environment.getInstance().getValue(API_URL_KEY);
+        } catch (final ExceptionInInitializerError e) {
+            LOGGER.info("Coudn't get api url from properties.", e);
         }
         this.setContext(API_URL_KEY, baseUrl);
     }
 
     /**
      * Get context instance.
+     *
      * @return ScenarioContext.
      */
     public static ScenarioContext getInstance() {
@@ -35,6 +40,7 @@ public final class ScenarioContext {
 
     /**
      * Set an element in context.
+     *
      * @param key   string key
      * @param value object value
      */
@@ -44,6 +50,7 @@ public final class ScenarioContext {
 
     /**
      * This method get context value for key.
+     *
      * @param key string
      * @return object value.
      */
@@ -53,6 +60,7 @@ public final class ScenarioContext {
 
     /**
      * This method get context string value for key.
+     *
      * @param key string
      * @return object value.
      */
@@ -62,6 +70,7 @@ public final class ScenarioContext {
 
     /**
      * This method check if a key is in the context.
+     *
      * @param key string
      * @return boolean
      **/
