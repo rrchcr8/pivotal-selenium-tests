@@ -1,15 +1,16 @@
 package org.fundacionjala.core.api.services;
 
-import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.api.RequestManager;
+import org.fundacionjala.util.ScenarioContext;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /** This class have story api rest services. **/
 public final class StoryService {
-    private static final String BASE_URL = Environment.getInstance()
-            .getValue("url.api").concat("/projects/%d/stories");
+    private static final String BASE_URL = ScenarioContext
+            .getContextAsString(ScenarioContext.API_URL_KEY)
+            .concat("/projects/%d/stories");
 
     /** Private constructor. */
     private StoryService() {
@@ -17,6 +18,7 @@ public final class StoryService {
 
     /**
      * Creates a story with the supplied name in the specified project.
+     *
      * @param projectId The project in which the Story will be created.
      * @param name      The name of the story.
      * @return The ID of the new Story.
@@ -31,6 +33,7 @@ public final class StoryService {
 
     /**
      * Modify a story with the supplied name in the specified project.
+     *
      * @param projectId The project in which the Story will be created.
      * @param name      The name of the story.
      * @return The ID of the new Story.
@@ -45,6 +48,7 @@ public final class StoryService {
 
     /**
      * Deletes the specified story in the specified project.
+     *
      * @param projectId the ID of the project containing the story.
      * @param storyId   the ID of the story to delete.
      */
