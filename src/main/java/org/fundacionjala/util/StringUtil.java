@@ -1,6 +1,7 @@
 package org.fundacionjala.util;
 
 import io.restassured.path.json.JsonPath;
+import org.apache.commons.lang3.StringUtils;
 
 /** This utility class manage string endpoints. **/
 public final class StringUtil {
@@ -11,6 +12,7 @@ public final class StringUtil {
 
     /**
      * This method build explicit endpoint from a format url.
+     *
      * @param bareUrl url format.
      * @return string specific url.
      */
@@ -37,6 +39,7 @@ public final class StringUtil {
 
     /**
      * This method get a substring from a line until keyLimit.
+     *
      * @param line     string
      * @param keyLimit char limit of substring.
      * @return substring from begining to keylimit
@@ -48,6 +51,7 @@ public final class StringUtil {
 
     /**
      * This method get the value associated with key in the ScenarioContext.
+     *
      * @param key string key.
      * @return value in the context for key.
      */
@@ -58,21 +62,20 @@ public final class StringUtil {
                     .getContext(mainKey);
             final String subKey = getRestPart(key, '.');
             return value.get(subKey).toString();
-
-        } else {
-            return String.valueOf(ScenarioContext.getInstance().getContext(key));
         }
+        return String.valueOf(ScenarioContext.getInstance().getContext(key));
     }
 
     /**
      * This method get a substring from keyLimit to end of the line string.
+     *
      * @param line     string.
      * @param keyLimit char limit of substring.
      * @return substring from keylimit to end.
      */
     private static String getRestPart(final String line, final char keyLimit) {
         final int index = line.indexOf(keyLimit);
-        return index == line.length() - 1 ? ""
-                : line.substring(index + 1, line.length());
+        return index == line.length() - 1 ? StringUtils.EMPTY
+                : line.substring(index + 1);
     }
 }

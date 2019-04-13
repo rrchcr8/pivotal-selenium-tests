@@ -6,6 +6,7 @@ import cucumber.api.java.en.Then;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
+import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertTrue;
@@ -44,7 +45,7 @@ public class WorkEditSteps {
 
 
     @Then("workspace title should be edited")
-    public String getWorkSpaceLabel() {
+    public void getWorkSpaceLabel() {
         final String name = (String) ScenarioContext.getInstance().getContext(
                 "ws_name");
         this.dashboard.goToWorkSpaceTab();

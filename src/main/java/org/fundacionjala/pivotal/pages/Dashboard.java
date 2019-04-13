@@ -108,7 +108,8 @@ public class Dashboard extends AbstractPage {
      * @throws NoSuchElementException exception if item not found.
      */
     private WebElement getElementWithName(final List<WebElement> list,
-                                          final String name) throws NoSuchElementException {
+                                          final String name)
+            throws NoSuchElementException {
         for (final WebElement element : list) {
             if (element.getText().equals(name)) {
                 return element;
@@ -160,12 +161,17 @@ public class Dashboard extends AbstractPage {
      * This method click on settings workspace with name provided.
      *
      * @param name string workspace name.
+     * @return WorkSpaceSettings.
+     * @throws NoSuchElementException woprkspace with name not found.
      */
-    public WorkSpaceSettings clickWorkSpaceSettings(final String name) throws NoSuchElementException {
+    public WorkSpaceSettings clickWorkSpaceSettings(final String name)
+            throws NoSuchElementException {
         for (final WebElement element : this.worksSpaceNames) {
             if (element.getText().equals(name)) {
                 getParent(getParent(element))
-                        .findElement(By.xpath("//div//span//a[contains(@class,'SettingsIcon__cog projectTileHeader__hoverable')]"))
+                        .findElement(By.xpath("//div//span//a[contains(@class,"
+                                .concat("'SettingsIcon__cog projectTileHeader")
+                                .concat("__hoverable')]")))
                         .click();
                 return new WorkSpaceSettings();
             }

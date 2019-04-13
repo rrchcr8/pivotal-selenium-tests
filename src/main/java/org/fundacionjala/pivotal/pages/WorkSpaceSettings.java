@@ -42,7 +42,7 @@ public class WorkSpaceSettings extends AbstractPage {
     /**
      * This method set name on the edit field.
      *
-     * @param newName
+     * @param newName string.
      */
     public void setName(final String newName) {
         this.name.sendKeys(newName);

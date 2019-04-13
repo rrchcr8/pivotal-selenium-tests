@@ -8,21 +8,28 @@ import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.WorkSpaceService;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
+import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertFalse;
 
+/**
+ *
+ */
 public class WorkDeleteSteps {
     private static final Logger LOGGER =
             Logger.getLogger(WorkDeleteSteps.class.getName());
     @Autowired
     Dashboard dashboard;
 
-    @Given("an workspace")
+    /**
+     *
+     */
+    @Given("create an workspace")
     public void createaworkspace() {
-        final String name = "My WorkSpace Test"
+        final String name = "My WorkSpace Test";
         final int workspaceId = WorkSpaceService.createWorkspace(name);
         ScenarioContext.getInstance().setContext("ws_name", name);
         ScenarioContext.getInstance().setContext("ws_id", workspaceId);

@@ -1,7 +1,7 @@
 package org.fundacionjala.core.api.services;
 
 import org.fundacionjala.core.api.RequestManager;
-import org.fundacionjala.core.api.util.Properties;
+import org.fundacionjala.util.Properties;
 
 import java.util.HashMap;
 import java.util.Map;
