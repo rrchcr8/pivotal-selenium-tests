@@ -61,14 +61,6 @@ public class ProjectSteps {
     @When("user click over delete project link")
     public void userClickOverDeleteProjectLink() {
         project.clickOnDeleteProjectLink();
-
-    }
-
-    /**
-     * confirm deletion.
-     */
-    @And("Agree to delete")
-    public void agreeToDelete() {
         project.clickOnDeleteButton();
     }
 
@@ -97,6 +89,7 @@ public class ProjectSteps {
     @And("change values on form as")
     public void changeValuesOnFormAs(final Map<String, String> projectAttributes) {
         project.setValuesOnEditProjectForm(projectAttributes);
+        project.saveFormOnEditProject();
     }
 
     /**
@@ -114,5 +107,13 @@ public class ProjectSteps {
     public void aSuccessfulMessageIsDisplayed() {
         boolean actual = project.getResponseMessage();
         Assert.assertTrue(actual, "Passed if edit project was processed");
+    }
+
+    /**
+     * Start form main page.
+     */
+    @Given("User is located on main page")
+    public void userIsLocatedOnMainPage() {
+        project.loadMainPage();
     }
 }

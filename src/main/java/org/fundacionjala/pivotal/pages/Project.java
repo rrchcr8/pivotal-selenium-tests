@@ -1,10 +1,12 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -33,10 +35,10 @@ public class Project extends AbstractPage {
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
 
-    @FindBy(css = "raw_context_name")
+    @FindBy(css = ".raw_context_name")
     private WebElement titleOnDashboard;
 
-    @FindBy(id = "delete_link")
+    @FindBy(linkText = "Delete")
     private WebElement deleteLink;
 
     @FindBy(id = "confirm_delete")
@@ -59,6 +61,9 @@ public class Project extends AbstractPage {
 
     @FindBy(id = "save_success_bar")
     private WebElement successBar;
+
+    @FindBy(css = ".button.button--lined.button--medium.button--full-width")
+    private WebElement showMoreProjectsButton;
 
     private String projectName;
     /**
@@ -163,7 +168,8 @@ public class Project extends AbstractPage {
      * @return title text displayed on dashboard
      */
     public String getProjectNameOnDashboard() {
-        return  titleOnDashboard.getText();
+        action.waitPresenceOfElement(By.className("raw_context_name"));
+        return  titleOnDashboard.getAttribute("innerHTML");
     }
 
     /**
@@ -187,11 +193,12 @@ public class Project extends AbstractPage {
      * @param projectName Name of project
      */
     public void openProjectSettingsbyName(final String projectName) {
+        action.click(showMoreProjectsButton);
         WebElement projectItem = driver.findElement(
                 By.xpath("//a[@data-aid='project-name' and contains(text(),'" + projectName + "')]"));
-        String linkText = projectItem.getAttribute("css=a@href");
+        String linkText = projectItem.getAttribute("pathname");
         WebElement projectItemSettingElement = driver.findElement(
-                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "')]")
+                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "/settings']")
         );
         action.click(projectItemSettingElement);
     }
@@ -200,6 +207,7 @@ public class Project extends AbstractPage {
      * Delete through link option.
      */
     public void clickOnDeleteProjectLink() {
+        action.scrollToElement(deleteLink);
         action.click(deleteLink);
     }
 
@@ -217,9 +225,9 @@ public class Project extends AbstractPage {
     public boolean isProjectListed() {
         boolean listed;
         try {
+
             listed = driver.findElement(
-                    By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]"))
-                    .isDisplayed();
+                    By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]")).isDisplayed();
         } catch (NoSuchElementException e) {
             listed = false;
         }
@@ -288,6 +296,7 @@ public class Project extends AbstractPage {
      */
     public void saveFormOnEditProject() {
         action.click(saveButtonOnEditProject);
+        driver.switchTo().alert().accept();
     }
 
     /**
@@ -296,6 +305,16 @@ public class Project extends AbstractPage {
      */
     public boolean getResponseMessage() {
         return successBar.isDisplayed();
+
+    }
+
+    /**
+     * Each scenario start on main page.
+     */
+    public void loadMainPage() {
+        driver.get(Environment.getInstance().getValue("url.main"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.className("projectPaneSection__header__heading--name")));
 
     }
 }
