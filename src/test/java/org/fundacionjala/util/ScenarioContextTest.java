@@ -11,6 +11,7 @@ public class ScenarioContextTest {
     /** This verify that context have loaded the api url. **/
     @Test
     public void testLoadByDefaultApiUrl() {
+        org.apache.log4j.BasicConfigurator.configure();
         final String value = ScenarioContext
                 .getContextAsString(ScenarioContext.API_URL_KEY);
         assertNotNull(value);

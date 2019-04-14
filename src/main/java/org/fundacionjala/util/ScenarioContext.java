@@ -25,6 +25,10 @@ public final class ScenarioContext {
             baseUrl = Environment.getInstance().getValue(API_URL_KEY);
         } catch (final ExceptionInInitializerError e) {
             LOGGER.info("Coudn't get api url from properties.", e);
+        } catch (final RuntimeException e) {
+            LOGGER.info("2 Coudn't get api url from properties.", e);
+        } catch (final Exception e) {
+            LOGGER.info("3 Coudn't get api url from properties.", e);
         }
         this.setContext(API_URL_KEY, baseUrl);
     }
