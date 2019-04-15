@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.restassured.path.json.JsonPath;
 import org.fundacionjala.core.Environment;
@@ -11,6 +12,7 @@ import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.pivotal.pages.Story;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
@@ -38,11 +40,20 @@ public class StorySteps {
     }
 
 
-    @When("creates a project called {string}")
+    @When("creates a story called {string}")
 
-    public void createsAProjectCalled(String arg0) {
-        String name= ((JsonPath) ScenarioContext.getInstance().getContext("Resp")).get("name").toString();
+    public void createsAStoryCalled(String arg0) {
+        String name=
+                ((JsonPath) ScenarioContext.getInstance().getContext(
+                        "project_response")).get("name").toString();
         dashboard.goToProject(name);
         story.createStory(arg0);
+        ScenarioContext.getInstance().setContext("story_name",arg0);
+    }
+
+    @Then("the story is created")
+    public void theStoryIsCreated() {
+//        String storyName = ScenarioContext.getContextAsString("story_name");
+//        Assert.assertEquals(storyName,);
     }
 }

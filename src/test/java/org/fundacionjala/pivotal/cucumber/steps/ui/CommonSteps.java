@@ -39,18 +39,22 @@ public class CommonSteps {
         login.loginAs(Environment.getInstance().getValue(userNameKey), Environment.getInstance().getValue(passwordKey));
     }
 
-
+    /**
+     * This is a generic API POST method.
+     * @param arg0 is the strings that is needed to complete the url for the
+     *             endpoint.
+     * @param projectAttributes is the attributes read on the feature
+     *                          file.
+     */
     @Given("send a POST request {string}")
     public void sendAPOSTRequest(String arg0,final Map<String, String> projectAttributes) {
-        ScenarioContext.getInstance().setContext("url.api", Environment.getInstance().getValue("url.api"));
-
         final String projectUrl = StringUtil.getExplicitEndpoint(arg0);
         String projectName = projectAttributes.get("name");
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", projectName);
         JsonPath resp = RequestManager.postRequest(projectUrl, parameters).body()
                 .jsonPath();
-        ScenarioContext.getInstance().setContext("Resp",resp);
+        ScenarioContext.getInstance().setContext("Resp", resp);
     }
 
     @And("stores response as {string}")
