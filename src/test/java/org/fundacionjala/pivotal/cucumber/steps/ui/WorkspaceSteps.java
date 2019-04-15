@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/** This is a comment. **/
+/** This class will have steps for workspace feature. **/
 public class WorkspaceSteps {
     private static final Logger LOGGER =
             Logger.getLogger(WorkspaceSteps.class.getName());
@@ -35,14 +35,14 @@ public class WorkspaceSteps {
     @Autowired
     private WorkSpaceNew workSpaceNew;
 
-    /** This is a comment. **/
+    /** Step to enter to workspace area. **/
     @Given("an workspace")
     public void clickDashboardLink() {
         this.header.goToDashBoard();
     }
 
     /**
-     * This is a comment.
+     * This step edit workspace.
      *
      * @param strname param.
      **/
@@ -56,7 +56,7 @@ public class WorkspaceSteps {
         settingsPage.setName(strname);
     }
 
-    /** This is a comment. **/
+    /** This step save workspace. **/
     @And("clicks on Save Button")
     public void clickSaveButton() {
         final WorkSpaceSettings settingsPage =
@@ -66,7 +66,7 @@ public class WorkspaceSteps {
 
     }
 
-    /** This is a comment. **/
+    /** This step display workspace edited. **/
     @Then("workspace title should be edited")
     public void getWorkSpaceLabel() {
         final String name = (String) ScenarioContext.getInstance().getContext(
@@ -75,7 +75,7 @@ public class WorkspaceSteps {
         assertTrue(this.dashboard.existWorkSpace(name));
     }
 
-    /** This is a comment. **/
+    /** This step create a workspace. **/
     @Given("create an workspace")
     public void createaworkspace() {
         final String name = "My WorkSpace Test";
@@ -84,7 +84,7 @@ public class WorkspaceSteps {
         ScenarioContext.getInstance().setContext("ws_id", workspaceId);
     }
 
-    /** This is a comment. **/
+    /** This step click over settings button. **/
     @When("the user clicks on workspace settings button")
     public void theUserClicksOnWorkSpaceSettingBtn() {
         final String name = (String) ScenarioContext.getInstance().getContext(
@@ -100,7 +100,7 @@ public class WorkspaceSteps {
         }
     }
 
-    /** This is a comment. **/
+    /** This step delete a workspace. **/
     @And("click delete workspace")
     public void clickDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
@@ -110,7 +110,7 @@ public class WorkspaceSteps {
 
     }
 
-    /** This is a comment. **/
+    /** This step confirm delete. **/
     @And("click delete confirm")
     public void clickConfirmDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
@@ -120,7 +120,7 @@ public class WorkspaceSteps {
 
     }
 
-    /** This is a comment. **/
+    /** workspace si deleted. **/
     @Then("workspace should be deleted")
     public void verifyDelete() {
         final String name = (String) ScenarioContext.getInstance().getContext(
@@ -129,7 +129,7 @@ public class WorkspaceSteps {
         assertFalse(this.dashboard.existWorkSpace(name));
     }
 
-    /** This is a comment. **/
+    /** This step click over create button. **/
     @When("clicks the create workspace button")
     public void clicksTheCreateWorkspaceButton() {
         this.workSpaceNew.clickDashboardLink();
@@ -137,7 +137,7 @@ public class WorkspaceSteps {
     }
 
     /**
-     * This is a comment.
+     * This step set name for a workspace.
      *
      * @param name param.
      **/
@@ -149,7 +149,7 @@ public class WorkspaceSteps {
     }
 
     /**
-     * This is a comment.
+     * This steps verify that workspace.
      *
      * @param name param.
      **/
@@ -159,7 +159,7 @@ public class WorkspaceSteps {
         Assert.assertEquals(actualresult, name);
     }
 
-    /** This is a comment. **/
+    /** This step verify that workspace is displayed. **/
     @And("the workspace board should be displayed")
     public void theWorkspaceBoardShouldBeDisplayed() {
         assertTrue(true);

@@ -16,13 +16,15 @@ public class StorySteps {
     private Dashboard dashboard;
     @Autowired
     private Story story;
+
     /**
      * Given step for story feature.
+     *
      * @param arg0 is the name of the project.
      */
     @Given("a project called {string}")
     public void aProjectCalled(final String arg0) {
-    dashboard.goToProject(arg0);
-    story.clickAddButton();
+        this.dashboard.goToProject(arg0);
+        this.story.clickAddButton();
     }
 }
