@@ -3,7 +3,6 @@ package org.fundacionjala.pivotal.pages;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Component
 public class Project extends AbstractPage {
 
-    @FindBy(id = "create-project-button")
+    @FindBy(css = "#create-project-button")
     private WebElement createNewProjectButton;
 
     @FindBy(css = ".tc-form__input")
@@ -41,13 +40,13 @@ public class Project extends AbstractPage {
     @FindBy(linkText = "Delete")
     private WebElement deleteLink;
 
-    @FindBy(id = "confirm_delete")
+    @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
 
-    @FindBy(id = "project_name")
+    @FindBy(css = "#project_name")
     private WebElement editProjectNameField;
 
-    @FindBy(id = "project_description")
+    @FindBy(css = "#project_description")
     private WebElement editProjectDescriptionField;
 
     @FindBy(xpath = "//input[@id='project_enable_tasks' and @type='checkbox']")
@@ -56,16 +55,23 @@ public class Project extends AbstractPage {
     @FindBy(xpath = "//input[@id='project_public' and @type='checkbox']")
     private WebElement editProjectPrivacy;
 
+    @FindBy(css = "#account_change_link")
+    private WebElement editAccountLink;
+
+    @FindBy(css = "#project_account_id_select")
+    private WebElement editAccountComboBox;
+
     @FindBy(xpath = "//input[@name='commit' and @type='submit']")
     private WebElement saveButtonOnEditProject;
 
-    @FindBy(id = "save_success_bar")
+    @FindBy(css = "#save_success_bar")
     private WebElement successBar;
 
     @FindBy(css = ".button.button--lined.button--medium.button--full-width")
     private WebElement showMoreProjectsButton;
 
     private String projectName;
+
     /**
      * Clicks the create new project button.
      */
@@ -74,7 +80,7 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * This method add one value of projectname text field.
+     * This method set value of project name text field.
      *
      * @param strProjectName value of input.
      */
@@ -92,38 +98,27 @@ public class Project extends AbstractPage {
 
     /**
      * Select an option from list.
+     *
      * @param accountName to select an account from list
      */
     public void selectAccount(final String accountName) {
 
-        boolean onListAccount = isAccountListed(accountName);
+        final boolean onListAccount = action.isExistingSelector(
+                By.xpath("//div[text()='" + accountName + "']"));
 
         if (!onListAccount) {
             action.click(newAccountOption);
             createAccount(accountName);
         } else {
-            WebElement accountSelectorByName = driver.findElement(By.xpath("//div[text()='" + accountName + "']"));
+            final WebElement accountSelectorByName = driver.findElement(
+                    By.xpath("//div[text()='" + accountName + "']"));
             action.click(accountSelectorByName);
         }
     }
 
     /**
-     * Check if account is listed.
-     * @param accountName name of account
-     * @return Boolean true if it is displayed
-     */
-    private boolean isAccountListed(final String accountName) {
-        boolean exist;
-        try {
-            exist = driver.findElement(By.xpath("//div[text()='" + accountName + "']")).isDisplayed();
-        } catch (NoSuchElementException e) {
-            exist = false;
-        }
-        return exist;
-    }
-
-    /**
      * Create an account by given name.
+     *
      * @param accountName name of the new account
      */
     private void createAccount(final String accountName) {
@@ -145,8 +140,8 @@ public class Project extends AbstractPage {
      */
     public void createNewProject(final Map<String, String> projectElements) {
         clickCreateNewProjectButton();
-        String projectName = projectElements.get("name");
-        setProjectNameTextField(projectName);
+        final String theProjectName = projectElements.get("name");
+        setProjectNameTextField(theProjectName);
         openSelectAccountCombobox();
         selectAccount(projectElements.get("account"));
         selectProjectPrivacy(projectElements.get("privacy"));
@@ -155,25 +150,28 @@ public class Project extends AbstractPage {
 
     /**
      * Method to select privacy based on election.
+     *
      * @param privacy option public or private
      */
     public void selectProjectPrivacy(final String privacy) {
-        WebElement accountPrivacyOption = driver.findElement(
+        final WebElement accountPrivacyOption = driver.findElement(
                 By.xpath("//input[@type='radio' and @data-aid='" + privacy + "']"));
         action.click(accountPrivacyOption);
     }
 
     /**
      * Capture project's name on dashboard.
+     *
      * @return title text displayed on dashboard
      */
     public String getProjectNameOnDashboard() {
         action.waitPresenceOfElement(By.className("raw_context_name"));
-        return  titleOnDashboard.getAttribute("innerHTML");
+        return titleOnDashboard.getAttribute("innerHTML");
     }
 
     /**
      * Method to return project's name from context.
+     *
      * @return context value on project name
      */
     public String getProjectName() {
@@ -182,6 +180,7 @@ public class Project extends AbstractPage {
 
     /**
      * Method to keep project's name to context.
+     *
      * @param strProjectName project name
      */
     public void setProjectName(final String strProjectName) {
@@ -190,14 +189,18 @@ public class Project extends AbstractPage {
 
     /**
      * Given a project name open settings section.
+     *
      * @param projectName Name of project
      */
     public void openProjectSettingsbyName(final String projectName) {
-        action.click(showMoreProjectsButton);
-        WebElement projectItem = driver.findElement(
+        if (action.isExistingSelector(By.className(".button.button--lined.button--medium.button--full-width"))) {
+            action.click(showMoreProjectsButton);
+        }
+
+        final WebElement projectItem = driver.findElement(
                 By.xpath("//a[@data-aid='project-name' and contains(text(),'" + projectName + "')]"));
-        String linkText = projectItem.getAttribute("pathname");
-        WebElement projectItemSettingElement = driver.findElement(
+        final String linkText = projectItem.getAttribute("pathname");
+        final WebElement projectItemSettingElement = driver.findElement(
                 By.xpath("//a[@aria-label='settings' and @href='" + linkText + "/settings']")
         );
         action.click(projectItemSettingElement);
@@ -219,23 +222,38 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * To check if project is listed.
-      * @return Boolean tru if it is seeing on page
+     * To check if project is listed on main page.
+     *
+     * @return Boolean true if it is seeing on page
      */
-    public boolean isProjectListed() {
-        boolean listed;
-        try {
+    public boolean isProjectListedOnMainPage() {
+        return action.isExistingSelector(
+                By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]"));
+    }
 
-            listed = driver.findElement(
-                    By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]")).isDisplayed();
-        } catch (NoSuchElementException e) {
-            listed = false;
-        }
-        return listed;
+    /**
+     * To check if project is listed on header menu.
+     *
+     * @return Boolean true if it is seeing on contextual menu
+     */
+    public boolean isProjectListedOnMenu() {
+        return action.isExistingSelector(
+                By.xpath("//span[@class='raw_project_name' and contains(text(),'" + this.getProjectName() + "')]"));
+    }
+
+    /**
+     * To check if project is listed on header menu.
+     *
+     * @return Boolean true if it is seeing on contextual menu
+     */
+    public boolean isProjectListedOnProjectPage() {
+        return action.isExistingSelector(
+                By.xpath("//a[@class='project_name' and contains(text(),'" + this.getProjectName() + "')]"));
     }
 
     /**
      * Set values on form as specified.
+     *
      * @param projectAttributes Attributes to set on form
      */
     public void setValuesOnEditProjectForm(final Map<String, String> projectAttributes) {
@@ -249,6 +267,7 @@ public class Project extends AbstractPage {
 
     /**
      * change check status if different.
+     *
      * @param privacy between private and public
      */
     private void setEditProjectPrivacy(final String privacy) {
@@ -259,23 +278,29 @@ public class Project extends AbstractPage {
 
     /**
      * change check status if different.
+     *
      * @param taskEnable between allow or disallow
      */
     private void setEditProjectTaskEnable(final String taskEnable) {
-        if (editProjectPrivacy.isSelected() && "Allow".equals(taskEnable)) {
+        if (editProjectPrivacy.isSelected() && "Enable".equals(taskEnable)) {
             action.click(editProjectEnableTask);
         }
     }
 
     /**
      * Proccess to change account.
+     *
      * @param account account name
      */
     private void setEditProjectAccount(final String account) {
+        action.click(editAccountLink);
+        action.click(editAccountComboBox);
+
     }
 
     /**
      * Set value to description field.
+     *
      * @param description the desired value
      */
     private void setEditProjectDescription(final String description) {
@@ -285,6 +310,7 @@ public class Project extends AbstractPage {
 
     /**
      * Set value to title field.
+     *
      * @param title desired title
      */
     private void setEditProjectTitle(final String title) {
@@ -301,6 +327,7 @@ public class Project extends AbstractPage {
 
     /**
      * validate message of success.
+     *
      * @return Boolean if message was displayed
      */
     public boolean getResponseMessage() {
@@ -313,6 +340,18 @@ public class Project extends AbstractPage {
      */
     public void loadMainPage() {
         driver.get(Environment.getInstance().getValue("url.main"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.className("projectPaneSection__header__heading--name")));
+
+    }
+
+    /**
+     * Each scenario start on main page.
+     *
+     * @param section String to specific URI
+     */
+    public void loadMainPage(final String section) {
+        driver.get(Environment.getInstance().getValue("url.main").concat(section));
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("projectPaneSection__header__heading--name")));
 

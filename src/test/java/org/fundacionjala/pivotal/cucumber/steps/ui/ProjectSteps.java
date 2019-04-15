@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -17,13 +18,15 @@ public class ProjectSteps {
 
     @Autowired
     private Project project;
+    @Autowired
+    private Header header;
 
     /**
      * Create a new project.
      *
      * @param projectAttributes for create project.
      */
-    @When("user creates a default project as")
+    @When("user creates project as")
     public void userCreatesNewProjectAs(final Map<String, String> projectAttributes) {
         project.createNewProject(projectAttributes);
     }
@@ -31,14 +34,15 @@ public class ProjectSteps {
     /**
      * was project created with specific name.
      */
-    @Then("validate the project is created with specify name")
+    @Then("validate creation on project's dashboard")
     public void validateTheProjectIsCreatedWithSpecifyName() {
-        String actual = project.getProjectNameOnDashboard();
+        final String actual = project.getProjectNameOnDashboard();
         Assert.assertEquals(actual, project.getProjectName(), "Project name match");
     }
 
     /**
      * A project to delete.
+     *
      * @param projectName the project name
      */
     @Given("an existing project named as {string} that user intends to delete")
@@ -50,8 +54,8 @@ public class ProjectSteps {
      * Open context on settings.
      */
     @And("open project's settings")
-    public void openProjectSSettings() {
-        String projectName = project.getProjectName();
+    public void openProjectsSettings() {
+        final String projectName = project.getProjectName();
         project.openProjectSettingsbyName(projectName);
     }
 
@@ -69,11 +73,19 @@ public class ProjectSteps {
      */
     @Then("The project no longer appear on projects section")
     public void theProjectNoLongerAppearOnProjectsSection() {
-        Assert.assertFalse(project.isProjectListed(), "False if project is not listed after deletion");
+        Assert.assertFalse(project.isProjectListedOnMainPage(), "False if project is not listed after deletion");
+    }
+
+    @And("the project is not present on active project")
+    public void theProjectIsNotPresentOnActiveProject() {
+        project.loadMainPage("/projects");
+        final boolean actual = project.isProjectListedOnProjectPage();
+        Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
 
     /**
      * Save on context value of project name.
+     *
      * @param projectName the project name
      */
     @Given("an existing project known as {string} that user intends to edit")
@@ -84,6 +96,7 @@ public class ProjectSteps {
 
     /**
      * Intend to change values by given attributes.
+     *
      * @param projectAttributes table of attributes
      */
     @And("change values on form as")
@@ -105,7 +118,7 @@ public class ProjectSteps {
      */
     @Then("A successful message is displayed")
     public void aSuccessfulMessageIsDisplayed() {
-        boolean actual = project.getResponseMessage();
+        final boolean actual = project.getResponseMessage();
         Assert.assertTrue(actual, "Passed if edit project was processed");
     }
 
@@ -116,4 +129,29 @@ public class ProjectSteps {
     public void userIsLocatedOnMainPage() {
         project.loadMainPage();
     }
+
+    @And("validate creation on header project's list")
+    public void validateCreationOnHeaderProjectSList() {
+        header.openProjectMenu();
+        final boolean actual = project.isProjectListedOnMenu();
+        Assert.assertTrue(actual, "Passed if project is on Header menu section");
+
+
+    }
+
+    @And("validate creation on project's section")
+    public void validateCreationOnProjectsSection() {
+        project.loadMainPage("/projects");
+        final boolean actual = project.isProjectListedOnProjectPage();
+        Assert.assertTrue(actual, "Passed if project is on Project-s section");
+    }
+
+    @And("Prior project's name no longer listed")
+    public void priorProjectSNameNoLongerListed() {
+        header.openProjectMenu();
+        final boolean actual = project.isProjectListedOnMenu();
+        Assert.assertFalse(actual, "Passed if project was changed its name");
+    }
+
+
 }
