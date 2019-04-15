@@ -1,5 +1,5 @@
 @wip
-Feature: Project
+  Feature: Project
 
   Scenario: create new project
     Given user creates a default project as
