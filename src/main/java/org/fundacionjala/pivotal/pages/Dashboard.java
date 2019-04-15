@@ -60,7 +60,7 @@ public class Dashboard extends AbstractPage {
     /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
-        this.wait(WAIT_TIME, SECONDS);
+        this.wait.withTimeout(WAIT_TIME, SECONDS);
     }
 
     /**

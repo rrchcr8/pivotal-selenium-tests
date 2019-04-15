@@ -19,13 +19,6 @@ public final class DriverFactory {
     static {
         BROWSERS.put(DriverType.CHROME, Chrome::new);
         BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
-        BROWSERS.put(DriverType.FIREFOX, Firefox::new);
     }
 
     /**

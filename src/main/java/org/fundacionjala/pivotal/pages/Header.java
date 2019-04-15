@@ -23,8 +23,7 @@ public class Header extends AbstractPage {
     @FindBy(css = ".div[data-aid='ProfileDropdown'] .zWDds__Button")
     private WebElement profile;
 
-    @FindBy(css = ".div[data-aid='ProductUpdatesDropdown__indicator" +
-            "--newHeader'] .zWDds__Button")
+    @FindBy(css = ".div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
     private WebElement whatsNew;
 
     /**
