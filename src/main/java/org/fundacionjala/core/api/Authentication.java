@@ -2,7 +2,7 @@ package org.fundacionjala.core.api;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
-import org.fundacionjala.util.Properties;
+import org.fundacionjala.core.Environment;
 
 /**
  * It establishes the connection with Pivotal Tracker. It is a singleton class.
@@ -42,9 +42,11 @@ public final class Authentication {
         this.requestSpecification = new RequestSpecBuilder()
                 .setRelaxedHTTPSValidation()
                 .addHeader(TOKEN_HEADER,
-                        Properties.getValue("credentials.owner1.apiToken"))
+                        Environment.getInstance()
+                                .getValue("credentials.owner1.apiToken"))
                 .build();
-        this.requestSpecification.baseUri(Properties.getValue("url.api"));
+        this.requestSpecification.baseUri(Environment.getInstance()
+                .getValue("url.api"));
     }
 
     /**
