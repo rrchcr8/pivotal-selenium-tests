@@ -11,13 +11,13 @@ import java.util.List;
 /** Header page. **/
 @Component
 public class Header extends AbstractPage {
-    @FindBy(className = "tc_header_item tc_header_logo")
+    @FindBy(css = ".tc_header_item tc_header_logo")
     private WebElement goDashboard;
 
-    @FindBy(className = "tc_projects_dropdown_link tc_context_name")
+    @FindBy(css = ".tc_projects_dropdown_link tc_context_name")
     private WebElement projecMenu;
 
-    @FindBy(className = "Dropdown__button _2Oy9G__NotificationsBell__button")
+    @FindBy(css = ".Dropdown__button _2Oy9G__NotificationsBell__button")
     private WebElement notifications;
 
     @FindBy(css = "div[data-aid='ProfileDropdown'] .zWDds__Button")
@@ -28,6 +28,7 @@ public class Header extends AbstractPage {
 
     /**
      * Go to dashboard page.
+     *
      * @return Dashboard page.
      */
     public Dashboard goToDashBoard() {

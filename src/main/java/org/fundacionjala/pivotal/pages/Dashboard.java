@@ -27,22 +27,22 @@ public class Dashboard extends AbstractPage {
     })
     private WebElement workspaces;
 
-    @FindBy(id = "create-project-button")
+    @FindBy(css = "#create-project-button")
     private WebElement createProject;
 
-    @FindBy(id = "create-workspace-button")
+    @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
 
-    @FindBy(id = "projects-search-bar")
+    @FindBy(css = "#projects-search-bar")
     private WebElement searchProject;
 
-    @FindBy(className = "WorkspaceTile__name")
+    @FindBy(css = ".WorkspaceTile__name")
     private List<WebElement> worksSpaceNames;
 
-    @FindBy(className = "projectPaneSection__header__heading--count")
+    @FindBy(css = ".projectPaneSection__header__heading--count")
     private WebElement amountOfProjects;
 
-    @FindBy(className = "projectTileHeader__projectName")
+    @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
 
     /** Create project. */
@@ -58,6 +58,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist a workspace by name.
+     *
      * @param name string to search.
      * @return boolean.
      **/
@@ -67,6 +68,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist a project by name.
+     *
      * @param name string to search.
      * @return boolean
      **/
@@ -76,6 +78,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Check if exist and element in the list with name.
+     *
      * @param list list where search.
      * @param name name to search
      * @return boolean.
@@ -92,6 +95,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * check if a name exist in web elements list.
+     *
      * @param list list of webelements.
      * @param name string to search.
      * @return boolean.
@@ -109,6 +113,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Go to project with name.
+     *
      * @param name string project name.
      */
     public void goToProject(final String name) {
@@ -123,6 +128,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Go to workspace with name.
+     *
      * @param name string workspace.
      */
     public void goToWorkspace(final String name) {
@@ -137,6 +143,7 @@ public class Dashboard extends AbstractPage {
 
     /**
      * Get amount of projects.
+     *
      * @return int amount.
      */
     public int getAmountOfProjects() {

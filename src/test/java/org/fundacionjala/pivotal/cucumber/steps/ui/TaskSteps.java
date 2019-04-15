@@ -51,8 +51,8 @@ public class TaskSteps {
     /** Step to verify task created. */
     @Then("Verify that task was created")
     public void verifyThatTaskWasCreated() {
-        final String text = (String) ScenarioContext.getInstance()
-                .getContext(TASK_NAME);
+        final String text = (String) ScenarioContext
+                .getContextAsString(TASK_NAME);
         assertTrue(this.tasksPanel.existTask(text));
     }
 
@@ -62,8 +62,8 @@ public class TaskSteps {
      **/
     @When("Modify text by {string}")
     public void modifyTextBy(final String newText) {
-        final String text = (String) ScenarioContext.getInstance()
-                .getContext(TASK_NAME);
+        final String text = (String) ScenarioContext
+                .getContextAsString(TASK_NAME);
         this.tasksPanel.selectTask(text);
         this.tasksPanel.setTaskText(newText);
         this.tasksPanel.clickOnSave();
@@ -116,8 +116,8 @@ public class TaskSteps {
     /** Step to delete a task. **/
     @When("Delete task")
     public void deleteTask() {
-        final String text = (String) ScenarioContext.getInstance()
-                .getContext(TASK_NAME);
+        final String text = (String) ScenarioContext
+                .getContextAsString(TASK_NAME);
         this.tasksPanel.deleteTask(text);
     }
 }
