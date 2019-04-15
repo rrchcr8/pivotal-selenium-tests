@@ -15,16 +15,16 @@ import java.util.List;
  **/
 @Component
 public class Tasks extends AbstractPage {
-    @FindBy(css = "div[data-aid=\"Tasks\"] h4")
+    @FindBy(css = ".div[data-aid=\"Tasks\"] h4")
     private WebElement status;
 
-    @FindBy(css = "div[data-aid=\"TaskDescription\"] span p")
+    @FindBy(css = ".div[data-aid=\"TaskDescription\"] span p")
     private List<WebElement> tasksNames;
 
-    @FindBy(css = "textarea[data-aid='editor']")
+    @FindBy(css = ".textarea[data-aid='editor']")
     private WebElement taskText;
 
-    @FindBy(css = "button[data-aid='saveTaskButton'] ")
+    @FindBy(css = ".button[data-aid='saveTaskButton'] ")
     private WebElement saveTask;
 
     @FindBys({
