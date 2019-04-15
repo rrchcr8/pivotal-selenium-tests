@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 public class WorkspaceSteps {
     private static final Logger LOGGER =
             Logger.getLogger(WorkspaceSteps.class.getName());
+    public static final String WS_SETTINGS_PAGE = "ws_settings_page";
+    public static final String WS_NAME = "ws_name";
 
     @Autowired
     private Dashboard dashboard;
@@ -49,8 +51,8 @@ public class WorkspaceSteps {
 
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        "ws_settings_page");
-        ScenarioContext.getInstance().setContext("ws_name", strname);
+                        WS_SETTINGS_PAGE);
+        ScenarioContext.getInstance().setContext(WS_NAME, strname);
         settingsPage.setName(strname);
     }
 
@@ -59,7 +61,7 @@ public class WorkspaceSteps {
     public void clickSaveButton() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        "ws_settings_page");
+                        WS_SETTINGS_PAGE);
         settingsPage.clickOnSave();
 
     }
@@ -68,7 +70,7 @@ public class WorkspaceSteps {
     @Then("workspace title should be edited")
     public void getWorkSpaceLabel() {
         final String name = (String) ScenarioContext.getInstance().getContext(
-                "ws_name");
+                WS_NAME);
         this.dashboard.goToWorkSpaceTab();
         assertTrue(this.dashboard.existWorkSpace(name));
     }
@@ -78,7 +80,7 @@ public class WorkspaceSteps {
     public void createaworkspace() {
         final String name = "My WorkSpace Test";
         final int workspaceId = WorkSpaceService.createWorkspace(name);
-        ScenarioContext.getInstance().setContext("ws_name", name);
+        ScenarioContext.getInstance().setContext(WS_NAME, name);
         ScenarioContext.getInstance().setContext("ws_id", workspaceId);
     }
 
@@ -86,11 +88,11 @@ public class WorkspaceSteps {
     @When("the user clicks on workspace settings button")
     public void theUserClicksOnWorkSpaceSettingBtn() {
         final String name = (String) ScenarioContext.getInstance().getContext(
-                "ws_name");
+                WS_NAME);
         try {
             final WorkSpaceSettings page =
                     this.dashboard.clickWorkSpaceSettings(name);
-            ScenarioContext.getInstance().setContext("ws_settings_page", page);
+            ScenarioContext.getInstance().setContext(WS_SETTINGS_PAGE, page);
 
 
         } catch (final NoSuchElementException e) {
@@ -103,7 +105,7 @@ public class WorkspaceSteps {
     public void clickDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        "ws_settings_page");
+                        WS_SETTINGS_PAGE);
         settingsPage.clickOnDeleteLink();
 
     }
@@ -113,7 +115,7 @@ public class WorkspaceSteps {
     public void clickConfirmDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        "ws_settings_page");
+                        WS_SETTINGS_PAGE);
         settingsPage.clickOnConfirmDelete();
 
     }
@@ -122,7 +124,7 @@ public class WorkspaceSteps {
     @Then("workspace should be deleted")
     public void verifyDelete() {
         final String name = (String) ScenarioContext.getInstance().getContext(
-                "ws_name");
+                WS_NAME);
         this.dashboard.goToWorkSpaceTab();
         assertFalse(this.dashboard.existWorkSpace(name));
     }

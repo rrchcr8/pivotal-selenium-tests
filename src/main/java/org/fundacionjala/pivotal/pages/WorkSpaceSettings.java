@@ -1,6 +1,5 @@
 package org.fundacionjala.pivotal.pages;
 
-import org.apache.log4j.Logger;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Component;
 /** This class represent workspace settings page. **/
 @Component
 public class WorkSpaceSettings extends AbstractPage {
-    private static final Logger LOGGER =
-            Logger.getLogger(WorkSpaceSettings.class.getName());
 
     @FindBy(css = "#delete_link")
     private WebElement deleteLink;
