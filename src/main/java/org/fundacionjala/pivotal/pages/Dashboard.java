@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.pages;
 
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,13 +23,14 @@ public class Dashboard extends AbstractPage {
     private WebElement projects;
 
     @FindBys({
-            @FindBy(className = "Dashboard__Tabs__tab"),
+            @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(linkText = "Workspaces")
     })
     private WebElement workspaces;
 
     @FindBy(css = "#create-project-button")
     private WebElement createProject;
+
 
     @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
@@ -48,6 +50,11 @@ public class Dashboard extends AbstractPage {
     /** Create project. */
     public void createProjectButton() {
         this.action.click(this.createProject);
+    }
+
+    /** Create workspace. **/
+    public void createWorkSpaceButton() {
+        this.action.click(this.createWorkSpace);
     }
 
     /** Go to work space tab. **/
@@ -102,7 +109,8 @@ public class Dashboard extends AbstractPage {
      * @throws NoSuchElementException exception if item not found.
      */
     private WebElement getElementWithName(final List<WebElement> list,
-                                          final String name) throws NoSuchElementException {
+                                          final String name)
+            throws NoSuchElementException {
         for (final WebElement element : list) {
             if (element.getText().equals(name)) {
                 return element;
@@ -148,5 +156,27 @@ public class Dashboard extends AbstractPage {
      */
     public int getAmountOfProjects() {
         return Integer.valueOf(this.amountOfProjects.getText());
+    }
+
+    /**
+     * This method click on settings workspace with name provided.
+     *
+     * @param name string workspace name.
+     * @return WorkSpaceSettings.
+     * @throws NoSuchElementException woprkspace with name not found.
+     */
+    public WorkSpaceSettings clickWorkSpaceSettings(final String name)
+            throws NoSuchElementException {
+        for (final WebElement element : this.worksSpaceNames) {
+            if (element.getText().equals(name)) {
+                getParent(getParent(element))
+                        .findElement(By.xpath("//div//span//a[contains(@class,"
+                                .concat("'SettingsIcon__cog projectTileHeader")
+                                .concat("__hoverable')]")))
+                        .click();
+                return new WorkSpaceSettings();
+            }
+        }
+        throw new NoSuchElementException("The work space with name " + name + " was not find");
     }
 }

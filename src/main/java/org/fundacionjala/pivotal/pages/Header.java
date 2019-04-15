@@ -20,10 +20,10 @@ public class Header extends AbstractPage {
     @FindBy(css = ".Dropdown__button _2Oy9G__NotificationsBell__button")
     private WebElement notifications;
 
-    @FindBy(css = "div[data-aid='ProfileDropdown'] .zWDds__Button")
+    @FindBy(css = ".div[data-aid='ProfileDropdown'] .zWDds__Button")
     private WebElement profile;
 
-    @FindBy(css = "div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
+    @FindBy(css = ".div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
     private WebElement whatsNew;
 
     /**

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
+
 /**
  * This is the story page.
  */
@@ -13,7 +14,7 @@ public class Story extends AbstractPage {
     /**
      * This is the add story button.
      */
-    @FindBy(css = "a[data-aid='AddButton']")
+    @FindBy(css = ".a[data-aid='AddButton']")
     private WebElement addStoryButton;
     /**
      * This is the save button.
@@ -31,7 +32,7 @@ public class Story extends AbstractPage {
      * This is the story page.
      */
     //@FindBy(name = "story[name]")
-    @FindBy(css = "textarea[name='story[name]']")
+    @FindBy(css = ".textarea[name='story[name]']")
     private WebElement storyName;
     /**
      * another locators for non required fields.
@@ -65,28 +66,34 @@ public class Story extends AbstractPage {
      */
     @FindBy(xpath = ".//*[@id='blocker-edit-new']")
     private WebElement blockersTextField;
+
     /**
      * Basic method with the minimum requerid for create a story.
      */
     public void clickAddButton() {
-        action.click(addStoryButton);
+        this.action.click(this.addStoryButton);
     }
+
     /**
      * Basic method with the minimum requerid for create a story.
+     *
      * @param strStoryName of the story that you want to create
      */
     public void setStoryNameTextField(final String strStoryName) {
-        action.setValue(storyName, strStoryName);
+        this.action.setValue(this.storyName, strStoryName);
     }
+
     /**
      * Basic method with the minimum requerid for create a story.
      */
     public void clickSaveButton() {
-        action.click(saveButton);
+        this.action.click(this.saveButton);
     }
+
     /**
      * Basic method with the minimum requerid for create a story.
-     * @param  name of the story
+     *
+     * @param name of the story
      */
     public void createStory(final String name) {
         clickAddButton();

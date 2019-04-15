@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Login extends AbstractPage {
 
-    @FindBy(id = "credentials_username")
+    @FindBy(css = "#credentials_username")
     private WebElement userNameTextField;
 
     @FindBy(css = ".app_signin_action_button")
     private WebElement nextButton;
 
-    @FindBy(id = "credentials_password")
+    @FindBy(css = "#credentials_password")
     private WebElement passwordTextField;
 
     @FindBy(css = ".app_signin_action_button")
