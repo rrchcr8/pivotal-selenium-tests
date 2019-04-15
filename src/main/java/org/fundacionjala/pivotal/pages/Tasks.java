@@ -28,7 +28,7 @@ public class Tasks extends AbstractPage {
     private WebElement saveTask;
 
     @FindBys({
-            @FindBy(className = "AddSubresourceButton__message___2vsNCBXi"),
+            @FindBy(css = ".AddSubresourceButton__message___2vsNCBXi"),
             @FindBy(linkText = "Add a task")
     })
     private WebElement addTaskBtn;

@@ -1,6 +1,7 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
+import org.fundacionjala.util.ScenarioContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -62,9 +63,12 @@ public class Login extends AbstractPage {
      * @param pwd      value
      */
     public void loginAs(final String username, final String pwd) {
-        setUserNameTextField(username);
-        clickNextButton();
-        setPasswordTextField(pwd);
-        clickLoginButton();
+        if (!ScenarioContext.has("loguin_user", username)) {
+            setUserNameTextField(username);
+            clickNextButton();
+            setPasswordTextField(pwd);
+            clickLoginButton();
+            ScenarioContext.getInstance().setContext("loguin_user", username);
+        }
     }
 }

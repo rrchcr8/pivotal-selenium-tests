@@ -28,14 +28,12 @@ public class Dashboard extends AbstractPage {
     })
     private WebElement workspaces;
 
-
     @FindBy(css = "#create-project-button")
     private WebElement createProject;
 
 
     @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
-
 
     @FindBy(css = "#projects-search-bar")
     private WebElement searchProject;
