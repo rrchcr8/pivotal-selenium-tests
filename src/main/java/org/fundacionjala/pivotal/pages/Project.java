@@ -1,10 +1,9 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
-
-import org.fundacionjala.core.ui.AbstractPage;
 
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 @Component
 public class Project extends AbstractPage {
 
-    @FindBy(id = "create-project-button")
+    @FindBy(css = "#create-project-button")
     private WebElement createNewProjectButton;
 
     @FindBy(css = ".tc-form__input")
@@ -33,7 +32,7 @@ public class Project extends AbstractPage {
      * Clicks the create new project button.
      */
     public void clickCreateNewProjectButton() {
-        action.click(createNewProjectButton);
+        this.action.click(this.createNewProjectButton);
     }
 
     /**
@@ -42,30 +41,30 @@ public class Project extends AbstractPage {
      * @param strProjectName value of input.
      */
     public void setProjectNameTextField(final String strProjectName) {
-        action.setValue(projectNameField, strProjectName);
+        this.action.setValue(this.projectNameField, strProjectName);
     }
 
     /**
      * Open account list.
      *
-     *@param strAccount value of account.
+     * @param strAccount value of account.
      */
     public void openSelectAccountCombobox(final String strAccount) {
-        action.click(accountSelector);
+        this.action.click(this.accountSelector);
     }
 
     /**
      * Select an option from list.
      */
     public void selectAccount() {
-        action.click(accountSelectorOptionone);
+        this.action.click(this.accountSelectorOptionone);
     }
 
     /**
      * Clicks the create button.
      */
     public void clickCreateButton() {
-        action.click(createButton);
+        this.action.click(this.createButton);
     }
 
     /**

@@ -12,16 +12,16 @@ public class WorkSpaceSettings extends AbstractPage {
     private static final Logger LOGGER =
             Logger.getLogger(WorkSpaceSettings.class.getName());
 
-    @FindBy(id = "delete_link")
+    @FindBy(css = "#delete_link")
     private WebElement deleteLink;
 
-    @FindBy(id = "confirm_delete")
+    @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
 
-    @FindBy(id = "workspace_name")
+    @FindBy(css = "#workspace_name")
     private WebElement name;
 
-    @FindBy(className = "save_bar__submit")
+    @FindBy(css = ".save_bar__submit")
     private WebElement saveButton;
 
     /** This represent click action on delete link. */

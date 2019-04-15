@@ -9,19 +9,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkSpaceNew extends AbstractPage {
 
-    @FindBy(css = "Dashboard__Tabs__tab Dashboard__Tabs__tab--active")
+    @FindBy(css = ".Dashboard__Tabs__tab Dashboard__Tabs__tab--active")
     private WebElement dashboardLink;
 
-    @FindBy(id = "create-workspace-button")
+    @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpaceButton;
 
-    @FindBy(css = "tc-form__input")
+    @FindBy(css = ".tc-form__input")
     private WebElement textBoxname;
 
-    @FindBy(css = "zWDds__Button pvXpn__Button--positive")
+    @FindBy(css = ".zWDds__Button pvXpn__Button--positive")
     private WebElement createButton;
 
-    @FindBy(css = "raw_context_name")
+    @FindBy(css = ".raw_context_name")
     private WebElement labelWorkSpaceName;
 
 

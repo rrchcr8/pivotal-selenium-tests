@@ -23,27 +23,30 @@ public class Dashboard extends AbstractPage {
     private WebElement projects;
 
     @FindBys({
-            @FindBy(className = "Dashboard__Tabs__tab"),
+            @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(linkText = "Workspaces")
     })
     private WebElement workspaces;
 
-    @FindBy(id = "create-project-button")
+
+    @FindBy(css = "#create-project-button")
     private WebElement createProject;
 
-    @FindBy(id = "create-workspace-button")
+
+    @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
 
-    @FindBy(id = "projects-search-bar")
+
+    @FindBy(css = "#projects-search-bar")
     private WebElement searchProject;
 
-    @FindBy(className = "WorkspaceTile__name")
+    @FindBy(css = ".WorkspaceTile__name")
     private List<WebElement> worksSpaceNames;
 
-    @FindBy(className = "projectPaneSection__header__heading--count")
+    @FindBy(css = ".projectPaneSection__header__heading--count")
     private WebElement amountOfProjects;
 
-    @FindBy(className = "projectTileHeader__projectName")
+    @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
 
     /** Create project. */
@@ -59,7 +62,7 @@ public class Dashboard extends AbstractPage {
     /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
-        this.wait.withTimeout(WAIT_TIME, SECONDS);
+        this.wait(WAIT_TIME, SECONDS);
     }
 
     /**
