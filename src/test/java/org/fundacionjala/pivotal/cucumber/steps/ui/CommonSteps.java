@@ -40,4 +40,21 @@ public class CommonSteps {
     }
 
 
+    @Given("send a POST request {string}")
+    public void sendAPOSTRequest(String arg0,final Map<String, String> projectAttributes) {
+        ScenarioContext.getInstance().setContext("url.api", Environment.getInstance().getValue("url.api"));
+
+        final String projectUrl = StringUtil.getExplicitEndpoint(arg0);
+        String projectName = projectAttributes.get("name");
+        final Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", projectName);
+        JsonPath resp = RequestManager.postRequest(projectUrl, parameters).body()
+                .jsonPath();
+        ScenarioContext.getInstance().setContext("Resp",resp);
+    }
+
+    @And("stores response as {string}")
+    public void storeRespondeAs(String arg0) {
+        ScenarioContext.getInstance().setContext(arg0,ScenarioContext.getInstance().getContext("Resp"));
+    }
 }
