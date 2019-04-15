@@ -29,6 +29,7 @@ public abstract class AbstractPage {
 
     /**
      * Get parent element.
+     *
      * @param element web element.
      * @return parent web element.
      */

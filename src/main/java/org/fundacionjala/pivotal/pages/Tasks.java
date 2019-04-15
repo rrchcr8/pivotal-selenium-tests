@@ -15,20 +15,20 @@ import java.util.List;
  **/
 @Component
 public class Tasks extends AbstractPage {
-    @FindBy(css = "div[data-aid=\"Tasks\"] h4")
+    @FindBy(css = ".div[data-aid=\"Tasks\"] h4")
     private WebElement status;
 
-    @FindBy(css = "div[data-aid=\"TaskDescription\"] span p")
+    @FindBy(css = ".div[data-aid=\"TaskDescription\"] span p")
     private List<WebElement> tasksNames;
 
-    @FindBy(css = "textarea[data-aid='editor']")
+    @FindBy(css = ".textarea[data-aid='editor']")
     private WebElement taskText;
 
-    @FindBy(css = "button[data-aid='saveTaskButton'] ")
+    @FindBy(css = ".button[data-aid='saveTaskButton'] ")
     private WebElement saveTask;
 
     @FindBys({
-            @FindBy(className = "AddSubresourceButton__message___2vsNCBXi"),
+            @FindBy(css = ".AddSubresourceButton__message___2vsNCBXi"),
             @FindBy(linkText = "Add a task")
     })
     private WebElement addTaskBtn;
@@ -42,6 +42,7 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method set text in a task.
+     *
      * @param text string
      **/
     public void setTaskText(final String text) {
@@ -52,6 +53,7 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method select a task with text provided.
+     *
      * @param text string.
      **/
     public void selectTask(final String text) {
@@ -72,6 +74,7 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method search a task and delete a it.
+     *
      * @param text string.
      */
     public void deleteTask(final String text) {
@@ -87,6 +90,7 @@ public class Tasks extends AbstractPage {
 
     /**
      * This method check if exist a task with text.
+     *
      * @param text string
      * @return boolean
      **/
