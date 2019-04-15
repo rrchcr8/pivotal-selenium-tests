@@ -1,5 +1,6 @@
 package org.fundacionjala.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.Environment;
 
@@ -59,7 +60,8 @@ public final class ScenarioContext {
      * @return object value.
      */
     public Object getContext(final String key) {
-        return this.scenarioContext.get(key);
+        return this.isContains(key) ? this.scenarioContext.get(key)
+                : StringUtils.EMPTY;
     }
 
     /**
@@ -82,4 +84,14 @@ public final class ScenarioContext {
         return this.scenarioContext.containsKey(key);
     }
 
+    /**
+     * This method verify if a value already exist in the context.
+     *
+     * @param key   string.
+     * @param value string.
+     * @return boolean.
+     */
+    public static boolean has(final String key, final Object value) {
+        return CONTEXT.isContains(key) && CONTEXT.getContext(key).equals(value);
+    }
 }
