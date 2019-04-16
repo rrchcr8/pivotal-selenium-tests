@@ -14,7 +14,8 @@ import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +52,15 @@ public class StorySteps {
         ScenarioContext.getInstance().setContext("story_name",arg0);
     }
 
-    @Then("the story is created")
-    public void theStoryIsCreated() {
-//        String storyName = ScenarioContext.getContextAsString("story_name");
-//        Assert.assertEquals(storyName,);
+    @Then("verify the story is created")
+    public void verifytheStoryIsCreated() {
+        String storyName = ScenarioContext.getContextAsString("story_name");
+        assertTrue(this.story.existStory(storyName));
+        //        Assert.assertEquals(storyName,);
+    }
+
+    @When("creates other a story called {string}")
+    public void createsOtherAStoryCalled(String arg1) {
+       story.createStory(arg1);
     }
 }
