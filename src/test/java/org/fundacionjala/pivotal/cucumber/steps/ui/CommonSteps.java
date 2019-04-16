@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import io.restassured.path.json.JsonPath;
 import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.core.ui.driver.DriverManager;
+import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
@@ -25,7 +26,8 @@ public class CommonSteps {
     private Login login;
 
     @Autowired
-    private Project project;
+    private Dashboard dashboard;
+
     /**
      * Logs in with user.
      *
@@ -35,32 +37,19 @@ public class CommonSteps {
     public void logsInWithUser(final String key) {
         String userNameKey = String.format("credentials.%s.username", key);
         String passwordKey = String.format("credentials.%s.password", key);
-        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.base"));
+        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.login"));
         login.loginAs(Environment.getInstance().getValue(userNameKey), Environment.getInstance().getValue(passwordKey));
     }
 
-    /**
-     * This is a generic API POST method.
-     * @param arg0 is the strings that is needed to complete the url for the
-     *             endpoint.
-     * @param projectAttributes is the attributes read on the feature
-     *                          file.
-     */
-    @Given("send a POST request {string}")
-    public void sendAPOSTRequest(String arg0,final Map<String, String> projectAttributes) {
-        final String projectUrl = StringUtil.getExplicitEndpoint(arg0);
-        String projectName = projectAttributes.get("name");
-        final Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", projectName);
-        JsonPath resp = RequestManager.postRequest(projectUrl, parameters).body()
-                .jsonPath();
-        ScenarioContext.getInstance().setContext("Resp", resp);
+    @And("opens a project {string}")
+    public void opensAProject(String projectKeyName) {
+        String projectName = StringUtil.getValue(projectKeyName);
+        dashboard.goToProject(projectName);
     }
 
-    @And("stores response as {string}")
-    public void storeRespondeAs(String arg0) {
-        ScenarioContext.getInstance().setContext(arg0,ScenarioContext.getInstance().getContext("Resp"));
+    /** This method reload page to go dashboard. **/
+    @And("Go to Dashboard")
+    public void goToDashboard() {
+        this.dashboard.reload();
     }
-
-
 }

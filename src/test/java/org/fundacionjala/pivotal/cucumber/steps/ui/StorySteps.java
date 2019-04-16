@@ -42,7 +42,6 @@ public class StorySteps {
 
 
     @When("creates a story called {string}")
-
     public void createsAStoryCalled(String arg0) {
         String name=
                 ((JsonPath) ScenarioContext.getInstance().getContext(
@@ -62,15 +61,5 @@ public class StorySteps {
     @When("creates other a story called {string}")
     public void createsOtherAStoryCalled(String arg1) {
        story.createStory(arg1);
-    }
-
-
-    @And("send a DELETE request {string}")
-    public void sendADELETERequest(String arg0) {
-        ScenarioContext.getInstance().setContext("project_id",
-                ((JsonPath)ScenarioContext.getInstance().getContext(
-                        "project_response")).get("id").toString());
-        final String Url = StringUtil.getExplicitEndpoint(arg0);
-        RequestManager.deleteRequest(Url);
     }
 }

@@ -23,7 +23,7 @@ public final class ProjectService {
      * @return The ID of the created project.
      */
     public static int createProject(final String name) {
-        final Map<String, Object> parameters = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put("name", name);
         return RequestManager.postRequest(BASE_URL, parameters).body()
                 .jsonPath().get("id");

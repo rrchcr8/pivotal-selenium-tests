@@ -24,7 +24,7 @@ public class RunCucumberTest extends AbstractTestNGCucumberTests {
     @BeforeTest
     public void open() {
         // Implement.
-        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.base"));
+        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.login"));
     }
 
     /**
