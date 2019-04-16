@@ -140,6 +140,7 @@ public class TaskSteps {
         this.dashboard.goToProject("My test project");
     }
 
+    /** Step to open a story. **/
     @And("Open a story")
     public void openAStory() {
         this.project.expandOneStory();
