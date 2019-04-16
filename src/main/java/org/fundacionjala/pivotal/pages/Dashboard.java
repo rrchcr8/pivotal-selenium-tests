@@ -23,13 +23,13 @@ public class Dashboard extends AbstractPage {
 
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
-            @FindBy(linkText = "Projects")
+            @FindBy(xpath = "//span[text()='Projects']")
     })
     private WebElement projects;
 
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
-            @FindBy(linkText = "Workspaces")
+            @FindBy(xpath = "//span[text()='Workspaces']")
     })
     private WebElement workspaces;
 

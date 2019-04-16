@@ -1,5 +1,4 @@
-@wip
-Feature: Task mangement
+Feature: Task management
 
   Background:
     Given logs in with user "owner1"
