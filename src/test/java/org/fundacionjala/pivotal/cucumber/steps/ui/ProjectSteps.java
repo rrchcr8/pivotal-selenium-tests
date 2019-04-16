@@ -18,6 +18,7 @@ public class ProjectSteps {
 
     @Autowired
     private Project project;
+
     @Autowired
     private Header header;
 
@@ -76,6 +77,9 @@ public class ProjectSteps {
         Assert.assertFalse(project.isProjectListedOnMainPage(), "False if project is not listed after deletion");
     }
 
+    /**
+     * Validate non-existance on active projects.
+     */
     @And("the project is not present on active project")
     public void theProjectIsNotPresentOnActiveProject() {
         project.loadMainPage("/projects");
@@ -130,15 +134,19 @@ public class ProjectSteps {
         project.loadMainPage();
     }
 
+    /**
+     * Check existance of project's name on header menu list.
+     */
     @And("validate creation on header project's list")
     public void validateCreationOnHeaderProjectSList() {
         header.openProjectMenu();
         final boolean actual = project.isProjectListedOnMenu();
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
-
-
     }
 
+    /**
+     * Validate existance on project's section.
+     */
     @And("validate creation on project's section")
     public void validateCreationOnProjectsSection() {
         project.loadMainPage("/projects");
@@ -146,6 +154,9 @@ public class ProjectSteps {
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
+    /**
+     * Validate non-existance of project's name on menu.
+     */
     @And("Prior project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
         header.openProjectMenu();
