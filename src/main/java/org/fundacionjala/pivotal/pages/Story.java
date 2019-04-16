@@ -5,12 +5,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 /**
  * This is the story page.
  */
 @Component
 public class Story extends AbstractPage {
+    /**
+     * This is the add story button.
+     */
+    @FindBy(css = "span[class='tracker_markup']")
+    private List<WebElement> storyNames;
+
     /**
      * This is the add story button.
      */
@@ -66,6 +73,12 @@ public class Story extends AbstractPage {
      */
     @FindBy(xpath = ".//*[@id='blocker-edit-new']")
     private WebElement blockersTextField;
+    /**
+     * another locators for non required fields.
+     */
+
+    @FindBy(css = ".tracker_markup")
+    private WebElement storyNameCreated;
 
     /**
      * Basic method with the minimum requerid for create a story.
@@ -99,6 +112,20 @@ public class Story extends AbstractPage {
         clickAddButton();
         setStoryNameTextField(name);
         clickSaveButton();
+    }
+
+    /**
+     * this is an interesting method.
+     * @param text texto.
+     * @return boolean true or false
+     */
+    public boolean existStory(final String text) {
+        for (final WebElement element : this.storyNames) {
+            if (element.getText().equals(text)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
