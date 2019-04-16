@@ -29,8 +29,10 @@ public class StorySteps {
     private Dashboard dashboard;
     @Autowired
     private Story story;
+
     /**
      * Given step for story feature.
+     *
      * @param arg0 is the name of the project.
      */
     @Given("a project called {string}")
@@ -39,7 +41,17 @@ public class StorySteps {
     //story.clickAddButton()1;
     story.createStory("ird test");
     }
-
+    
+    /**
+     * Given step for story feature.
+     *
+     * @param arg0 is the name of the project.
+     */
+    @Given("a project called {string}")
+    public void aProjectCalled(final String arg0) {
+        this.dashboard.goToProject(arg0);
+        this.story.clickAddButton();
+    }
 
     @When("creates a story called {string}")
     public void createsAStoryCalled(String arg0) {
