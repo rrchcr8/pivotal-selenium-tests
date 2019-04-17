@@ -24,7 +24,7 @@ public class Story extends AbstractPage {
     @FindBy(css = "a[title='Select this story for bulk actions']")
     private List<WebElement> storyCheckBoxes;
     /**
-     * This is a list of the story dropdownbuttons.
+     * This is a list of the story dropdown buttons.
      */
     @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> storyDropdownButton;

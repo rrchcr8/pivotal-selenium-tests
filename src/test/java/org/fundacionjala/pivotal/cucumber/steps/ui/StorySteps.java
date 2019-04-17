@@ -39,10 +39,10 @@ public class StorySteps {
      */
     @When("creates a story called {string}")
     public void createsAStoryCalled(final String arg0) {
-        final String name =
-                ((JsonPath) ScenarioContext.getInstance().getContext(
-                        "project_response")).get("name").toString();
-        dashboard.goToProject(name);
+//        final String name =
+//                ((JsonPath) ScenarioContext.getInstance().getContext(
+//                        "project_response")).get("name").toString();
+//        dashboard.goToProject(name);
         story.createStory(arg0);
         ScenarioContext.getInstance().setContext("story_name", arg0);
     }
