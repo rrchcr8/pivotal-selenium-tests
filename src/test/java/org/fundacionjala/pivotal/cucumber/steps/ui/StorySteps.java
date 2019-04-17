@@ -31,7 +31,6 @@ public class StorySteps {
     @Given("a project called {string}")
     public void aProjectCalled(final String arg0) {
         dashboard.goToProject(arg0);
-        //story.clickAddButton()1;
         story.createStory("ird test");
     }
 
@@ -55,7 +54,6 @@ public class StorySteps {
     public void verifytheStoryIsCreated() {
         final String storyName = ScenarioContext.getContextAsString("story_name");
         assertTrue(this.story.existStory(storyName));
-        //        Assert.assertEquals(storyName,);
     }
 
     /**
