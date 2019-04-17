@@ -23,7 +23,7 @@ public final class WorkSpaceService {
      * @return ID of the created workspace.
      */
     public static int createWorkspace(final String name) {
-        final Map<String, Object> parameters = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put("name", name);
         return RequestManager.postRequest(BASE_URL, parameters).body().jsonPath().get("id");
     }
@@ -36,7 +36,7 @@ public final class WorkSpaceService {
      * @return int
      */
     public static int workedit(final int workspaceId, final String name) {
-        final Map<String, Object> parameters = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put("name", name);
         return RequestManager.putRequest(String.format(BASE_URL,
                 workspaceId), parameters)

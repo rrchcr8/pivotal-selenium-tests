@@ -3,6 +3,7 @@
     "owner1": {
       "username": "",
       "password": ""
+      "apiToken": ""
     },
     "member1": {
       "username": "",

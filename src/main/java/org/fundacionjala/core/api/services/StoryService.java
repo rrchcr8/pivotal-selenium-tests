@@ -24,7 +24,7 @@ public final class StoryService {
      * @return The ID of the new Story.
      */
     public static int createStory(final int projectId, final String name) {
-        final Map<String, Object> parameters = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put("name", name);
         return RequestManager.postRequest(String.format(BASE_URL,
                 projectId), parameters)
@@ -39,7 +39,7 @@ public final class StoryService {
      * @return The ID of the new Story.
      */
     public static int modifyStory(final int projectId, final String name) {
-        final Map<String, Object> parameters = new HashMap<>();
+        final Map<String, String> parameters = new HashMap<>();
         parameters.put("name", name);
         return RequestManager.putRequest(String.format(BASE_URL,
                 projectId), parameters)

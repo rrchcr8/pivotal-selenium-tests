@@ -6,7 +6,7 @@ import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Login;
-import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -16,9 +16,6 @@ public class CommonSteps {
 
     @Autowired
     private Login login;
-
-    @Autowired
-    private Project project;
 
     @Autowired
     private Dashboard dashboard;
@@ -44,5 +41,14 @@ public class CommonSteps {
     @And("Go to Dashboard")
     public void goToDashboard() {
         this.dashboard.reload();
+    }
+
+    /**
+     * @param projectKeyName is the name of the project.
+     */
+    @And("opens a project {string}")
+    public void opensAProject(final String projectKeyName) {
+        final String projectName = StringUtil.getValue(projectKeyName);
+        this.dashboard.goToProject(projectName);
     }
 }
