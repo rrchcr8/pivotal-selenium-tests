@@ -9,7 +9,6 @@ import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 /**
  * Common steps.
  */
@@ -28,10 +27,20 @@ public class CommonSteps {
      */
     @Given("logs in with user {string}")
     public void logsInWithUser(final String key) {
-        final String userNameKey = String.format("credentials.%s.username", key);
-        final String passwordKey = String.format("credentials.%s.password", key);
-        DriverManager.getInstance().getDriver().get(Environment.getInstance().getValue("url.login"));
-        login.loginAs(Environment.getInstance().getValue(userNameKey), Environment.getInstance().getValue(passwordKey));
+        final String userNameKey = String
+                .format("credentials.%s.username", key);
+        final String passwordKey = String
+                .format("credentials.%s.password", key);
+        DriverManager.getInstance().getDriver().get(Environment.getInstance()
+                .getValue("url.login"));
+        this.login.loginAs(Environment.getInstance().getValue(userNameKey),
+                Environment.getInstance().getValue(passwordKey));
+    }
+
+    /** This method reload page to go dashboard. **/
+    @And("Go to Dashboard")
+    public void goToDashboard() {
+        this.dashboard.reload();
     }
 
     /**
@@ -40,14 +49,6 @@ public class CommonSteps {
     @And("opens a project {string}")
     public void opensAProject(final String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
-        dashboard.goToProject(projectName);
-    }
-
-    /**
-     * This method reload page to go dashboard.
-     **/
-    @And("Go to Dashboard")
-    public void goToDashboard() {
-        this.dashboard.reload();
+        this.dashboard.goToProject(projectName);
     }
 }

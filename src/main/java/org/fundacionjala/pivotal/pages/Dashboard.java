@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-/** Dashboard page. **/
+/**
+ * Dashboard page.
+ **/
 @Component
 public class Dashboard extends AbstractPage {
     private static final Logger LOGGER =
@@ -52,7 +52,7 @@ public class Dashboard extends AbstractPage {
     @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
 
-    /** Create project. */
+    /** Create project. **/
     public void createProjectButton() {
         this.action.click(this.createProject);
     }
@@ -65,7 +65,13 @@ public class Dashboard extends AbstractPage {
     /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
-        this.wait.withTimeout(WAIT_TIME, SECONDS);
+        this.wait.until(ExpectedConditions.visibilityOf(this.createWorkSpace));
+    }
+
+    /** Go to project tab. **/
+    public void goToProjectTab() {
+        this.action.click(this.projects);
+        this.wait.until(ExpectedConditions.visibilityOf(this.createProject));
     }
 
     /**
@@ -182,7 +188,8 @@ public class Dashboard extends AbstractPage {
                 return new WorkSpaceSettings();
             }
         }
-        throw new NoSuchElementException("The work space with name " + name + " was not find");
+        throw new NoSuchElementException(String
+                .format("The work space with name %s was not find", name));
     }
 
     /** This method reload dashboard page. **/
