@@ -17,6 +17,17 @@ public class Story extends AbstractPage {
      */
     @FindBy(css = "span[class='tracker_markup']")
     private List<WebElement> storyNames;
+    /**
+     * This is a list of the story checkboxes.
+     * The ones that we are going to use for delete stories.
+     */
+    @FindBy(css = "a[title='Select this story for bulk actions']")
+    private List<WebElement> storyCheckBoxes;
+    /**
+     * This is a list of the story dropdownbuttons.
+     */
+    @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
+    private List<WebElement> storyDropdownButton;
 
     /**
      * This is the add story button.
