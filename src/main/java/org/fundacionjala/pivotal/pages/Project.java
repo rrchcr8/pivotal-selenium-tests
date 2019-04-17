@@ -5,7 +5,6 @@ import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -184,6 +183,11 @@ public class Project extends AbstractPage {
      * @param strProjectName project name
      */
     public void setProjectName(final String strProjectName) {
+
+        if (action.isExistingSelector(
+                By.xpath("//button[@class='button button--lined button--medium button--full-width']"))) {
+            action.click(showMoreProjectsButton);
+        }
         this.projectName = strProjectName;
     }
 
@@ -193,7 +197,8 @@ public class Project extends AbstractPage {
      * @param projectName Name of project
      */
     public void openProjectSettingsbyName(final String projectName) {
-        if (action.isExistingSelector(By.className(".button.button--lined.button--medium.button--full-width"))) {
+        if (action.isExistingSelector(
+                By.xpath("//button[@class='button button--lined button--medium button--full-width']"))) {
             action.click(showMoreProjectsButton);
         }
 
@@ -340,9 +345,6 @@ public class Project extends AbstractPage {
      */
     public void loadMainPage() {
         driver.get(Environment.getInstance().getValue("url.main"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("projectPaneSection__header__heading--name")));
-
     }
 
     /**
@@ -352,8 +354,5 @@ public class Project extends AbstractPage {
      */
     public void loadMainPage(final String section) {
         driver.get(Environment.getInstance().getValue("url.main").concat(section));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("projectPaneSection__header__heading--name")));
-
     }
 }

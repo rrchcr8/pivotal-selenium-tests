@@ -3,17 +3,16 @@ package org.fundacionjala.pivotal.cucumber.runner;
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import org.fundacionjala.core.Environment;
+import org.fundacionjala.core.ui.driver.DriverManager;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
-import org.fundacionjala.core.ui.driver.DriverManager;
 
 /**
  * Class which runs all features.
  */
 @CucumberOptions(
         features = "src/test/resources/features",
-        glue = {"org.fundacion-jala.pivotal.cucumber"},
+        glue = {"org.fundacionjala"},
         plugin = {"pretty"}
 )
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
