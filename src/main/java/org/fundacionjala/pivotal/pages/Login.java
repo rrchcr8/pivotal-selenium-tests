@@ -63,12 +63,12 @@ public class Login extends AbstractPage {
      * @param pwd      value
      */
     public void loginAs(final String username, final String pwd) {
-        if (!ScenarioContext.has("loguin_user", username)) {
+        if (!ScenarioContext.has("login_user", username)) {
             setUserNameTextField(username);
             clickNextButton();
             setPasswordTextField(pwd);
             clickLoginButton();
-            ScenarioContext.getInstance().setContext("loguin_user", username);
+            ScenarioContext.getInstance().setContext("login_user", username);
         }
     }
 }

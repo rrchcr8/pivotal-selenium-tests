@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,9 @@ public class Project extends AbstractPage {
 
     @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
+
+    @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
+    private List<WebElement> expandStoryButtons;
 
     /**
      * Clicks the create new project button.
@@ -78,5 +82,12 @@ public class Project extends AbstractPage {
         openSelectAccountCombobox(projectElements.get("account"));
         selectAccount();
         clickCreateButton();
+    }
+
+    /** This method represent expand story action on first story find. **/
+    public void expandOneStory() {
+        if (!this.expandStoryButtons.isEmpty()) {
+            this.action.click(this.expandStoryButtons.get(0));
+        }
     }
 }

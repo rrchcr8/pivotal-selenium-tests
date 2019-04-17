@@ -10,7 +10,8 @@
     }
   },
   "url": {
-    "base": "https://www.pivotaltracker.com/signin"
+    "base": "https://www.pivotaltracker.com",
+    "login": "https://www.pivotaltracker.com/signin",
     "api": "https://www.pivotaltracker.com/services/v5"
   },
   "tags": " --tags ~@wip",
