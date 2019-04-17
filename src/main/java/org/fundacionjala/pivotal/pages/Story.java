@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * This is the story page.
+ * This is the story page with all the locators.
  */
 @Component
 public class Story extends AbstractPage {
