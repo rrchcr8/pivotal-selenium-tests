@@ -42,16 +42,7 @@ public class StorySteps {
     story.createStory("ird test");
     }
     
-    /**
-     * Given step for story feature.
-     *
-     * @param arg0 is the name of the project.
-     */
-    @Given("a project called {string}")
-    public void aProjectCalled(final String arg0) {
-        this.dashboard.goToProject(arg0);
-        this.story.clickAddButton();
-    }
+
 
     @When("creates a story called {string}")
     public void createsAStoryCalled(String arg0) {

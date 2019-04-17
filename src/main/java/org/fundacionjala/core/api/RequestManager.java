@@ -46,8 +46,8 @@ public final class RequestManager {
      * @param parameters data to be updated on the endpoint.
      * @return the response of the PUT request.
      */
-    public static Response putRequest(final String endpoint, final Map<String
-            , String> parameters) {
+    public static Response putRequest(final String endpoint, final Map<String,
+            String> parameters) {
         return given().spec(REQUEST).params(parameters)
                 .when().put(endpoint);
     }
