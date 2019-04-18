@@ -7,6 +7,7 @@ import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the story page with all the locators.
@@ -19,7 +20,7 @@ public class Story extends AbstractPage {
      */
     @FindBy(css = "button[title='Delete selected stories']")
     private WebElement deleteStoryButtonOfToast;
-     /**
+    /**
      * This is the delete story button.
      */
     @FindBy(css = "button[title='Delete this story']")
@@ -148,6 +149,16 @@ public class Story extends AbstractPage {
     }
 
     /**
+     * This is a smart method creates a story with customizable fields.
+     *
+     * @param storyElements is the elements that can de edited in order to create a story.
+     */
+    public void createStoryDataTable(final Map<String, String> storyElements) {
+        clickAddButton();
+        
+    }
+
+    /**
      * this is an interesting method.
      *
      * @param text texto.
@@ -194,6 +205,7 @@ public class Story extends AbstractPage {
 
     /**
      * select an especific checkbox.
+     *
      * @param text is the name of a speceif story .
      */
     public void clickStoryCheckboxButton(final String text) {
@@ -201,7 +213,7 @@ public class Story extends AbstractPage {
             element.click();
             clickDeleteButtonOfToast();
             clickConfirmDeleteButton();
-             }
+        }
 
     }
 
