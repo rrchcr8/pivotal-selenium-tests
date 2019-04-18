@@ -6,7 +6,7 @@ Feature: Story
       | name | a1 |
     And stores response as "project_response"
 
-  Scenario:
+  Scenario: create a story with the minimum required field
     Given logs in with user "owner1"
     And Go to Dashboard
     And opens a project "project_response.name"
@@ -15,7 +15,15 @@ Feature: Story
     And send a DELETE request "/projects/{project_response.id}"
 
 
-
+  Scenario: delete a story
+    Given sends a POST request "/projects/{project_response.id}/stories"
+      | name | story1 |
+    And stores response as "story_response"
+    And Go to Dashboard
+    And opens a project "project_response.name"
+    When selects the dropdown button of the story "story_response.name"
+    #And click delete button
+    And send a DELETE request "/projects/{project_response.id}"
 
 
 

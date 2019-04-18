@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
@@ -12,6 +13,16 @@ import java.util.List;
  */
 @Component
 public class Story extends AbstractPage {
+    /**
+     * This is the delete story button.
+     */
+    @FindBy(css = "button[title='Delete this story']")
+    private WebElement deleteStoryButton;
+    /**
+     * This is the delete confirm story button.
+     */
+    @FindBy(css = "button[data-aid='DeleteButton']")
+    private WebElement deleteStoryConfirmButton;
     /**
      * This is the add story button.
      */
@@ -100,6 +111,11 @@ public class Story extends AbstractPage {
 
     /**
      * Basic method with the minimum requerid for create a story.
+     */
+
+
+    /**
+     * Basic method with the minimum requerid for create a story.
      *
      * @param strStoryName of the story that you want to create
      */
@@ -127,6 +143,7 @@ public class Story extends AbstractPage {
 
     /**
      * this is an interesting method.
+     *
      * @param text texto.
      * @return boolean true or false
      */
@@ -139,4 +156,35 @@ public class Story extends AbstractPage {
         return false;
     }
 
+    /**
+     * click dropdown story button..
+     *
+     * @param text name of the history
+     */
+    public void clickstoryDropdownButton(final String text) {
+        for (final WebElement element : this.storyDropdownButton) {
+            element.click();
+            clickDeleteButton();
+            clickConfirmDeleteButton();
+        }
+
+    }
+
+    /**
+     * click delete button.
+     */
+    public void clickDeleteButton() {
+        this.action.click(this.deleteStoryButton);
+
+    }
+
+    /**
+     * click delete button.
+     */
+    public void clickConfirmDeleteButton() {
+        this.action.click(this.deleteStoryConfirmButton);
+
+    }
 }
+
+
