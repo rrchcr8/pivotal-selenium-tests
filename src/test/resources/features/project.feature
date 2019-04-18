@@ -2,16 +2,18 @@
 Feature: Project
 
   Background:
-    Given User is located on main page
+    Given logs in with user "owner1"
+    And User is located on main page
 
-#  Scenario: Create new project
-#    When user creates project as
-#      | name    | awt-00 |
-#      | account | aleri  |
-#      | privacy | public |
-#    Then validate creation on project's dashboard
-#    #And validate creation on header project's list
-#    And validate creation on project's section
+
+  Scenario: Create new project
+    When user creates project as
+      | name    | awt-00 |
+      | account | aleri  |
+      | privacy | public |
+    Then validate creation on project's dashboard
+    #And validate creation on header project's list
+    And validate creation on project's section
 #
 #  Scenario: Edit project
 #    Given an existing project known as "awt-00" that user intends to edit
@@ -62,5 +64,3 @@ Feature: Project
 #      | A  Weird Project  | Pedro |
 #      | A  weird  Project | Pablo |
 #      | A Wéird Project   | Pablo |
-
-

@@ -129,7 +129,7 @@ public class ProjectSteps {
     /**
      * Start form main page.
      */
-    @Given("User is located on main page")
+    @And("User is located on main page")
     public void userIsLocatedOnMainPage() {
         project.loadMainPage();
     }
