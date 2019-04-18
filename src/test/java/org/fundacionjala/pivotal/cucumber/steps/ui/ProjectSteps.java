@@ -182,4 +182,21 @@ public class ProjectSteps {
         }
 
     }
+
+    @Given("A create new button on dashboard")
+    public void aCreateNewButtonOnDashboard() {
+        project.clickCreateNewProjectButton();
+    }
+
+    @Given("A create new button on header menu")
+    public void aCreateNewButtonOnHeaderMenu() {
+        header.openProjectMenu();
+        header.clickCreateNewProject();
+    }
+
+    @Given("An option to create a new project on project's section")
+    public void anOptionToCreateANewProjectOnProjectSSection() {
+        project.loadMainPage("/projects");
+        project.clickCreateNewPRojectOption();
+    }
 }

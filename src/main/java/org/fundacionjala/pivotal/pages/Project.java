@@ -1,12 +1,17 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
+import org.fundacionjala.core.ui.WebDriverAction;
+import org.fundacionjala.core.ui.forms.FormsElements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +20,7 @@ import java.util.Map;
  */
 @Component
 public class Project extends AbstractPage {
+    private static final Logger LOGGER = LogManager.getLogger(WebDriverAction.class.getName());
 
     @FindBy(css = "#create-project-button")
     private WebElement createNewProjectButton;
@@ -73,9 +79,12 @@ public class Project extends AbstractPage {
     @FindBy(css = ".tc_error_highlight")
     private WebElement errorMessage;
 
+    @FindBy(xpath = "//a[text()='+ Create Project']")
+    private WebElement plusNewProjectOption;
+
     private String projectName;
 
-    @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
+    @FindBy(xpath = "a[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> expandStoryButtons;
 
     /**
@@ -108,6 +117,7 @@ public class Project extends AbstractPage {
      * @param accountName to select an account from list
      */
     public void selectAccount(final String accountName) {
+        openSelectAccountCombobox();
         final boolean onListAccount = action.isExistingSelector(
                 By.xpath("//div[text()='" + accountName + "']"));
 
@@ -136,6 +146,7 @@ public class Project extends AbstractPage {
      */
     public void clickCreateButton() {
         action.click(createButton);
+        action.pause();
     }
 
     /**
@@ -144,12 +155,17 @@ public class Project extends AbstractPage {
      * @param projectElements value
      */
     public void createNewProject(final Map<String, String> projectElements) {
-        clickCreateNewProjectButton();
 
-        setProjectNameTextField(projectElements.get("name"));
-        openSelectAccountCombobox();
-        selectAccount(projectElements.get("account"));
-        selectProjectPrivacy(projectElements.get("privacy"));
+        final Map<String, ISteps> strategy = new HashMap<>();
+        strategy.put(FormsElements.TITLE.toString(),
+                () -> setProjectNameTextField(projectElements.get("title")));
+        strategy.put(FormsElements.ACCOUNT.toString(),
+                () -> selectAccount(projectElements.get("account")));
+        strategy.put(FormsElements.PRIVACY.toString(),
+                () -> selectProjectPrivacy(projectElements.get("privacy")));
+
+        projectElements.keySet()
+                .forEach(key -> strategy.get(key).perform());
         clickCreateButton();
     }
 
@@ -265,15 +281,24 @@ public class Project extends AbstractPage {
     /**
      * Set values on form as specified.
      *
-     * @param projectAttributes Attributes to set on form
+     * @param projectElements Attributes to set on form
      */
-    public void setValuesOnEditProjectForm(final Map<String, String> projectAttributes) {
+    public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
 
-        setEditProjectTitle(projectAttributes.get("title"));
-        setEditProjectDescription(projectAttributes.get("description"));
-        setEditProjectAccount(projectAttributes.get("account"));
-        setEditProjectTaskEnable(projectAttributes.get("taskEnable"));
-        setEditProjectPrivacy(projectAttributes.get("privacy"));
+        final Map<String, ISteps> strategy = new HashMap<>();
+        strategy.put(FormsElements.TITLE.toString(),
+                () -> setEditProjectTitle(projectElements.get("title")));
+        strategy.put(FormsElements.DESCRIPTION.toString(),
+                () -> setEditProjectDescription(projectElements.get("description")));
+        strategy.put(FormsElements.ACCOUNT.toString(),
+                () -> setEditProjectAccount(projectElements.get("account")));
+        strategy.put(FormsElements.TASKENABLE.toString(),
+                () -> setEditProjectTaskEnable(projectElements.get("taskEnable")));
+        strategy.put(FormsElements.PRIVACY.toString(),
+                () -> setEditProjectPrivacy(projectElements.get("privacy")));
+
+        projectElements.keySet()
+                .forEach(key -> strategy.get(key).perform());
     }
 
     /**
@@ -350,7 +375,7 @@ public class Project extends AbstractPage {
      * Each scenario start on main page.
      */
     public void loadMainPage() {
-        driver.get(Environment.getInstance().getValue("url.main"));
+        driver.get(Environment.getInstance().getValue("url.base"));
     }
 
     /**
@@ -359,7 +384,7 @@ public class Project extends AbstractPage {
      * @param section String to specific URI
      */
     public void loadMainPage(final String section) {
-        driver.get(Environment.getInstance().getValue("url.main").concat(section));
+        driver.get(Environment.getInstance().getValue("url.base").concat(section));
     }
 
     /**
@@ -374,5 +399,9 @@ public class Project extends AbstractPage {
     public String getMessageOnNewProjectForm() {
         action.waitVisibility(errorMessage);
         return errorMessage.getText();
+    }
+
+    public void clickCreateNewPRojectOption() {
+        action.click(plusNewProjectOption);
     }
 }

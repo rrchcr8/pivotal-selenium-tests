@@ -28,6 +28,9 @@ public class Header extends AbstractPage {
     @FindBy(css = ".div[data-aid='ProductUpdatesDropdown__indicator--newHeader'] .zWDds__Button")
     private WebElement whatsNew;
 
+    @FindBy(css = "a[data-aid='CreateProject']")
+    private WebElement createProjectLink;
+
     /**
      * Go to dashboard page.
      *
@@ -42,8 +45,9 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
+        action.pause();
         action.waitVisibility(projecMenu);
-        this.action.click(this.projecMenu);
+        this.action.click(projecMenu);
     }
 
     /**
@@ -72,5 +76,9 @@ public class Header extends AbstractPage {
                 return;
             }
         }
+    }
+
+    public void clickCreateNewProject() {
+        action.click(createProjectLink);
     }
 }
