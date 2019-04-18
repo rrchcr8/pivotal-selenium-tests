@@ -1,10 +1,7 @@
 package org.fundacionjala.pivotal.pages;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
-import org.fundacionjala.core.ui.WebDriverAction;
 import org.fundacionjala.core.ui.forms.FormsElements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,7 +17,6 @@ import java.util.Map;
  */
 @Component
 public class Project extends AbstractPage {
-    private static final Logger LOGGER = LogManager.getLogger(WebDriverAction.class.getName());
 
     @FindBy(css = "#create-project-button")
     private WebElement createNewProjectButton;
