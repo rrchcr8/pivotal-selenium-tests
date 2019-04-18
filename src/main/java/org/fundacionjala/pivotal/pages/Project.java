@@ -397,11 +397,19 @@ public class Project extends AbstractPage {
         }
     }
 
+    /**
+     * Capture message.
+     *
+     * @return String with message
+     */
     public String getMessageOnNewProjectForm() {
         action.waitVisibility(errorMessage);
         return errorMessage.getText();
     }
 
+    /**
+     * Click through plus new project option.
+     */
     public void clickCreateNewPRojectOption() {
         action.click(plusNewProjectOption);
     }

@@ -78,6 +78,9 @@ public class Header extends AbstractPage {
         }
     }
 
+    /**
+     * Option over header menu.
+     */
     public void clickCreateNewProject() {
         action.click(createProjectLink);
     }
