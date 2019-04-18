@@ -25,7 +25,7 @@ public class ProjectSteps {
 
     @Autowired
     private ConfirmAction confirm;
-    final String PROJECT = "/projects";
+    static final String PROJECT = "/projects";
 
     /**
      * Create a new project.
