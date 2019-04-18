@@ -331,6 +331,7 @@ public class Project extends AbstractPage {
     private void setEditProjectAccount(final String account) {
         action.click(editAccountLink);
         action.click(editAccountComboBox);
+        action.click(By.xpath("//option[contains(text(),'" + account + "')]"));
 
     }
 
