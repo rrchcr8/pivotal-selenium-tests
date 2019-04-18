@@ -15,26 +15,24 @@ Feature: Story
     And send a DELETE request "/projects/{project_response.id}"
 
 
-  Scenario: delete a story
-    Given sends a POST request "/projects/{project_response.id}/stories"
-      | name | story1 |
-    And stores response as "story_response"
-    And Go to Dashboard
-    And opens a project "project_response.name"
-    When selects the dropdown button of the story "story_response.name"
-    #And click delete button
-    And send a DELETE request "/projects/{project_response.id}"
-
-
-
-
-
-#    Given a project called 'awt-02'
-#    When click on the project link
-#    And click on add Story
-#    And creates a default story as
-#      | NAME        | awt-02-story-01  |
-#      | DESCRIPTION | Test             |
+#  Scenario: delete a story using delete button
+#    Given sends a POST request "/projects/{project_response.id}/stories"
+#      | name | story1 |
+#    And stores response as "story_response"
+#    And Go to Dashboard
+#    And opens a project "project_response.name"
+#    When selects the dropdown button of the story "story_response.name"
+#    #And click delete button
+#    Then Verify that the story "story_response.name" is deleted
+#    And send a DELETE request "/projects/{project_response.id}"
 #
-#    Then the story is created
-#    And it appear listed
+#  Scenario: delete a story using checkbox button
+#    Given sends a POST request "/projects/{project_response.id}/stories"
+#      | name | story2 |
+#    And stores response as "story_response2"
+#    And Go to Dashboard
+#    And opens a project "project_response.name"
+#    When deletes selecting the checkboxof "story_response2.name"
+#    Then Verify that the story "story_response2.name" is deleted
+#    And send a DELETE request "/projects/{project_response.id}"
+

@@ -14,6 +14,12 @@ import java.util.List;
 @Component
 public class Story extends AbstractPage {
     /**
+     * this is the delete button that appears at the top of the page into a
+     * toast.
+     */
+    @FindBy(css = "button[title='Delete selected stories']")
+    private WebElement deleteStoryButtonOfToast;
+     /**
      * This is the delete story button.
      */
     @FindBy(css = "button[title='Delete this story']")
@@ -185,6 +191,25 @@ public class Story extends AbstractPage {
         this.action.click(this.deleteStoryConfirmButton);
 
     }
+
+    /**
+     * select an especific checkbox.
+     * @param text is the name of a speceif story .
+     */
+    public void clickStoryCheckboxButton(final String text) {
+        for (final WebElement element : this.storyCheckBoxes) {
+            element.click();
+            clickDeleteButtonOfToast();
+            clickConfirmDeleteButton();
+             }
+
+    }
+
+    public void clickDeleteButtonOfToast() {
+        this.action.click(this.deleteStoryButtonOfToast);
+
+    }
+
 }
 
 

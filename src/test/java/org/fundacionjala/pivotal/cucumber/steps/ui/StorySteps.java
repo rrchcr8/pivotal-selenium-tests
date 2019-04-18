@@ -11,6 +11,7 @@ import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -71,5 +72,19 @@ public class StorySteps {
     @And("click delete button")
     public void clickDeleteButton() {
         story.clickDeleteButton();
+    }
+
+
+    @When("deletes selecting the checkboxof {string}")
+    public void deletesSelectingTheCheckboxof(String arg0) {
+        final String storyName = StringUtil.getValue(arg0);
+        story.clickStoryCheckboxButton(storyName);
+    }
+
+
+    @Then("Verify that the story {string} is deleted")
+    public void verifyThatTheStoryIsDeleted(String arg0) {
+        final String storyName = StringUtil.getValue(arg0);
+        assertFalse(this.story.existStory(storyName));
     }
 }
