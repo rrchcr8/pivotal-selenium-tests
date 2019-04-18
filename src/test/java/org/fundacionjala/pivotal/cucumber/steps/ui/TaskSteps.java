@@ -4,12 +4,13 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.ProjectService;
 import org.fundacionjala.core.api.services.StoryService;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.pivotal.pages.Tasks;
 import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,16 @@ public class TaskSteps {
     private static final String TASK_NAME = "taskName";
 
     @Autowired
+    private Dashboard dashboard;
+
+    @Autowired
+    private Project project;
+
+    @Autowired
     private Tasks tasksPanel;
 
     /** Step to set default project with story. **/
-    @Given("Project with one story")
+    @And("Project with one story")
     public void projectWithOneStory() {
         final int id = ProjectService.createProject("My test project");
         ScenarioContext.getInstance().setContext("defaultProjectId", id);
@@ -38,6 +45,7 @@ public class TaskSteps {
 
     /**
      * Step to create a task with text.
+     *
      * @param text string.
      */
     @When("Create a task with text {string}")
@@ -58,6 +66,7 @@ public class TaskSteps {
 
     /**
      * Step to modify a task.
+     *
      * @param newText new task value.
      **/
     @When("Modify text by {string}")
@@ -72,6 +81,7 @@ public class TaskSteps {
 
     /**
      * Step to verify that a task doesn't exist.
+     *
      * @param text string.
      */
     @Then("Verify that task {string} doesn't exist")
@@ -81,6 +91,7 @@ public class TaskSteps {
 
     /**
      * Step to verify that a task with text exist.
+     *
      * @param text string
      **/
     @And("Task with name {string} exist")
@@ -90,6 +101,7 @@ public class TaskSteps {
 
     /**
      * Before steps for every feature.
+     *
      * @param scenario Scenario
      **/
     @Before
@@ -100,6 +112,7 @@ public class TaskSteps {
 
     /**
      * After steps for every feature.
+     *
      * @param scenario Scenario
      */
     @After("@DeleteProject")
@@ -119,5 +132,17 @@ public class TaskSteps {
         final String text = (String) ScenarioContext
                 .getContextAsString(TASK_NAME);
         this.tasksPanel.deleteTask(text);
+    }
+
+    /** Step to open a project. **/
+    @And("Go to default project")
+    public void goToDefaultProject() {
+        this.dashboard.goToProject("My test project");
+    }
+
+    /** Step to open a story. **/
+    @And("Open a story")
+    public void openAStory() {
+        this.project.expandOneStory();
     }
 }

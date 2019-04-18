@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.fundacionjala.pivotal.pages.ConfirmAction;
 import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.Project;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProjectSteps {
 
     @Autowired
     private Header header;
+
+    @Autowired
+    private ConfirmAction confirm;
 
     /**
      * Create a new project.
@@ -65,8 +69,8 @@ public class ProjectSteps {
      */
     @When("user click over delete project link")
     public void userClickOverDeleteProjectLink() {
-        project.clickOnDeleteProjectLink();
-        project.clickOnDeleteButton();
+        confirm.clickOnDeleteProjectLink();
+        confirm.clickOnDeleteButton();
     }
 
     /**
@@ -139,6 +143,7 @@ public class ProjectSteps {
      */
     @And("validate creation on header project's list")
     public void validateCreationOnHeaderProjectSList() {
+
         header.openProjectMenu();
         final boolean actual = project.isProjectListedOnMenu();
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
@@ -164,5 +169,17 @@ public class ProjectSteps {
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
 
+    /**
+     * Validate account asignation.
+     *
+     * @param expected String
+     */
+    @Then("validate the {string} result on project account selection")
+    public void validateTheResultOnProjectAccountSelection(final String expected) {
+        if ("Error".equals(expected)) {
+            final String actual = project.getMessageOnNewProjectForm();
+            Assert.assertEquals(actual, "This account has reached its limit of 2 projects.", "Passed if ");
+        }
 
+    }
 }

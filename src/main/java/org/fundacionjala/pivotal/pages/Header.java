@@ -42,6 +42,7 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
+        action.waitVisibility(projecMenu);
         this.action.click(this.projecMenu);
     }
 

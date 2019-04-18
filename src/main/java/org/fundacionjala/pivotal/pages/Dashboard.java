@@ -1,30 +1,35 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.apache.log4j.Logger;
+import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-/** Dashboard page. **/
+/**
+ * Dashboard page.
+ **/
 @Component
 public class Dashboard extends AbstractPage {
     private static final Logger LOGGER =
             Logger.getLogger(Dashboard.class.getName());
 
-    @FindBy(css = ".Dashboard__Tabs__tab.Dashboard__Tabs__tab--active")
+    @FindBys({
+            @FindBy(css = ".Dashboard__Tabs__tab"),
+            @FindBy(xpath = "//span[text()='Projects']")
+    })
     private WebElement projects;
 
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
-            @FindBy(linkText = "Workspaces")
+            @FindBy(xpath = "//span[text()='Workspaces']")
     })
     private WebElement workspaces;
 
@@ -47,7 +52,7 @@ public class Dashboard extends AbstractPage {
     @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
 
-    /** Create project. */
+    /** Create project. **/
     public void createProjectButton() {
         this.action.click(this.createProject);
     }
@@ -60,7 +65,13 @@ public class Dashboard extends AbstractPage {
     /** Go to work space tab. **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
-        this.wait.withTimeout(WAIT_TIME, SECONDS);
+        this.wait.until(ExpectedConditions.visibilityOf(this.createWorkSpace));
+    }
+
+    /** Go to project tab. **/
+    public void goToProjectTab() {
+        this.action.click(this.projects);
+        this.wait.until(ExpectedConditions.visibilityOf(this.createProject));
     }
 
     /**
@@ -177,6 +188,15 @@ public class Dashboard extends AbstractPage {
                 return new WorkSpaceSettings();
             }
         }
-        throw new NoSuchElementException("The work space with name " + name + " was not find");
+        throw new NoSuchElementException(String
+                .format("The work space with name %s was not find", name));
+    }
+
+    /** This method reload dashboard page. **/
+    public void reload() {
+        this.driver.get(Environment.getInstance().getValue("url.base")
+                .concat("/dashboard"));
+        this.wait.until(ExpectedConditions
+                .visibilityOfAllElements(this.projects, this.workspaces));
     }
 }

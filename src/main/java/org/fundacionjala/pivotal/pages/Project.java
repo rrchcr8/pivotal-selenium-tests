@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,10 +49,10 @@ public class Project extends AbstractPage {
     @FindBy(css = "#project_description")
     private WebElement editProjectDescriptionField;
 
-    @FindBy(xpath = "//input[@id='project_enable_tasks' and @type='checkbox']")
+    @FindBy(css = "#project_enable_tasks")
     private WebElement editProjectEnableTask;
 
-    @FindBy(xpath = "//input[@id='project_public' and @type='checkbox']")
+    @FindBy(css = "#project_public")
     private WebElement editProjectPrivacy;
 
     @FindBy(css = "#account_change_link")
@@ -69,7 +70,13 @@ public class Project extends AbstractPage {
     @FindBy(css = ".button.button--lined.button--medium.button--full-width")
     private WebElement showMoreProjectsButton;
 
+    @FindBy(css = ".tc_error_highlight")
+    private WebElement errorMessage;
+
     private String projectName;
+
+    @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
+    private List<WebElement> expandStoryButtons;
 
     /**
      * Clicks the create new project button.
@@ -101,7 +108,6 @@ public class Project extends AbstractPage {
      * @param accountName to select an account from list
      */
     public void selectAccount(final String accountName) {
-
         final boolean onListAccount = action.isExistingSelector(
                 By.xpath("//div[text()='" + accountName + "']"));
 
@@ -139,8 +145,8 @@ public class Project extends AbstractPage {
      */
     public void createNewProject(final Map<String, String> projectElements) {
         clickCreateNewProjectButton();
-        final String theProjectName = projectElements.get("name");
-        setProjectNameTextField(theProjectName);
+
+        setProjectNameTextField(projectElements.get("name"));
         openSelectAccountCombobox();
         selectAccount(projectElements.get("account"));
         selectProjectPrivacy(projectElements.get("privacy"));
@@ -354,5 +360,19 @@ public class Project extends AbstractPage {
      */
     public void loadMainPage(final String section) {
         driver.get(Environment.getInstance().getValue("url.main").concat(section));
+    }
+
+    /**
+     * This method represent expand story action on first story find.
+     **/
+    public void expandOneStory() {
+        if (!this.expandStoryButtons.isEmpty()) {
+            this.action.click(this.expandStoryButtons.get(0));
+        }
+    }
+
+    public String getMessageOnNewProjectForm() {
+        action.waitVisibility(errorMessage);
+        return errorMessage.getText();
     }
 }

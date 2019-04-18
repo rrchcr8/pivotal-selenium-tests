@@ -1,6 +1,7 @@
 package org.fundacionjala.util;
 
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.apache.commons.lang3.StringUtils;
 
 /** This utility class manage string endpoints. **/
@@ -58,8 +59,8 @@ public final class StringUtil {
     public static String getValue(final String key) {
         if (key.contains(".")) {
             final String mainKey = getKey(key, '.');
-            final JsonPath value = (JsonPath) ScenarioContext.getInstance()
-                    .getContext(mainKey);
+            final JsonPath value = ((Response) ScenarioContext.getInstance()
+                    .getContext(mainKey)).body().jsonPath();
             final String subKey = getRestPart(key, '.');
             return value.get(subKey).toString();
         }
