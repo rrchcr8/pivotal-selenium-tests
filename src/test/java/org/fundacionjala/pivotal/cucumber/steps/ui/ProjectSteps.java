@@ -25,7 +25,7 @@ public class ProjectSteps {
 
     @Autowired
     private ConfirmAction confirm;
-    static final String PROJECT = "/projects";
+    static final String PROJECTURI = "/projects";
 
     /**
      * Create a new project.
@@ -87,7 +87,7 @@ public class ProjectSteps {
      */
     @And("the project is not present on active project")
     public void theProjectIsNotPresentOnActiveProject() {
-        project.loadMainPage(PROJECT);
+        project.loadMainPage(PROJECTURI);
         final boolean actual = project.isProjectListedOnProjectPage();
         Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
@@ -155,7 +155,7 @@ public class ProjectSteps {
      */
     @And("validate creation on project's section")
     public void validateCreationOnProjectsSection() {
-        project.loadMainPage(PROJECT);
+        project.loadMainPage(PROJECTURI);
         final boolean actual = project.isProjectListedOnProjectPage();
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
@@ -206,7 +206,7 @@ public class ProjectSteps {
      */
     @Given("An option to create a new project on project's section")
     public void anOptionToCreateANewProjectOnProjectSSection() {
-        project.loadMainPage(PROJECT);
+        project.loadMainPage(PROJECTURI);
         project.clickCreateNewPRojectOption();
     }
 }
