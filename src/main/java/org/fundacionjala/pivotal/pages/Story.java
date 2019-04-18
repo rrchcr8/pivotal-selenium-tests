@@ -1,11 +1,14 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +44,7 @@ public class Story extends AbstractPage {
      */
     @FindBy(css = "a[title='Select this story for bulk actions']")
     private List<WebElement> storyCheckBoxes;
-    /**
-     * This is a list of the story dropdown buttons.
-     */
-    @FindBy(css = "button[data-aid='StoryPreviewItem__expander']")
-    private List<WebElement> storyDropdownButton;
+
 
     /**
      * This is the add story button.
@@ -148,17 +147,7 @@ public class Story extends AbstractPage {
         clickSaveButton();
     }
 
-    /**
-     * This is a smart method creates a story with customizable fields.
-     *
-     * @param storyElements is the elements that can de edited in order to create a story.
-     */
-    public void createStoryDataTable(final Map<String, String> storyElements) {
-        clickAddButton();
-        
-    }
-
-    /**
+     /**
      * this is an interesting method.
      *
      * @param text texto.
@@ -179,12 +168,10 @@ public class Story extends AbstractPage {
      * @param text name of the history
      */
     public void clickstoryDropdownButton(final String text) {
-        for (final WebElement element : this.storyDropdownButton) {
-            element.click();
-            clickDeleteButton();
-            clickConfirmDeleteButton();
-        }
-
+        String xpathExpression = "//span[@data-aid=\"StoryPreviewItem__title\" "
+                .concat("and text()='").concat(text)
+                .concat("']/ancestor::header/child::button");
+        action.click(By.xpath(xpathExpression));
     }
 
     /**

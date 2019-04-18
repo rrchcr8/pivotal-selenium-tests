@@ -72,6 +72,7 @@ public class StorySteps {
     @And("click delete button")
     public void clickDeleteButton() {
         story.clickDeleteButton();
+        story.clickConfirmDeleteButton();
     }
 
 
@@ -86,5 +87,9 @@ public class StorySteps {
     public void verifyThatTheStoryIsDeleted(String arg0) {
         final String storyName = StringUtil.getValue(arg0);
         assertFalse(this.story.existStory(storyName));
+    }
+
+    @When("creates a story with data table")
+    public void createsAStoryWithDataTable() {
     }
 }
