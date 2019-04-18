@@ -5,12 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is the story page with all the locators.
@@ -147,7 +144,7 @@ public class Story extends AbstractPage {
         clickSaveButton();
     }
 
-     /**
+    /**
      * this is an interesting method.
      *
      * @param text texto.
@@ -204,6 +201,9 @@ public class Story extends AbstractPage {
 
     }
 
+    /**
+     * this method clicks the delete button.
+     */
     public void clickDeleteButtonOfToast() {
         this.action.click(this.deleteStoryButtonOfToast);
 

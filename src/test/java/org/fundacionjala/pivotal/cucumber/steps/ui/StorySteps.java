@@ -46,7 +46,7 @@ public class StorySteps {
     }
 
     /**
-     *
+     * this method verifies that a story is created.
      */
     @Then("verify the story is created")
     public void verifytheStoryIsCreated() {
@@ -62,6 +62,11 @@ public class StorySteps {
         story.createStory(arg1);
     }
 
+    /**
+     * This method clicks the expand button for a specific story.
+     *
+     * @param storyKeyName the name of the story.
+     */
     @When("selects the dropdown button of the story {string}")
     public void selectsTheDropdownButtonOfTheStory(final String storyKeyName) {
         final String storyName = StringUtil.getValue(storyKeyName);
@@ -69,26 +74,36 @@ public class StorySteps {
 
     }
 
+    /** This method clicks the delete button inside the story page. */
     @And("click delete button")
     public void clickDeleteButton() {
         story.clickDeleteButton();
         story.clickConfirmDeleteButton();
     }
 
-
+    /**
+     * Not a reliable method.
+     *
+     * @param arg0 not really sure (it was in progress).
+     */
     @When("deletes selecting the checkboxof {string}")
-    public void deletesSelectingTheCheckboxof(String arg0) {
+    public void deletesSelectingTheCheckboxof(final String arg0) {
         final String storyName = StringUtil.getValue(arg0);
         story.clickStoryCheckboxButton(storyName);
     }
 
-
+    /**
+     * @param storyNameKey is the name of the story.
+     */
     @Then("Verify that the story {string} is deleted")
-    public void verifyThatTheStoryIsDeleted(String arg0) {
-        final String storyName = StringUtil.getValue(arg0);
+    public void verifyThatTheStoryIsDeleted(final String storyNameKey) {
+        final String storyName = StringUtil.getValue(storyNameKey);
         assertFalse(this.story.existStory(storyName));
     }
 
+    /**
+     * Method in progress.
+     */
     @When("creates a story with data table")
     public void createsAStoryWithDataTable() {
     }
