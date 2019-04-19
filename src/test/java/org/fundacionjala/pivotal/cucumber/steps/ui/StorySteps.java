@@ -101,10 +101,4 @@ public class StorySteps {
         assertFalse(this.story.existStory(storyName));
     }
 
-    /**
-     * Method in progress.
-     */
-    @When("creates a story with data table")
-    public void createsAStoryWithDataTable() {
-    }
 }
