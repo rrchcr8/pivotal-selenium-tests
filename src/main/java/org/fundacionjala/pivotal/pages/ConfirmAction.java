@@ -32,7 +32,7 @@ public class ConfirmAction extends AbstractPage {
     }
 
     /**
-     * Cofirm deletion.
+     * Confirm deletion.
      */
     public void clickOnDeleteButton() {
         action.click(confirmDelete);
@@ -47,10 +47,10 @@ public class ConfirmAction extends AbstractPage {
     }
 
     /**
-     * Cofirm deletion.
+     * Confirm archive.
      */
     public void clickOnArchiveButton() {
-        action.click(confirmDelete);
+        action.click(confirmArchive);
     }
 
 

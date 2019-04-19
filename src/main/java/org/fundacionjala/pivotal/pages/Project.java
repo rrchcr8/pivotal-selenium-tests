@@ -370,13 +370,6 @@ public class Project extends AbstractPage {
 
     /**
      * Each scenario start on main page.
-     */
-    public void loadMainPage() {
-        driver.get(Environment.getInstance().getValue("url.base"));
-    }
-
-    /**
-     * Each scenario start on main page.
      *
      * @param section String to specific URI
      */

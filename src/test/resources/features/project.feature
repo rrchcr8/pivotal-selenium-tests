@@ -3,7 +3,7 @@ Feature: Project
 
   Background:
     Given logs in with user "owner1"
-    And User is located on main page
+    And Go to Dashboard
 
   Scenario: Create new project from Dashboard
     Given A create new button on dashboard

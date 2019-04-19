@@ -17,15 +17,13 @@ import java.util.Map;
  */
 public class ProjectSteps {
 
+    static final String PROJECTURI = "/projects";
     @Autowired
     private Project project;
-
     @Autowired
     private Header header;
-
     @Autowired
     private ConfirmAction confirm;
-    static final String PROJECTURI = "/projects";
 
     /**
      * Create a new project.
@@ -132,19 +130,10 @@ public class ProjectSteps {
     }
 
     /**
-     * Start form main page.
-     */
-    @And("User is located on main page")
-    public void userIsLocatedOnMainPage() {
-        project.loadMainPage();
-    }
-
-    /**
      * Check existance of project's name on header menu list.
      */
     @And("validate creation on header project's list")
     public void validateCreationOnHeaderProjectSList() {
-
         header.openProjectMenu();
         final boolean actual = project.isProjectListedOnMenu();
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
@@ -181,7 +170,6 @@ public class ProjectSteps {
             final String actual = project.getMessageOnNewProjectForm();
             Assert.assertEquals(actual, "This account has reached its limit of 2 projects.", "Passed if ");
         }
-
     }
 
     /**

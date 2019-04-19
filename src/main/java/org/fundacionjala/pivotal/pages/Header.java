@@ -45,9 +45,9 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
-        action.pause();
-        action.waitVisibility(projecMenu);
-        this.action.click(projecMenu);
+        this.action.pause();
+        this.action.waitVisibility(this.projecMenu);
+        this.action.click(this.projecMenu);
     }
 
     /**
@@ -82,6 +82,6 @@ public class Header extends AbstractPage {
      * Option over header menu.
      */
     public void clickCreateNewProject() {
-        action.click(createProjectLink);
+        this.action.click(this.createProjectLink);
     }
 }
