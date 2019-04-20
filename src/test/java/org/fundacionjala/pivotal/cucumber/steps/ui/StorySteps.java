@@ -90,11 +90,11 @@ public class StorySteps {
     /**
      * Not a reliable method.
      *
-     * @param arg0 not really sure (it was in progress).
+     * @param storyNameKey not really sure (it was in progress).
      */
     @When("selects the bulk of {string}")
-    public void deletesSelectingTheCheckboxof(final String arg0) {
-        final String storyName = StringUtil.getValue(arg0);
+    public void deletesSelectingTheCheckboxof(final String storyNameKey) {
+        final String storyName = StringUtil.getValue(storyNameKey);
         panel.clickStoryCheckboxButton(storyName);
 
 
