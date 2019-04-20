@@ -89,7 +89,6 @@ public class StorySteps {
     @And("click delete button")
     public void clickDeleteButton() {
         story.clickDeleteButton();
-        //deleteModal.clickConfirmDeleteButton();
     }
 
     /**
