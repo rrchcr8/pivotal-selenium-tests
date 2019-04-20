@@ -6,7 +6,7 @@ Feature: Story
       | name | a1 |
     And stores response as "project_response"
 
-  Scenario:
+  Scenario: create a story with the minimum required field
     Given logs in with user "owner1"
     And Go to Dashboard
     And opens a project "project_response.name"
@@ -14,19 +14,3 @@ Feature: Story
     Then verify the story is created
     And sends a DELETE request "/projects/{project_response.id}"
 
-
-
-
-
-
-
-
-#    Given a project called 'awt-02'
-#    When click on the project link
-#    And click on add Story
-#    And creates a default story as
-#      | NAME        | awt-02-story-01  |
-#      | DESCRIPTION | Test             |
-#
-#    Then the story is created
-#    And it appear listed
