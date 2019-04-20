@@ -36,7 +36,7 @@ public class ApiSteps {
      *
      * @param arg0 end point bareURl
      */
-    @And("send a DELETE request {string}")
+    @And("sends a DELETE request {string}")
     public void sendADELETERequest(final String arg0) {
         final String url = StringUtil.getExplicitEndpoint(arg0);
         resp = RequestManager.deleteRequest(url);

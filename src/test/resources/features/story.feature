@@ -12,5 +12,5 @@ Feature: Story
     And opens a project "project_response.name"
     When creates a story called "carlos test"
     Then verify the story is created
-    And send a DELETE request "/projects/{project_response.id}"
+    And sends a DELETE request "/projects/{project_response.id}"
 

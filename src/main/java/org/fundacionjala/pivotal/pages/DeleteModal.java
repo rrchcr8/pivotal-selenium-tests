@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
 /**
- * this is a modal that is used to confirm a story delete.
+ * This is a modal that is used to confirm a story delete.
  */
 @Component
 public class DeleteModal extends AbstractPage {

@@ -1,7 +1,6 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -14,22 +13,12 @@ import java.util.List;
  */
 @Component
 public class Story extends AbstractPage {
-    /**
-     * this is the delete button that appears at the top of the page into a
-     * toast.
-     */
-    @FindBy(css = "button[title='Delete selected stories']")
-    private WebElement deleteStoryButtonOfToast;
+
     /**
      * This is the delete story button.
      */
     @FindBy(css = "button[title='Delete this story']")
     private WebElement deleteStoryButton;
-    /**
-     * This is the delete confirm story button.
-     */
-    @FindBy(css = "button[data-aid='DeleteButton']")
-    private WebElement deleteStoryConfirmButton;
     /**
      * This is the add story button.
      */
@@ -159,17 +148,6 @@ public class Story extends AbstractPage {
         return false;
     }
 
-    /**
-     * click dropdown story button..
-     *
-     * @param text name of the history
-     */
-    public void clickstoryDropdownButton(final String text) {
-        String xpathExpression = "//span[@data-aid=\"StoryPreviewItem__title\" "
-                .concat("and text()='").concat(text)
-                .concat("']/ancestor::header/child::button");
-        action.click(By.xpath(xpathExpression));
-    }
 
     /**
      * click delete button.
@@ -178,37 +156,4 @@ public class Story extends AbstractPage {
         this.action.click(this.deleteStoryButton);
 
     }
-
-    /**
-     * click delete button.
-     */
-    public void clickConfirmDeleteButton() {
-        this.action.click(this.deleteStoryConfirmButton);
-
-    }
-
-    /**
-     * select an especific checkbox.
-     *
-     * @param text is the name of a speceif story .
-     */
-    public void clickStoryCheckboxButton(final String text) {
-        for (final WebElement element : this.storyCheckBoxes) {
-            element.click();
-            clickDeleteButtonOfToast();
-            clickConfirmDeleteButton();
-        }
-
-    }
-
-    /**
-     * this method clicks the delete button.
-     */
-    public void clickDeleteButtonOfToast() {
-        this.action.click(this.deleteStoryButtonOfToast);
-
-    }
-
 }
-
-

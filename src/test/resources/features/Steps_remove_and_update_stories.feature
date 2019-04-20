@@ -14,7 +14,7 @@ Feature: Story second part
     And Go to Dashboard
     And opens a project "project_response.name"
     #expands the story "story_response.name"
-    When selects the dropdown button of the story "story_response.name"
+    When expands the story "story_response.name"
     And click delete button
     And click confirm delete button
     Then Verify that the story "story_response.name" is deleted

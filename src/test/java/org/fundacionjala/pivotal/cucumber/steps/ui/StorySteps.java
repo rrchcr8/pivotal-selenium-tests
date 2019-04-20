@@ -4,9 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Project;
-import org.fundacionjala.pivotal.pages.Story;
+import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,13 @@ public class StorySteps {
     private Dashboard dashboard;
     @Autowired
     private Story story;
+    @Autowired
+    private Panel panel;
+    @Autowired
+    private HeaderContainer headerContainer;
+    @Autowired
+    private DeleteModal deleteModal;
+
 
     /**
      * Given step for story feature.
@@ -67,18 +72,19 @@ public class StorySteps {
      *
      * @param storyKeyName the name of the story.
      */
-    @When("selects the dropdown button of the story {string}")
-    public void selectsTheDropdownButtonOfTheStory(final String storyKeyName) {
+    @When("expands the story {string}")
+    public void expandsTheStory(final String storyKeyName) {
         final String storyName = StringUtil.getValue(storyKeyName);
-        story.clickstoryDropdownButton(storyName);
-
+        panel.expandStory(storyName);
     }
 
-    /** This method clicks the delete button inside the story page. */
+    /**
+     * This method clicks the delete button inside the story page.
+     */
     @And("click delete button")
     public void clickDeleteButton() {
         story.clickDeleteButton();
-        story.clickConfirmDeleteButton();
+        //deleteModal.clickConfirmDeleteButton();
     }
 
     /**
@@ -86,10 +92,12 @@ public class StorySteps {
      *
      * @param arg0 not really sure (it was in progress).
      */
-    @When("deletes selecting the checkboxof {string}")
+    @When("selects the bulk of {string}")
     public void deletesSelectingTheCheckboxof(final String arg0) {
         final String storyName = StringUtil.getValue(arg0);
-        story.clickStoryCheckboxButton(storyName);
+        panel.clickStoryCheckboxButton(storyName);
+
+
     }
 
     /**
@@ -101,4 +109,15 @@ public class StorySteps {
         assertFalse(this.story.existStory(storyName));
     }
 
+    /** clicks the button of the header container. */
+    @And("click delete button of Header container")
+    public void clickDeleteButtonOfHeaderContainer() {
+        headerContainer.clickDeleteButtonOfToast();
+    }
+
+    /** Confirm button. */
+    @And("click confirm delete button")
+    public void clickConfirmDeleteButton() {
+        deleteModal.clickConfirmDeleteButton();
+    }
 }
