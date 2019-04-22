@@ -42,17 +42,17 @@ public class StorySteps {
      */
     @Given("a project called {string}")
     public void aProjectCalled(final String arg0) {
-        dashboard.goToProject(arg0);
-        story.createStory("ird test");
+        this.dashboard.goToProject(arg0);
+        this.story.createStory("ird test");
     }
 
     /**
-     * @param arg0 the name of the story.
+     * @param name the name of the story.
      */
     @When("creates a story called {string}")
-    public void createsAStoryCalled(final String arg0) {
-        story.createStory(arg0);
-        ScenarioContext.getInstance().setContext("story_name", arg0);
+    public void createsAStoryCalled(final String name) {
+        this.story.createStory(name);
+        ScenarioContext.getInstance().setContext("story_name", name);
     }
 
     /**
@@ -69,7 +69,7 @@ public class StorySteps {
      */
     @When("creates other a story called {string}")
     public void createsOtherAStoryCalled(final String arg1) {
-        story.createStory(arg1);
+        this.story.createStory(arg1);
     }
 
     /**
