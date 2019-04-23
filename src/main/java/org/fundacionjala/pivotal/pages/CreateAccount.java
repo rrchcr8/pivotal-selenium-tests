@@ -1,4 +1,9 @@
 package org.fundacionjala.pivotal.pages;
 
-public class CreateAccount {
+import org.fundacionjala.core.ui.AbstractPage;
+
+/**
+ * This is page for create accounts.
+ */
+public class CreateAccount extends AbstractPage {
 }
