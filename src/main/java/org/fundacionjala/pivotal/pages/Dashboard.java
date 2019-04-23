@@ -61,6 +61,9 @@ public class Dashboard extends AbstractPage {
     @FindBy(css = "#projects-search-bar")
     private WebElement searchInput;
 
+    private final String projectXpath =
+            "//a[@data-aid='project-name' and contains(text(),'%s')]";
+
     /** Create project. **/
     public void createProjectButton() {
         this.action.click(this.createProject);
@@ -100,7 +103,12 @@ public class Dashboard extends AbstractPage {
      * @return boolean
      **/
     public boolean existProject(final String name) {
-        return hasElementWithName(this.projectNames, name);
+        if (this.action.isExistingSelector(By
+                .cssSelector("button[data-aid='show-more-projects-button']"))) {
+            this.action.click(this.showMoreProjects);
+        }
+        return this.action.isExistingSelector(
+                By.xpath(String.format(this.projectXpath, name)));
     }
 
     /**
@@ -203,6 +211,26 @@ public class Dashboard extends AbstractPage {
         }
         throw new NoSuchElementException(String
                 .format("The work space with name %s was not find", name));
+    }
+
+    /**
+     * Given a project name open settings section.
+     *
+     * @param projectName Name of project
+     */
+    public void openProjectSettings(final String projectName) {
+        if (this.action.isExistingSelector(By
+                .cssSelector("button[data-aid='show-more-projects-button']"))) {
+            this.action.click(this.showMoreProjects);
+        }
+
+        final WebElement projectItem = this.driver.findElement(
+                By.xpath(String.format(this.projectXpath, projectName)));
+        final String linkText = projectItem.getAttribute("pathname");
+        final WebElement projectItemSettingElement = this.driver.findElement(
+                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "/settings']")
+        );
+        this.action.click(projectItemSettingElement);
     }
 
     /** This method reload dashboard page. **/
