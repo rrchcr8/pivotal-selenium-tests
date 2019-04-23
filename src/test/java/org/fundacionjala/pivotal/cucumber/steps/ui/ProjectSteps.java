@@ -99,7 +99,7 @@ public class ProjectSteps {
         this.header.openMenu();
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectWsList.isProjectListedOnPage(
-				    this.project.getProjectName());
+        this.project.getProjectName());
         Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
 
