@@ -4,7 +4,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.pivotal.pages.ConfirmAction;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
+import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
@@ -144,7 +149,7 @@ public class ProjectSteps {
     public void validateCreationOnHeaderProjectSList() {
         this.header.openProjectMenu();
         final boolean actual = this.menu.isProjectListedOnMenu(
-				    this.project.getProjectName());
+            this.project.getProjectName());
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
     }
 
@@ -156,7 +161,7 @@ public class ProjectSteps {
         this.header.openMenu();
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectWsList.isProjectListedOnPage(
-				    this.project.getProjectName());
+            this.project.getProjectName());
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
@@ -167,7 +172,7 @@ public class ProjectSteps {
     public void priorProjectSNameNoLongerListed() {
         this.header.openProjectMenu();
         final boolean actual = this.menu.isProjectListedOnMenu(
-				    this.project.getProjectName());
+            this.project.getProjectName());
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
 
