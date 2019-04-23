@@ -2,8 +2,10 @@ package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
+import org.springframework.stereotype.Component;
 
 /** This class represent workspace and project list page. **/
+@Component
 public class ProjectWorkspaceList extends AbstractPage {
 
     /**

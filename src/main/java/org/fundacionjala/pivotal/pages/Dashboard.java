@@ -224,13 +224,11 @@ public class Dashboard extends AbstractPage {
             this.action.click(this.showMoreProjects);
         }
 
-        final WebElement projectItem = this.driver.findElement(
-                By.xpath(String.format(this.projectXpath, projectName)));
-        final String linkText = projectItem.getAttribute("pathname");
-        final WebElement projectItemSettingElement = this.driver.findElement(
-                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "/settings']")
-        );
-        this.action.click(projectItemSettingElement);
+        final String linkText = this.action.getAttribute(
+                By.xpath(String.format(this.projectXpath, projectName)),
+                "pathname");
+        this.action.click(By.xpath("//a[@aria-label='settings' and @href='"
+                .concat(linkText).concat("/settings']")));
     }
 
     /** This method reload dashboard page. **/

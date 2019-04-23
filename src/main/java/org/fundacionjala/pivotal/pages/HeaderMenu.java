@@ -4,11 +4,13 @@ import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.stereotype.Component;
 
 /**
  * This class represent the menu opened on header when you click over.
  * project/workspace title.
  **/
+@Component
 public class HeaderMenu extends AbstractPage {
     @FindBy(css = "a[href='/projects']")
     private WebElement showAllProjectsWorkSpaces;
