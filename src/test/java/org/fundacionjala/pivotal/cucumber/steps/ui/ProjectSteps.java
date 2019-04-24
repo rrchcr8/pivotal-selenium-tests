@@ -5,8 +5,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fundacionjala.pivotal.pages.ConfirmAction;
+import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
 import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
@@ -23,7 +26,13 @@ public class ProjectSteps {
     @Autowired
     private Header header;
     @Autowired
+    private Dashboard dashboard;
+    @Autowired
     private ConfirmAction confirm;
+    @Autowired
+    private HeaderMenu menu;
+    @Autowired
+    private ProjectWorkspaceList projectList;
 
     /**
      * Create a new project.
@@ -32,7 +41,7 @@ public class ProjectSteps {
      */
     @When("user creates project as")
     public void userCreatesNewProjectAs(final Map<String, String> projectAttributes) {
-        project.createNewProject(projectAttributes);
+        this.project.createNewProject(projectAttributes);
     }
 
     /**
@@ -40,8 +49,8 @@ public class ProjectSteps {
      */
     @Then("validate creation on project's dashboard")
     public void validateTheProjectIsCreatedWithSpecifyName() {
-        final String actual = project.getProjectNameOnDashboard();
-        Assert.assertEquals(actual, project.getProjectName(), "Project name match");
+        final String actual = this.header.getTitleName();
+        Assert.assertEquals(actual, this.project.getProjectName(), "Project name match");
     }
 
     /**
@@ -51,7 +60,7 @@ public class ProjectSteps {
      */
     @Given("an existing project named as {string} that user intends to delete")
     public void anExistingProjectNamedAsThatUserIntendsToDelete(final String projectName) {
-        project.setProjectName(projectName);
+        this.project.setProjectName(projectName);
     }
 
     /**
@@ -59,8 +68,8 @@ public class ProjectSteps {
      */
     @And("open project's settings")
     public void openProjectsSettings() {
-        final String projectName = project.getProjectName();
-        project.openProjectSettingsbyName(projectName);
+        final String projectName = this.project.getProjectName();
+        this.dashboard.openProjectSettings(projectName);
     }
 
     /**
@@ -68,8 +77,8 @@ public class ProjectSteps {
      */
     @When("user click over delete project link")
     public void userClickOverDeleteProjectLink() {
-        confirm.clickOnDeleteProjectLink();
-        confirm.clickOnDeleteButton();
+        this.confirm.clickOnDeleteProjectLink();
+        this.confirm.clickOnDeleteButton();
     }
 
     /**
@@ -77,7 +86,9 @@ public class ProjectSteps {
      */
     @Then("The project no longer appear on projects section")
     public void theProjectNoLongerAppearOnProjectsSection() {
-        Assert.assertFalse(project.isProjectListedOnMainPage(), "False if project is not listed after deletion");
+        Assert.assertFalse(this.dashboard.existProject(
+                this.project.getProjectName()),
+                "False if project is not listed after deletion");
     }
 
     /**
@@ -85,8 +96,10 @@ public class ProjectSteps {
      */
     @And("the project is not present on active project")
     public void theProjectIsNotPresentOnActiveProject() {
-        project.loadMainPage(PROJECTURI);
-        final boolean actual = project.isProjectListedOnProjectPage();
+        this.header.openMenu();
+        this.menu.showAllProjectsWorkSpaces();
+        final boolean actual = this.projectList.isProjectListedOnPage(
+                this.project.getProjectName());
         Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
 
@@ -97,8 +110,8 @@ public class ProjectSteps {
      */
     @Given("an existing project known as {string} that user intends to edit")
     public void anExistingProjectKnownAsThatUserIntendsToEdit(final String projectName) {
-        project.setProjectName(projectName);
-        project.openProjectSettingsbyName(projectName);
+        this.project.setProjectName(projectName);
+        this.dashboard.openProjectSettings(projectName);
     }
 
     /**
@@ -108,8 +121,8 @@ public class ProjectSteps {
      */
     @And("change values on form as")
     public void changeValuesOnFormAs(final Map<String, String> projectAttributes) {
-        project.setValuesOnEditProjectForm(projectAttributes);
-        project.saveFormOnEditProject();
+        this.project.setValuesOnEditProjectForm(projectAttributes);
+        this.project.saveFormOnEditProject();
     }
 
     /**
@@ -117,7 +130,7 @@ public class ProjectSteps {
      */
     @When("user press save button")
     public void userPressSaveButton() {
-        project.saveFormOnEditProject();
+        this.project.saveFormOnEditProject();
     }
 
     /**
@@ -125,7 +138,7 @@ public class ProjectSteps {
      */
     @Then("A successful message is displayed")
     public void aSuccessfulMessageIsDisplayed() {
-        final boolean actual = project.getResponseMessage();
+        final boolean actual = this.project.getResponseMessage();
         Assert.assertTrue(actual, "Passed if edit project was processed");
     }
 
@@ -134,8 +147,9 @@ public class ProjectSteps {
      */
     @And("validate creation on header project's list")
     public void validateCreationOnHeaderProjectSList() {
-        header.openProjectMenu();
-        final boolean actual = project.isProjectListedOnMenu();
+        this.header.openProjectMenu();
+        final boolean actual = this.menu.isProjectListedOnMenu(
+                this.project.getProjectName());
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
     }
 
@@ -144,8 +158,10 @@ public class ProjectSteps {
      */
     @And("validate creation on project's section")
     public void validateCreationOnProjectsSection() {
-        project.loadMainPage(PROJECTURI);
-        final boolean actual = project.isProjectListedOnProjectPage();
+        this.header.openMenu();
+        this.menu.showAllProjectsWorkSpaces();
+        final boolean actual = this.projectList.isProjectListedOnPage(
+                this.project.getProjectName());
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
@@ -154,8 +170,9 @@ public class ProjectSteps {
      */
     @And("Prior project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
-        header.openProjectMenu();
-        final boolean actual = project.isProjectListedOnMenu();
+        this.header.openProjectMenu();
+        final boolean actual = this.menu.isProjectListedOnMenu(
+                this.project.getProjectName());
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
 
@@ -167,7 +184,7 @@ public class ProjectSteps {
     @Then("validate the {string} result on project account selection")
     public void validateTheResultOnProjectAccountSelection(final String expected) {
         if ("Error".equals(expected)) {
-            final String actual = project.getMessageOnNewProjectForm();
+            final String actual = this.project.getMessageOnNewProjectForm();
             Assert.assertEquals(actual, "This account has reached its limit of 2 projects.", "Passed if ");
         }
     }
@@ -177,7 +194,7 @@ public class ProjectSteps {
      */
     @Given("A create new button on dashboard")
     public void aCreateNewButtonOnDashboard() {
-        project.clickCreateNewProjectButton();
+        this.project.clickCreateNewProjectButton();
     }
 
     /**
@@ -185,8 +202,8 @@ public class ProjectSteps {
      */
     @Given("A create new button on header menu")
     public void aCreateNewButtonOnHeaderMenu() {
-        header.openProjectMenu();
-        header.clickCreateNewProject();
+        this.header.openProjectMenu();
+        this.header.clickCreateNewProject();
     }
 
     /**
@@ -194,7 +211,8 @@ public class ProjectSteps {
      */
     @Given("An option to create a new project on project's section")
     public void anOptionToCreateANewProjectOnProjectSSection() {
-        project.loadMainPage(PROJECTURI);
-        project.clickCreateNewPRojectOption();
+        this.header.openMenu();
+        this.menu.showAllProjectsWorkSpaces();
+        this.project.clickCreateNewPRojectOption();
     }
 }
