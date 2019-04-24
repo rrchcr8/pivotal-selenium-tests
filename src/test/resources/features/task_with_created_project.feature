@@ -4,7 +4,7 @@ Feature: Task management
   Background:
     Given logs in with user "owner1"
     And Project with one story
-    And Go to Dashboard
+    And Go to Dashboard "project"
     And Go to default project
     And Open a story
 
