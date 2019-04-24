@@ -8,7 +8,7 @@ Feature: Story
 
   Scenario: create a story with the minimum required field
     Given logs in with user "owner1"
-    And Go to Dashboard
+    And Go to Dashboard "project"
     And opens a project "project_response.name"
     When creates a story called "carlos test"
     Then verify the story is created

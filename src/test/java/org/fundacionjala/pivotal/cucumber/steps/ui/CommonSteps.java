@@ -37,10 +37,17 @@ public class CommonSteps {
                 Environment.getInstance().getValue(passwordKey));
     }
 
-    /** This method reload page to go dashboard. **/
-    @And("Go to Dashboard")
-    public void goToDashboard() {
+    /**
+     * This method reload page to go dashboard.
+     *
+     * @param tabName name of dashboard tab.
+     **/
+    @And("Go to Dashboard {string}")
+    public void goToDashboardAndTab(final String tabName) {
         this.dashboard.reload();
+        if (tabName.toLowerCase().contains("workspace")) {
+            this.dashboard.goToWorkSpaceTab();
+        }
     }
 
     /**
