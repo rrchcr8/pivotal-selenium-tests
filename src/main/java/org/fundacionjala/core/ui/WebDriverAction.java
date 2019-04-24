@@ -16,8 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class WebDriverAction {
     private static final Logger LOGGER = LogManager.getLogger(WebDriverAction.class.getName());
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     /**
      * Constructor.
@@ -38,7 +38,7 @@ public class WebDriverAction {
      * @param value   text
      */
     public void setValue(final WebElement element, final String value) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
         element.clear();
         element.sendKeys(value);
     }
@@ -49,8 +49,8 @@ public class WebDriverAction {
      * @param element to scroll to
      */
     public void scrollToElement(final WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        this.wait.until(ExpectedConditions.elementToBeClickable(element));
+        final JavascriptExecutor js = (JavascriptExecutor) this.driver;
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
@@ -60,7 +60,7 @@ public class WebDriverAction {
      * @param element to click.
      */
     public void click(final WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element))
+        this.wait.until(ExpectedConditions.elementToBeClickable(element))
                 .click();
     }
 
@@ -70,7 +70,7 @@ public class WebDriverAction {
      * @param locator Input By.
      */
     public void click(final By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        this.wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
     /**
@@ -79,7 +79,7 @@ public class WebDriverAction {
      * @param element Input WebElement.
      */
     public void waitVisibility(final WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     /**
@@ -88,7 +88,7 @@ public class WebDriverAction {
      * @param element Input By locator.
      */
     public void waitVisibility(final By element) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+        this.wait.until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 
     /**
@@ -97,7 +97,7 @@ public class WebDriverAction {
      * @param element input .
      */
     public void staleElement(final WebElement element) {
-        wait.until(ExpectedConditions.stalenessOf(element));
+        this.wait.until(ExpectedConditions.stalenessOf(element));
     }
 
     /**
@@ -107,7 +107,7 @@ public class WebDriverAction {
      * @return Web Element.
      */
     public WebElement waitPresenceOfElement(final By element) {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(element));
+        return this.wait.until(ExpectedConditions.presenceOfElementLocated(element));
     }
 
     /**
@@ -117,8 +117,33 @@ public class WebDriverAction {
      * @return the value of String type.
      */
     public String getValue(final By element) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(element));
-        return driver.findElement(element).getText();
+        this.wait.until(ExpectedConditions.presenceOfElementLocated(element));
+        return this.driver.findElement(element).getText();
+    }
+
+    /**
+     * Method for return attribute By element.
+     *
+     * @param element   By type.
+     * @param attribute to search.
+     * @return String.
+     */
+    public String getAttribute(final By element, final String attribute) {
+        this.wait.until(ExpectedConditions.presenceOfElementLocated(element));
+        final WebElement webElement = this.driver.findElement(element);
+        return webElement.getAttribute(attribute);
+    }
+
+    /**
+     * Method for return attribute By element.
+     *
+     * @param element   WebElement.
+     * @param attribute to search.
+     * @return String.
+     */
+    public String getAttribute(final WebElement element, final String attribute) {
+        this.wait.until(ExpectedConditions.stalenessOf(element));
+        return element.getAttribute(attribute);
     }
 
     /**
@@ -129,8 +154,8 @@ public class WebDriverAction {
      */
     public boolean isExistingSelector(final By element) {
         try {
-            driver.findElement(element);
-        } catch (NoSuchElementException e) {
+            this.driver.findElement(element);
+        } catch (final NoSuchElementException e) {
             LOGGER.warn(String.format("Method: isExistingSelectorBy -> FALSE %s", element));
             return false;
         }
@@ -153,7 +178,7 @@ public class WebDriverAction {
     public void pause(final int timeOut) {
         try {
             Thread.sleep(timeOut);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             LOGGER.error("Error in the sleep: ", e);
             Thread.currentThread().interrupt();
         }

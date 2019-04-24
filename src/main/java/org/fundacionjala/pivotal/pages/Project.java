@@ -1,6 +1,5 @@
 package org.fundacionjala.pivotal.pages;
 
-import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.fundacionjala.core.ui.forms.FormsElements;
 import org.openqa.selenium.By;
@@ -36,9 +35,6 @@ public class Project extends AbstractPage {
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
 
-    @FindBy(css = ".raw_context_name")
-    private WebElement titleOnDashboard;
-
     @FindBy(linkText = "Delete")
     private WebElement deleteLink;
 
@@ -68,9 +64,6 @@ public class Project extends AbstractPage {
 
     @FindBy(css = "#save_success_bar")
     private WebElement successBar;
-
-    @FindBy(css = ".button.button--lined.button--medium.button--full-width")
-    private WebElement showMoreProjectsButton;
 
     @FindBy(css = ".tc_error_highlight")
     private WebElement errorMessage;
@@ -133,7 +126,6 @@ public class Project extends AbstractPage {
      * @param accountName name of the new account
      */
     private void createAccount(final String accountName) {
-
         action.setValue(newAccountField, accountName);
     }
 
@@ -177,16 +169,6 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * Capture project's name on dashboard.
-     *
-     * @return title text displayed on dashboard
-     */
-    public String getProjectNameOnDashboard() {
-        action.waitPresenceOfElement(By.className("raw_context_name"));
-        return titleOnDashboard.getAttribute("innerHTML");
-    }
-
-    /**
      * Method to return project's name from context.
      *
      * @return context value on project name
@@ -201,32 +183,7 @@ public class Project extends AbstractPage {
      * @param strProjectName project name
      */
     public void setProjectName(final String strProjectName) {
-
-        if (action.isExistingSelector(
-                By.xpath("//button[@class='button button--lined button--medium button--full-width']"))) {
-            action.click(showMoreProjectsButton);
-        }
         this.projectName = strProjectName;
-    }
-
-    /**
-     * Given a project name open settings section.
-     *
-     * @param projectName Name of project
-     */
-    public void openProjectSettingsbyName(final String projectName) {
-        if (action.isExistingSelector(
-                By.xpath("//button[@class='button button--lined button--medium button--full-width']"))) {
-            action.click(showMoreProjectsButton);
-        }
-
-        final WebElement projectItem = driver.findElement(
-                By.xpath("//a[@data-aid='project-name' and contains(text(),'" + projectName + "')]"));
-        final String linkText = projectItem.getAttribute("pathname");
-        final WebElement projectItemSettingElement = driver.findElement(
-                By.xpath("//a[@aria-label='settings' and @href='" + linkText + "/settings']")
-        );
-        action.click(projectItemSettingElement);
     }
 
     /**
@@ -245,42 +202,11 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * To check if project is listed on main page.
-     *
-     * @return Boolean true if it is seeing on page
-     */
-    public boolean isProjectListedOnMainPage() {
-        return action.isExistingSelector(
-                By.xpath("//a[@data-aid='project-name' and contains(text(),'" + this.getProjectName() + "')]"));
-    }
-
-    /**
-     * To check if project is listed on header menu.
-     *
-     * @return Boolean true if it is seeing on contextual menu
-     */
-    public boolean isProjectListedOnMenu() {
-        return action.isExistingSelector(
-                By.xpath("//span[@class='raw_project_name' and contains(text(),'" + this.getProjectName() + "')]"));
-    }
-
-    /**
-     * To check if project is listed on header menu.
-     *
-     * @return Boolean true if it is seeing on contextual menu
-     */
-    public boolean isProjectListedOnProjectPage() {
-        return action.isExistingSelector(
-                By.xpath("//a[@class='project_name' and contains(text(),'" + this.getProjectName() + "')]"));
-    }
-
-    /**
      * Set values on form as specified.
      *
      * @param projectElements Attributes to set on form
      */
     public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
-
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.TITLE.toString(),
                 () -> setEditProjectTitle(projectElements.get("title")));
@@ -328,7 +254,6 @@ public class Project extends AbstractPage {
         action.click(editAccountLink);
         action.click(editAccountComboBox);
         action.click(By.xpath("//option[contains(text(),'" + account + "')]"));
-
     }
 
     /**
@@ -338,7 +263,6 @@ public class Project extends AbstractPage {
      */
     private void setEditProjectDescription(final String description) {
         action.setValue(editProjectDescriptionField, description);
-
     }
 
     /**
@@ -365,16 +289,6 @@ public class Project extends AbstractPage {
      */
     public boolean getResponseMessage() {
         return successBar.isDisplayed();
-
-    }
-
-    /**
-     * Each scenario start on main page.
-     *
-     * @param section String to specific URI
-     */
-    public void loadMainPage(final String section) {
-        driver.get(Environment.getInstance().getValue("url.base").concat(section));
     }
 
     /**
