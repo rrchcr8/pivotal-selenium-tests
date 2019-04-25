@@ -71,8 +71,6 @@ public class Project extends AbstractPage {
     @FindBy(xpath = "//a[text()='+ Create Project']")
     private WebElement plusNewProjectOption;
 
-    private String projectName;
-
     @FindBy(css = "a[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> expandStoryButtons;
 
@@ -89,7 +87,6 @@ public class Project extends AbstractPage {
      * @param strProjectName value of input.
      */
     public void setProjectNameTextField(final String strProjectName) {
-        this.projectName = strProjectName;
         action.setValue(projectNameField, strProjectName);
     }
 
@@ -146,11 +143,14 @@ public class Project extends AbstractPage {
 
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.TITLE.toString(),
-                () -> setProjectNameTextField(projectElements.get("title")));
+                () -> setProjectNameTextField(projectElements
+                        .get(FormsElements.TITLE.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
-                () -> selectAccount(projectElements.get("account")));
+                () -> selectAccount(projectElements
+                        .get(FormsElements.ACCOUNT.toString())));
         strategy.put(FormsElements.PRIVACY.toString(),
-                () -> selectProjectPrivacy(projectElements.get("privacy")));
+                () -> selectProjectPrivacy(projectElements
+                        .get(FormsElements.PRIVACY.toString())));
 
         projectElements.keySet()
                 .forEach(key -> strategy.get(key).perform());
@@ -166,24 +166,6 @@ public class Project extends AbstractPage {
         final WebElement accountPrivacyOption = driver.findElement(
                 By.xpath("//input[@type='radio' and @data-aid='" + privacy + "']"));
         action.click(accountPrivacyOption);
-    }
-
-    /**
-     * Method to return project's name from context.
-     *
-     * @return context value on project name
-     */
-    public String getProjectName() {
-        return this.projectName;
-    }
-
-    /**
-     * Method to keep project's name to context.
-     *
-     * @param strProjectName project name
-     */
-    public void setProjectName(final String strProjectName) {
-        this.projectName = strProjectName;
     }
 
     /**
@@ -209,15 +191,20 @@ public class Project extends AbstractPage {
     public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.TITLE.toString(),
-                () -> setEditProjectTitle(projectElements.get("title")));
+                () -> setEditProjectTitle(projectElements
+                        .get(FormsElements.TITLE.toString())));
         strategy.put(FormsElements.DESCRIPTION.toString(),
-                () -> setEditProjectDescription(projectElements.get("description")));
+                () -> setEditProjectDescription(projectElements
+                        .get(FormsElements.DESCRIPTION.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
-                () -> setEditProjectAccount(projectElements.get("account")));
+                () -> setEditProjectAccount(projectElements
+                        .get(FormsElements.ACCOUNT.toString())));
         strategy.put(FormsElements.TASKENABLE.toString(),
-                () -> setEditProjectTaskEnable(projectElements.get("taskEnable")));
+                () -> setEditProjectTaskEnable(projectElements
+                        .get(FormsElements.TASKENABLE.toString())));
         strategy.put(FormsElements.PRIVACY.toString(),
-                () -> setEditProjectPrivacy(projectElements.get("privacy")));
+                () -> setEditProjectPrivacy(projectElements
+                        .get(FormsElements.PRIVACY.toString())));
 
         projectElements.keySet()
                 .forEach(key -> strategy.get(key).perform());
