@@ -30,7 +30,7 @@ public class Project extends AbstractPage {
     private WebElement createButton;
 
     @FindBy(css = ".tc-account-selector__create-account-icon")
-    private WebElement newAccountOption;
+    private WebElement createAccount;
 
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
@@ -111,7 +111,7 @@ public class Project extends AbstractPage {
                 By.xpath("//div[text()='" + accountName + "']"));
 
         if (!onListAccount) {
-            action.click(newAccountOption);
+            action.click(createAccount);
             createAccount(accountName);
         } else {
             final WebElement accountSelectorByName = driver.findElement(
