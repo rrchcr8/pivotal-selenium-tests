@@ -73,7 +73,7 @@ public class Project extends AbstractPage {
 
     private String projectName;
 
-    @FindBy(xpath = "a[data-aid='StoryPreviewItem__expander']")
+    @FindBy(css = "a[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> expandStoryButtons;
 
     /**
