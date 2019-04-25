@@ -30,7 +30,7 @@ public class Project extends AbstractPage {
     private WebElement createButton;
 
     @FindBy(css = ".tc-account-selector__create-account-icon")
-    private WebElement newAccountOption;
+    private WebElement createAccount;
 
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
@@ -73,7 +73,7 @@ public class Project extends AbstractPage {
 
     private String projectName;
 
-    @FindBy(xpath = "a[data-aid='StoryPreviewItem__expander']")
+    @FindBy(css = "a[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> expandStoryButtons;
 
     /**
@@ -111,7 +111,7 @@ public class Project extends AbstractPage {
                 By.xpath("//div[text()='" + accountName + "']"));
 
         if (!onListAccount) {
-            action.click(newAccountOption);
+            action.click(createAccount);
             createAccount(accountName);
         } else {
             final WebElement accountSelectorByName = driver.findElement(
@@ -146,11 +146,14 @@ public class Project extends AbstractPage {
 
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.TITLE.toString(),
-                () -> setProjectNameTextField(projectElements.get("title")));
+                () -> setProjectNameTextField(projectElements
+                        .get(FormsElements.TITLE.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
-                () -> selectAccount(projectElements.get("account")));
+                () -> selectAccount(projectElements
+                        .get(FormsElements.ACCOUNT.toString())));
         strategy.put(FormsElements.PRIVACY.toString(),
-                () -> selectProjectPrivacy(projectElements.get("privacy")));
+                () -> selectProjectPrivacy(projectElements
+                        .get(FormsElements.PRIVACY.toString())));
 
         projectElements.keySet()
                 .forEach(key -> strategy.get(key).perform());
@@ -209,15 +212,20 @@ public class Project extends AbstractPage {
     public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.TITLE.toString(),
-                () -> setEditProjectTitle(projectElements.get("title")));
+                () -> setEditProjectTitle(projectElements
+                        .get(FormsElements.TITLE.toString())));
         strategy.put(FormsElements.DESCRIPTION.toString(),
-                () -> setEditProjectDescription(projectElements.get("description")));
+                () -> setEditProjectDescription(projectElements
+                        .get(FormsElements.DESCRIPTION.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
-                () -> setEditProjectAccount(projectElements.get("account")));
+                () -> setEditProjectAccount(projectElements
+                        .get(FormsElements.ACCOUNT.toString())));
         strategy.put(FormsElements.TASKENABLE.toString(),
-                () -> setEditProjectTaskEnable(projectElements.get("taskEnable")));
+                () -> setEditProjectTaskEnable(projectElements
+                        .get(FormsElements.TASKENABLE.toString())));
         strategy.put(FormsElements.PRIVACY.toString(),
-                () -> setEditProjectPrivacy(projectElements.get("privacy")));
+                () -> setEditProjectPrivacy(projectElements
+                        .get(FormsElements.PRIVACY.toString())));
 
         projectElements.keySet()
                 .forEach(key -> strategy.get(key).perform());
