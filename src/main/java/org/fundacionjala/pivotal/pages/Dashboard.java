@@ -20,49 +20,36 @@ import java.util.List;
 public class Dashboard extends AbstractPage {
     private static final Logger LOGGER =
             Logger.getLogger(Dashboard.class.getName());
-
+    private final String projectXpath =
+            "//a[@data-aid='project-name' and contains(text(),'%s')]";
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(xpath = "//span[text()='Projects']")
     })
     private WebElement projects;
-
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(xpath = "//span[text()='Workspaces']")
     })
     private WebElement workspaces;
-
     @FindBy(css = "#create-project-button")
     private WebElement createProject;
-
-
     @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
-
     @FindBy(css = "#projects-search-bar")
     private WebElement searchProject;
-
     @FindBy(css = ".WorkspaceTile__name")
     private List<WebElement> worksSpaceNames;
-
     @FindBy(css = ".projectPaneSection__header__heading--count")
     private WebElement amountOfProjects;
-
     @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
-
     @FindBy(css = "button[data-aid='show-more-projects-button']")
     private WebElement showMoreProjects;
-
     @FindBy(css = "#twitter_link")
     private WebElement twitterLink;
-
     @FindBy(css = "#projects-search-bar")
     private WebElement searchInput;
-
-    private final String projectXpath =
-            "//a[@data-aid='project-name' and contains(text(),'%s')]";
 
     /** Create project. **/
     public void createProjectButton() {
@@ -162,7 +149,8 @@ public class Dashboard extends AbstractPage {
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
-            LOGGER.warn("The Project web element was not find ", e);
+            LOGGER.error("The Project web element was not find ", e);
+            throw new RuntimeException(e);
         }
     }
 

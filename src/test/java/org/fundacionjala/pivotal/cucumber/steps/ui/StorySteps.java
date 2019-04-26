@@ -4,12 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.DeleteModal;
-import org.fundacionjala.pivotal.pages.HeaderContainer;
-import org.fundacionjala.pivotal.pages.Panel;
-import org.fundacionjala.pivotal.pages.Project;
-import org.fundacionjala.pivotal.pages.Story;
+import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +33,11 @@ public class StorySteps {
     /**
      * Given step for story feature.
      *
-     * @param arg0 is the name of the project.
+     * @param projectName is the name of the project.
      */
     @Given("a project called {string}")
-    public void aProjectCalled(final String arg0) {
-        this.dashboard.goToProject(arg0);
+    public void aProjectCalled(final String projectName) {
+        this.dashboard.goToProject(projectName);
         this.story.createStory("ird test");
     }
 
