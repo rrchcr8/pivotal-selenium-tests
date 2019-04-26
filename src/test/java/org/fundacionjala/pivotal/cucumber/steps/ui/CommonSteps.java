@@ -42,10 +42,10 @@ public class CommonSteps {
      *
      * @param tabName name of dashboard tab.
      **/
-    @And("Go to Dashboard {string}")
+    @Given("goes to dashboard {string}")
     public void goToDashboardAndTab(final String tabName) {
         this.dashboard.reload();
-        if (tabName.toLowerCase().contains("workspace")) {
+        if (tabName.toLowerCase().contains("Workspaces")) {
             this.dashboard.goToWorkSpaceTab();
         }
     }

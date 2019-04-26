@@ -5,7 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-/** This class represent page to create new workspace. */
+/**
+ * This class represent page to create new workspace.
+ */
 @Component
 public class WorkSpaceNew extends AbstractPage {
 
@@ -25,12 +27,16 @@ public class WorkSpaceNew extends AbstractPage {
     private WebElement labelWorkSpaceName;
 
 
-    /** Clicks the next button. */
+    /**
+     * Clicks the next button.
+     */
     public void clickDashboardLink() {
         this.action.click(this.dashboardLink);
     }
 
-    /** this method represent click action on create button. */
+    /**
+     * this method represent click action on create button.
+     */
     public void clickCreateWorkSpaceButton() {
         this.action.click(this.createWorkSpaceButton);
     }
@@ -44,7 +50,9 @@ public class WorkSpaceNew extends AbstractPage {
         this.action.setValue(this.textBoxname, strname);
     }
 
-    /** This method represent a click action on create button. */
+    /**
+     * This method represent a click action on create button.
+     */
     public void clickCreateButton() {
         this.action.click(this.createButton);
     }

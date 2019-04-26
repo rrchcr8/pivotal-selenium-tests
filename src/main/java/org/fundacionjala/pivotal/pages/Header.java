@@ -2,6 +2,7 @@ package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class Header extends AbstractPage {
     @FindBy(css = ".tc_header_item tc_header_logo")
     private WebElement goDashboard;
 
-    @FindBy(css = ".tc_projects_dropdown_link.tc_context_name")
+    @FindBy(css = ".tc_context_name")
     private WebElement projecMenu;
 
     @FindBy(css = ".raw_context_name")
@@ -48,9 +49,14 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
-        this.action.pause();
-        this.action.waitVisibility(this.projecMenu);
-        this.action.click(this.projecMenu);
+        try {
+            this.action.waitVisibility(this.projecMenu);
+            this.action.click(this.projecMenu);
+        } catch (final WebDriverException e) {
+            {
+            }
+        }
+
     }
 
     /**
@@ -98,7 +104,9 @@ public class Header extends AbstractPage {
         return this.titleOnHeader.getAttribute("innerHTML");
     }
 
-    /** This method open menu. **/
+    /**
+     * This method open menu.
+     **/
     public void openMenu() {
         this.action.click(this.projecMenu);
     }

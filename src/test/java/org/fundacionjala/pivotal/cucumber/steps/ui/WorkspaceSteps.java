@@ -6,23 +6,26 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.WorkSpaceService;
+import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.WorkSpaceNew;
 import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
 import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-/** This class will have steps for workspace feature. **/
+/**
+ * This class will have steps for workspace feature.
+ **/
 public class WorkspaceSteps {
     private static final Logger LOGGER =
             Logger.getLogger(WorkspaceSteps.class.getName());
+
+
     public static final String WS_SETTINGS_PAGE = "ws_settings_page";
     public static final String WS_NAME = "ws_name";
 
@@ -35,11 +38,8 @@ public class WorkspaceSteps {
     @Autowired
     private WorkSpaceNew workSpaceNew;
 
-    /** Step to enter to workspace area. **/
-    @Given("an workspace")
-    public void clickDashboardLink() {
-        this.header.goToDashBoard();
-    }
+    @Autowired
+    private SoftAssert softAssert;
 
     /**
      * This step edit workspace.
@@ -47,7 +47,7 @@ public class WorkspaceSteps {
      * @param strname param.
      **/
     @And("edit workspace’s title")
-    public void setWorkSpacename(final String strname) {
+    public static void setWorkSpacename(final String strname) {
 
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
@@ -56,9 +56,11 @@ public class WorkspaceSteps {
         settingsPage.setName(strname);
     }
 
-    /** This step save workspace. **/
+    /**
+     * This step save workspace.
+     **/
     @And("clicks on Save Button")
-    public void clickSaveButton() {
+    public static void clickSaveButton() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
                         WS_SETTINGS_PAGE);
@@ -66,25 +68,31 @@ public class WorkspaceSteps {
 
     }
 
-    /** This step display workspace edited. **/
+    /**
+     * This step display workspace edited.
+     **/
     @Then("workspace title should be edited")
     public void getWorkSpaceLabel() {
         final String name = (String) ScenarioContext.getInstance().getContext(
                 WS_NAME);
         this.dashboard.goToWorkSpaceTab();
-        assertTrue(this.dashboard.existWorkSpace(name));
+        softAssert.assertTrue(this.dashboard.existWorkSpace(name));
     }
 
-    /** This step create a workspace. **/
+    /**
+     * This step create a workspace.
+     **/
     @Given("create an workspace")
-    public void createaworkspace() {
+    public static void createaworkspace() {
         final String name = "My WorkSpace Test";
         final int workspaceId = WorkSpaceService.createWorkspace(name);
         ScenarioContext.getInstance().setContext(WS_NAME, name);
         ScenarioContext.getInstance().setContext("ws_id", workspaceId);
     }
 
-    /** This step click over settings button. **/
+    /**
+     * This step click over settings button.
+     **/
     @When("the user clicks on workspace settings button")
     public void theUserClicksOnWorkSpaceSettingBtn() {
         final String name = (String) ScenarioContext.getInstance().getContext(
@@ -100,9 +108,11 @@ public class WorkspaceSteps {
         }
     }
 
-    /** This step delete a workspace. **/
+    /**
+     * This step delete a workspace.
+     **/
     @And("click delete workspace")
-    public void clickDeleteWorkspace() {
+    public static void clickDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
                         WS_SETTINGS_PAGE);
@@ -110,9 +120,11 @@ public class WorkspaceSteps {
 
     }
 
-    /** This step confirm delete. **/
+    /**
+     * This step confirm delete.
+     **/
     @And("click delete confirm")
-    public void clickConfirmDeleteWorkspace() {
+    public static void clickConfirmDeleteWorkspace() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
                         WS_SETTINGS_PAGE);
@@ -120,17 +132,21 @@ public class WorkspaceSteps {
 
     }
 
-    /** workspace si deleted. **/
+    /**
+     * workspace si deleted.
+     **/
     @Then("workspace should be deleted")
     public void verifyDelete() {
         final String name = (String) ScenarioContext.getInstance().getContext(
                 WS_NAME);
         this.dashboard.goToWorkSpaceTab();
-        assertFalse(this.dashboard.existWorkSpace(name));
+        softAssert.assertFalse(this.dashboard.existWorkSpace(name));
     }
 
-    /** This step click over create button. **/
-    @When("clicks the create workspace button")
+    /**
+     * This step click over create button.
+     **/
+    @Given("a create workspace button on workspace tab")
     public void clicksTheCreateWorkspaceButton() {
         this.workSpaceNew.clickDashboardLink();
         this.workSpaceNew.clickCreateWorkSpaceButton();
@@ -156,14 +172,32 @@ public class WorkspaceSteps {
     @Then("the workspace should be created: {string}")
     public void theWorkspaceShouldBeCreated(final String name) {
         final String actualresult = this.workSpaceNew.getWorkSpaceLabel();
-        Assert.assertEquals(actualresult, name);
+        softAssert.assertEquals(actualresult, name);
     }
 
-    /** This step verify that workspace is displayed. **/
+    /**
+     * This step verify that workspace is displayed.
+     **/
     @And("the workspace board should be displayed")
     public void theWorkspaceBoardShouldBeDisplayed() {
-        assertTrue(true);
+        softAssert.assertTrue(true);
     }
+
+    @When("creates a workspace")
+    public void createsAWorkspace(final Map<String, String> workspaceAttributes) {
+        this.workSpaceNew.setName(workspaceAttributes
+                .get(FormsElements.TITLE.toString()));
+        ScenarioContext.getInstance().setContext(WS_NAME, workspaceAttributes
+                .get(FormsElements.TITLE.toString()));
+        this.workSpaceNew.clickCreateButton();
+    }
+
+
+    @Then("validates presence on workspace home")
+    public void validatesPresenceOnWorkspaceHome() {
+        softAssert.assertTrue(this.dashboard.existWorkSpace(WS_NAME));
+    }
+
 }
 
 
