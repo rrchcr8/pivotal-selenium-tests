@@ -17,8 +17,6 @@ import java.util.Map;
 @Component
 public class Project extends AbstractPage {
 
-    @FindBy(css = "#create-project-button")
-    private WebElement createNewProjectButton;
 
     @FindBy(css = ".tc-form__input")
     private WebElement projectNameField;
@@ -79,9 +77,6 @@ public class Project extends AbstractPage {
     /**
      * Clicks the create new project button.
      */
-    public void clickCreateNewProjectButton() {
-        action.click(createNewProjectButton);
-    }
 
     /**
      * This method set value of project name text field.
@@ -134,7 +129,10 @@ public class Project extends AbstractPage {
      */
     public void clickCreateButton() {
         action.click(createButton);
-        action.pause();
+        //This is a Workaround.
+        action.pause(3000);
+        //this need to be reviewed in the last selenium version.
+        //action.staleElement(backDrop);
     }
 
     /**

@@ -48,8 +48,8 @@ public class CommonSteps {
         if (tabName.toLowerCase().contains("workspace")) {
             this.dashboard.goToWorkSpaceTab();
         }
-        LOGGER.info(String.format("Method: isExistingSelectorBy -> FALSE %s",
-                element));
+//        LOGGER.info(String.format("Method: isExistingSelectorBy -> FALSE %s",
+//                element));
     }
 
     /**

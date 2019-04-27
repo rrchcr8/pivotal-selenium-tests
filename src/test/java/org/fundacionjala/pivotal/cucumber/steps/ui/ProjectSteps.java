@@ -4,12 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.fundacionjala.pivotal.pages.ConfirmAction;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.HeaderMenu;
-import org.fundacionjala.pivotal.pages.Project;
-import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
+import org.fundacionjala.pivotal.pages.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
@@ -158,7 +153,6 @@ public class ProjectSteps {
      */
     @And("validate creation on project's section")
     public void validateCreationOnProjectsSection() {
-        this.header.openMenu();
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectList.isProjectListedOnPage(
                 this.project.getProjectName());
@@ -194,7 +188,7 @@ public class ProjectSteps {
      */
     @Given("A create new button on dashboard")
     public void aCreateNewButtonOnDashboard() {
-        this.project.clickCreateNewProjectButton();
+        this.dashboard.createProjectButton();
     }
 
     /**

@@ -50,6 +50,12 @@ public class WebDriverAction {
         js.executeScript("arguments[0].scrollIntoView();", element);
     }
 
+    public void clickJS(final WebElement element) {
+        this.wait.until(ExpectedConditions.elementToBeClickable(element));
+        final JavascriptExecutor js = (JavascriptExecutor) this.driver;
+        js.executeScript("arguments[0].click();", element);
+    }
+
     /**
      * Click event with explicit wait for click.
      *
@@ -58,7 +64,6 @@ public class WebDriverAction {
     public void click(final WebElement element) {
         this.wait.until(ExpectedConditions.elementToBeClickable(element))
                 .click();
-        ` `
     }
 
     /**
@@ -86,6 +91,10 @@ public class WebDriverAction {
      */
     public void waitVisibility(final By element) {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+    }
+
+    public void waitInvisibility(final WebElement element) {
+        this.wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     /**
@@ -139,7 +148,7 @@ public class WebDriverAction {
      * @return String.
      */
     public String getAttribute(final WebElement element, final String attribute) {
-        this.wait.until(ExpectedConditions.stalenessOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
         return element.getAttribute(attribute);
     }
 
