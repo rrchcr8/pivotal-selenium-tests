@@ -146,7 +146,7 @@ public class WorkspaceSteps {
     /**
      * This step click over create button.
      **/
-    @Given("a create workspace button on workspace tab")
+    @Given("clicks on create workspace button")
     public void clicksTheCreateWorkspaceButton() {
         this.workSpaceNew.clickDashboardLink();
         this.workSpaceNew.clickCreateWorkSpaceButton();
