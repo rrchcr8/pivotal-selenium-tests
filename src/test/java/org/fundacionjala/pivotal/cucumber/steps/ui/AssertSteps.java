@@ -108,10 +108,10 @@ public class AssertSteps {
     public void validatesNotListedOnGroupList(final String name, final String specificGroup) {
         if (specificGroup.equals(WORKSPACE)) {
             softAssert.assertFalse(this.headerMenu.isWorkspaceListedOnMenu(name),
-                    String.format(" %s not listed on %s", name, specificGroup));
+                    String.format(" %s not listed on %s group", name, specificGroup));
         } else {
             softAssert.assertFalse(this.headerMenu.isProjectListedOnMenu(name),
-                    String.format(" %s not listed on %s", name, specificGroup));
+                    String.format(" %s not listed on %s group", name, specificGroup));
         }
     }
 
@@ -125,10 +125,10 @@ public class AssertSteps {
     public void validatesNotListedOnDashboardTab(final String name, final String specificList) {
         if (specificList.equals(WORKSPACE)) {
             softAssert.assertFalse(this.dashboard.existWorkSpace(name),
-                    String.format(" %s not listed on %s", name, specificList));
+                    String.format(" %s not listed on %s dashboard tab", name, specificList));
         } else {
             softAssert.assertFalse(this.dashboard.existProject(name),
-                    String.format(" %s not listed on %s", name, specificList));
+                    String.format(" %s not listed on %s dashboard tab", name, specificList));
         }
     }
 
