@@ -12,7 +12,6 @@ Feature: Creating workspaces
     And saves data on context
       | id   |
       | name |
-    Then validates presence on workspace home
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
@@ -28,7 +27,6 @@ Feature: Creating workspaces
     And saves data on context
       | id   |
       | name |
-    Then validates presence on workspace home
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
@@ -44,7 +42,6 @@ Feature: Creating workspaces
     And saves data on context
       | id   |
       | name |
-    Then validates presence on workspace home
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list

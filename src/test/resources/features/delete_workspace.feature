@@ -8,28 +8,26 @@ Feature: Deletion of workspaces
     And logs in with user "owner1"
     And goes to dashboard "Workspaces"
 
-  Scenario: Workspace can be deleted from projects section.
+  Scenario: Workspace can be deleted from workspace tab on dashboard.
 
     Given the settings page from the particular workspace
       | name | workspace_response.name |
     When clicks on delete workspace link
     Then a "{workspace_response.name} was successfully deleted." message should be displayed
-    And validates "workspace.name" on header title
     And opens the popover from header title
-    And validates "workspace.name" on "Workspaces" group list
+    And validates "workspace_response.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
-    And validates "workspace.name" on "Workspaces" dashboard tab
+    And validates "workspace_response.name" on "Workspaces" dashboard tab
     And sends a DELETE request "/workspace/{workspace.id}"
 
-  Scenario: Workspace can be deleted from its dashboard.
-
-    Given the settings workspace page from its dashboard
+  Scenario: Workspace can be deleted from its home.
+    Given the workspace home
       | name | workspace_response.name |
+    And clicks on "more" tab on header menu
     When clicks on delete workspace link
     Then a "{workspace_response.name} was successfully deleted." message should be displayed
-    And validates "workspace.name" on header title
     And opens the popover from header title
-    And validates "workspace.name" on "Workspaces" group list
+    And validates "workspace_response.name" not listed on "Workspaces" group list
     And goes to dashboard "Workspaces"
-    And validates "workspace.name" on "Workspaces" dashboard tab
+    And validates "workspace_response.name" not listed on "Workspaces" dashboard tab
     And sends a DELETE request "/workspace/{workspace.id}"

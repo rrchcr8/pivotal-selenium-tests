@@ -13,10 +13,8 @@ Feature: Task management
     And stores response as "task_response"
     And logs in with user "owner1"
     And goes to dashboard "Projects"
-    And opens the project
-      | name | project_response.name |
-    And opens the story
-      | name | story_response.name |
+    And opens a project "project_response.name"
+    And expands the story "story_respone.name"
     And saves task counters on context
       | countTask     |
       | doneCountTask |
@@ -49,7 +47,7 @@ Feature: Task management
 
   Scenario: Delete a task
     When deletes the task
-    Then the old task should not be listed
+    Then the "task_response.name" should not be listed
     And validates task counter
       | operation | decrement |
 

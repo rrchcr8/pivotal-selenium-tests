@@ -10,7 +10,7 @@ Feature: edition of workspaces
 
   Scenario: workspace can be edited from Workspaces dashboard.
 
-    Given the settings page from a particular workspace
+    Given the settings page from the particular workspace
       | name | workspace_response.name |
     When edits attributes of the workspace
       | name | random name |
@@ -29,14 +29,14 @@ Feature: edition of workspaces
   Scenario: workspace can be edited from workspace home.
     Given the workspace home
       | name | workspace_response.name |
-    And clicks on "MORE" tab on header menu
+    And clicks on "more" tab on header menu
     When edits attributes of the workspace
       | name | random name |
     And saves data on context
       | id   |
       | name |
-    Then validates presence on workspace home
-    Then validates "workspace.name" on header title
+    Then a "Changes saved." message should be displayed
+    And validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
