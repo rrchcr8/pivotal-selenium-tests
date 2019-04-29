@@ -4,7 +4,7 @@ package org.fundacionjala.core.ui.forms;
  * Enum for the org.fundacionjala.core.ui.forms elements.
  */
 public enum FormsElements {
-    TITLE("title"),
+    NAME("name"),
     DESCRIPTION("description"),
     ACCOUNT("account"),
     TASKENABLE("taskenable"),
