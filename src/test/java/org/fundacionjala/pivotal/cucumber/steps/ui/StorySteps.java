@@ -9,13 +9,14 @@ import org.fundacionjala.pivotal.pages.DeleteModal;
 import org.fundacionjala.pivotal.pages.HeaderContainer;
 import org.fundacionjala.pivotal.pages.Panel;
 import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
 import org.fundacionjala.pivotal.pages.Story;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.Map;
 
 /**
  * this is an story steps.
@@ -23,6 +24,8 @@ import static org.junit.Assert.assertTrue;
 public class StorySteps {
     @Autowired
     private Project project;
+    @Autowired
+    private ProjectWorkspaceList projectList;
     @Autowired
     private Dashboard dashboard;
     @Autowired
@@ -38,11 +41,11 @@ public class StorySteps {
     /**
      * Given step for story feature.
      *
-     * @param arg0 is the name of the project.
+     * @param projectName is the name of the project.
      */
     @Given("a project called {string}")
-    public void aProjectCalled(final String arg0) {
-        this.dashboard.goToProject(arg0);
+    public void aProjectCalled(final String projectName) {
+        this.dashboard.goToProject(projectName);
         this.panel.clickAddButton();
         this.story.createStory("ird test");
     }
@@ -57,22 +60,18 @@ public class StorySteps {
         ScenarioContext.getInstance().setContext("story_name", name);
     }
 
-    /**
-     * this method verifies that a story is created.
-     */
+    /** This method verifies that a story is created. */
     @Then("verify the story is created")
     public void verifytheStoryIsCreated() {
         final String storyName = ScenarioContext.getContextAsString("story_name");
-        assertTrue(this.panel.existStory(storyName));
+        Assert.assertTrue(this.panel.existStory(storyName));
     }
 
-    /**
-     * @param arg1 name of other story.
-     */
+    /** @param storyName name of other story. */
     @When("creates other a story called {string}")
-    public void createsOtherAStoryCalled(final String arg1) {
+    public void createsOtherAStoryCalled(final String storyName) {
         this.panel.clickAddButton();
-        this.story.createStory(arg1);
+        this.story.createStory(storyName);
     }
 
     /**
@@ -86,9 +85,7 @@ public class StorySteps {
         this.panel.expandStory(storyName);
     }
 
-    /**
-     * This method clicks the delete button inside the story page.
-     */
+    /** This method clicks the delete button inside the story page. */
     @And("click delete button")
     public void clickDeleteButton() {
         this.story.clickDeleteButton();
@@ -113,7 +110,7 @@ public class StorySteps {
     @Then("Verify that the story {string} is deleted")
     public void verifyThatTheStoryIsDeleted(final String storyNameKey) {
         final String storyName = StringUtil.getValue(storyNameKey);
-        assertFalse(this.panel.existStory(storyName));
+        Assert.assertFalse(this.panel.existStory(storyName));
     }
 
     /** clicks the button of the header container. */
@@ -126,5 +123,29 @@ public class StorySteps {
     @And("click confirm delete button")
     public void clickConfirmDeleteButton() {
         this.deleteModal.clickConfirmDeleteButton();
+    }
+
+    @Then("verifies the story is created in panel")
+    public void verifiesTheStoryIsCreatedInPanel() {
+        final String storyName = ScenarioContext.getContextAsString("story_name");
+        Assert.assertTrue(this.panel.existStory(storyName));
+    }
+
+    @And("verifies the story is created in story")
+    public void verifiesTheStoryIsCreatedInStory() {
+
+    }
+
+    @When("creates a story with:")
+    public void createsAStoryWith(final Map<String, String> attributes) {
+        this.story.createStory(attributes);
+    }
+
+    @And("verifies the story is created in project list")
+    public void verifiesTheStoryIsCreatedInProjectList() {
+        final String projectName = ScenarioContext
+                .getContextAsString("project_response.name");
+        final String amount = this.projectList.getAmountOfStories(projectName);
+        Assert.assertEquals(amount, "1");
     }
 }

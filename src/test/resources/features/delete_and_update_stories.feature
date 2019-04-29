@@ -11,7 +11,7 @@ Feature: Story second part
 
   Scenario: delete a story using delete button inside story page
     Given logs in with user "owner1"
-    And Go to Dashboard "project"
+    And goes to Dashboard "project"
     And opens a project "project_response.name"
     #expands the story "story_response.name"
     When expands the story "story_response.name"
@@ -22,7 +22,7 @@ Feature: Story second part
 
 
   Scenario: delete a story selecting bulk
-    Given Go to Dashboard "project"
+    Given goes to Dashboard "project"
     And opens a project "project_response.name"
     When selects the bulk of "story_response.name"
     And click delete button of Header container

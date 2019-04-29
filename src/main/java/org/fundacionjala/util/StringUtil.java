@@ -45,7 +45,7 @@ public final class StringUtil {
      * @param keyLimit char limit of substring.
      * @return substring from begining to keylimit
      */
-    private static String getKey(final String line, final char keyLimit) {
+    public static String getKey(final String line, final char keyLimit) {
         final int index = line.indexOf(keyLimit);
         return line.substring(0, index);
     }
