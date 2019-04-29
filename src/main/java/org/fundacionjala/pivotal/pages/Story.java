@@ -3,7 +3,6 @@ package org.fundacionjala.pivotal.pages;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 import org.springframework.stereotype.Component;
 
 /** This is the story page with all the locators. */
@@ -22,23 +21,42 @@ public class Story extends AbstractPage {
     @FindBy(css = ".autosaves.cancel.clear")
     private WebElement cancelButton;
 
+    @FindBy(css = ".autosaves.button.std.close")
+    private WebElement closeButton;
+
     @FindBy(css = "textarea[name='story[name]']")
     private WebElement storyName;
 
     @FindBy(css = ".autosaves.id.text_value")
     private WebElement idStoryField;
 
-    @FindBy(css = ".selection.item_feature")
-    private WebElement feature;
+    @FindBy(css = "div[class='dropdown story_type']")
+    private WebElement storyTypeDropdown;
 
-    @FindBy(css = ".selection.item_1")
-    private WebElement points;
+    @FindBy(xpath = "//div[@class='dropdown story_type']/a[1]/span")
+    private WebElement storyTypeText;
+
+    @FindBy(xpath = "//div[contains(@class,'dropdown story_estimate')]")
+    private WebElement estimatedPointsDropdown;
+
+    @FindBy(xpath = "//div[contains(@class,'dropdown story_estimate')]/a[1]/span")
+    private WebElement estimatedPointsText;
+
+    @FindBy(xpath = "//div[@class='dropdown story_requested_by_id']")
+    private WebElement requesterDropdown;
 
     @FindBy(css = ".name.hbsAvatarName")
-    private WebElement requested;
+    private WebElement requesterName;
 
-    @FindBy(how = How.XPATH, using = ".//*[@id='add_owner_c517']")
+    @FindBy(xpath = "//a[contains(@class,'selectable_owner_row_element add_owner')]")
     private WebElement addStoryOwner;
+
+    /** 1 follower, 2 followers. */
+    @FindBy(css = ".count.not_read_only")
+    private WebElement followerCount;
+
+    @FindBy(css = "div[data-aid='BlockerAdd']")
+    private WebElement addBlocker;
 
     @FindBy(xpath = ".//*[@id='blocker-edit-new']")
     private WebElement blockersTextField;
