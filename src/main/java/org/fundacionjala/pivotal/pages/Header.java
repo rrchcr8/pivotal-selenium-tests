@@ -2,7 +2,6 @@ package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
@@ -49,14 +48,8 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
-        try {
             this.action.waitVisibility(this.projecMenu);
             this.action.click(this.projecMenu);
-        } catch (final WebDriverException e) {
-            {
-            }
-        }
-
     }
 
     /**

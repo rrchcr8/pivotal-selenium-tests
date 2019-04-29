@@ -32,7 +32,7 @@ public class ConfirmAction extends AbstractPage {
     /**
      * Delete through link option.
      */
-    public void clickOnDeleteProjectLink() {
+    public void clickOnDeleteWorkspaceProjectLink() {
         action.scrollToElement(deleteLink);
         action.click(deleteLink);
     }
@@ -40,14 +40,14 @@ public class ConfirmAction extends AbstractPage {
     /**
      * Confirm deletion.
      */
-    public void clickOnDeleteButton() {
+    public void clickOnConfirmWorkspaceProjectDeleteButton() {
         action.click(confirmDelete);
     }
 
     /**
      * Delete through link option.
      */
-    public void clickOnArchiveProjectLink() {
+    public void clickOnArchiveLink() {
         action.scrollToElement(archiveLink);
         action.click(archiveLink);
     }
@@ -55,7 +55,7 @@ public class ConfirmAction extends AbstractPage {
     /**
      * Confirm archive.
      */
-    public void clickOnArchiveButton() {
+    public void clickOnConfirmArchiveButton() {
         action.click(confirmArchive);
     }
 
@@ -73,6 +73,5 @@ public class ConfirmAction extends AbstractPage {
     public void cancelDeleteStoryButton() {
         action.click(cancelDeleteStory);
     }
-
 
 }

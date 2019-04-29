@@ -9,16 +9,20 @@ import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.ProjectService;
 import org.fundacionjala.core.api.services.StoryService;
+import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.pivotal.pages.Tasks;
 import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.asserts.SoftAssert;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.Map;
 
-/** This class will have steps for task feature. **/
+
+/**
+ * This class will have steps for task feature.
+ **/
 public class TaskSteps {
     private static final Logger LOGGER =
             Logger.getLogger(TaskSteps.class.getName());
@@ -33,70 +37,18 @@ public class TaskSteps {
 
     @Autowired
     private Tasks tasksPanel;
+    @Autowired
+    private SoftAssert softAssert;
 
-    /** Step to set default project with story. **/
+    /**
+     * Step to set default project with story.
+     **/
     @And("Project with one story")
-    public void projectWithOneStory() {
+    public static void projectWithOneStory() {
         final int id = ProjectService.createProject("My test project");
         ScenarioContext.getInstance().setContext("defaultProjectId", id);
         final int taskId = StoryService.createStory(id, "Task test");
         ScenarioContext.getInstance().setContext("defaultTaskId", taskId);
-    }
-
-    /**
-     * Step to create a task with text.
-     *
-     * @param text string.
-     */
-    @When("Create a task with text {string}")
-    public void createATaskWithText(final String text) {
-        this.tasksPanel.clickOnAddTaskButton();
-        this.tasksPanel.setTaskText(text);
-        this.tasksPanel.clickOnSave();
-        ScenarioContext.getInstance().setContext(TASK_NAME, text);
-    }
-
-    /** Step to verify task created. */
-    @Then("Verify that task was created")
-    public void verifyThatTaskWasCreated() {
-        final String text = (String) ScenarioContext
-                .getContextAsString(TASK_NAME);
-        assertTrue(this.tasksPanel.existTask(text));
-    }
-
-    /**
-     * Step to modify a task.
-     *
-     * @param newText new task value.
-     **/
-    @When("Modify text by {string}")
-    public void modifyTextBy(final String newText) {
-        final String text = (String) ScenarioContext
-                .getContextAsString(TASK_NAME);
-        this.tasksPanel.selectTask(text);
-        this.tasksPanel.setTaskText(newText);
-        this.tasksPanel.clickOnSave();
-        ScenarioContext.getInstance().setContext(TASK_NAME, newText);
-    }
-
-    /**
-     * Step to verify that a task doesn't exist.
-     *
-     * @param text string.
-     */
-    @Then("Verify that task {string} doesn't exist")
-    public void verifyThatTaskDoesnTExist(final String text) {
-        assertFalse(this.tasksPanel.existTask(text));
-    }
-
-    /**
-     * Step to verify that a task with text exist.
-     *
-     * @param text string
-     **/
-    @And("Task with name {string} exist")
-    public void taskWithNameExist(final String text) {
-        assertTrue(this.tasksPanel.existTask(text));
     }
 
     /**
@@ -105,7 +57,7 @@ public class TaskSteps {
      * @param scenario Scenario
      **/
     @Before
-    public void before(final Scenario scenario) {
+    public static void before(final Scenario scenario) {
         LOGGER.info(String.format("@Before %s  Status - %s", scenario.getName(),
                 scenario.getStatus()));
     }
@@ -116,7 +68,7 @@ public class TaskSteps {
      * @param scenario Scenario
      */
     @After("@DeleteProject")
-    public void after(final Scenario scenario) {
+    public static void after(final Scenario scenario) {
         LOGGER.info(String.format("@After.1 %s  Status - %s", scenario.getName(),
                 scenario.getStatus()));
         final int projectId = (Integer) ScenarioContext.getInstance()
@@ -126,21 +78,84 @@ public class TaskSteps {
                 scenario.getStatus()));
     }
 
-    /** Step to delete a task. **/
-    @When("Delete task")
+    /**
+     * Step to create a task with text.
+     *
+     * @param taskAttributes Map.
+     */
+    @When("adds a task to current Story")
+    public void addsATaskToCurrentStory(final Map<String, String> taskAttributes) {
+        this.tasksPanel.clickOnAddTaskButton();
+        this.tasksPanel.setTaskText(taskAttributes.get(FormsElements.NAME.toString()));
+        this.tasksPanel.clickOnSave();
+        ScenarioContext.getInstance().setContext(TASK_NAME, FormsElements.NAME.toString());
+    }
+
+    /**
+     * Step to verify that the task was added to story.
+     */
+    @Then("validates task aggregation")
+    public void verifyTheTaskWasAdded() {
+        final String text = (String) ScenarioContext
+                .getContextAsString(TASK_NAME);
+        softAssert.assertTrue(this.tasksPanel.existTask(text));
+    }
+
+    /**
+     * Step to modify a task.
+     *
+     * @param taskAttributes Map of task attributes.
+     **/
+    @When("edits the task name")
+    public void editTaskName(final Map<String, String> taskAttributes) {
+        final String text = (String) ScenarioContext
+                .getContextAsString(TASK_NAME);
+        this.tasksPanel.selectTask(text);
+        this.tasksPanel.setTaskText(taskAttributes.get(FormsElements.NAME.toString()));
+        this.tasksPanel.clickOnSave();
+        ScenarioContext.getInstance().setContext(TASK_NAME, taskAttributes.get(FormsElements.NAME.toString()));
+    }
+
+    /**
+     * Step to verify that a task doesn't exist.
+     */
+    @Then("the old task should not be listed")
+    public void verifyThatTaskNotListed() {
+        softAssert.assertFalse(this.tasksPanel.existTask((String) ScenarioContext
+                .getContextAsString(TASK_NAME)));
+    }
+
+    /**
+     * Step to verify that a task with text exist.
+     *
+     * @param name string
+     **/
+    @And("Task with name {string} exist")
+    public void taskWithNameExist(final String name) {
+        softAssert.assertTrue(this.tasksPanel.existTask(name));
+    }
+
+    /**
+     * Step to delete a task.
+     **/
+    @When("deletes the task")
     public void deleteTask() {
         final String text = (String) ScenarioContext
                 .getContextAsString(TASK_NAME);
         this.tasksPanel.deleteTask(text);
     }
 
-    /** Step to open a project. **/
+    /**
+     * Step to open a project.
+     **/
     @And("Go to default project")
     public void goToDefaultProject() {
         this.dashboard.goToProject("My test project");
     }
 
-    /** Step to open a story. **/
+    /**
+     * Step to open a story.
+     **/
     @And("Open a story")
     public void openAStory() {
         this.project.expandOneStory();

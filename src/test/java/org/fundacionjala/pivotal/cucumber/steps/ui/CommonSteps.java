@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class CommonSteps {
 
     @Autowired
     private Dashboard dashboard;
+
+    @Autowired
+    private Header header;
 
     /**
      * Logs in with user.
@@ -51,11 +55,22 @@ public class CommonSteps {
     }
 
     /**
-     * @param projectKeyName is the name of the project.
+     * Open the project given by name on dashboard page.
+     *
+     * @param projectKeyName is the name of the project
      */
     @And("opens a project {string}")
     public void opensAProject(final String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
         this.dashboard.goToProject(projectName);
     }
+
+    /**
+     * Opens the popover from header title.
+     */
+    @And("opens the popover from header title")
+    public void opensThePopoverFromHeaderTitle() {
+        this.header.openMenu();
+    }
+
 }

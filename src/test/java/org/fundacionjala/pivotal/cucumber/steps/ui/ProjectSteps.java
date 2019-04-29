@@ -77,8 +77,8 @@ public class ProjectSteps {
      */
     @When("user click over delete project link")
     public void userClickOverDeleteProjectLink() {
-        this.confirm.clickOnDeleteProjectLink();
-        this.confirm.clickOnDeleteButton();
+        this.confirm.clickOnDeleteWorkspaceProjectLink();
+        this.confirm.clickOnConfirmWorkspaceProjectDeleteButton();
     }
 
     /**
@@ -166,7 +166,7 @@ public class ProjectSteps {
     }
 
     /**
-     * Validate non-existance of project's name on menu.
+     * Validate non-existence of project's name on menu.
      */
     @And("Prior project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
@@ -177,7 +177,7 @@ public class ProjectSteps {
     }
 
     /**
-     * Validate account asignation.
+     * Validate account assignation.
      *
      * @param expected String
      */

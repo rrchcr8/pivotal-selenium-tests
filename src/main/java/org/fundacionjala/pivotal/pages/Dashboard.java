@@ -20,67 +20,98 @@ import java.util.List;
 public class Dashboard extends AbstractPage {
     private static final Logger LOGGER =
             Logger.getLogger(Dashboard.class.getName());
-
+    private static final String PROJECTXPATH =
+            "//a[@data-aid='project-name' and contains(text(),'%s')]";
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(xpath = "//span[text()='Projects']")
     })
     private WebElement projects;
-
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
             @FindBy(xpath = "//span[text()='Workspaces']")
     })
     private WebElement workspaces;
-
     @FindBy(css = "#create-project-button")
     private WebElement createProject;
-
-
     @FindBy(css = "#create-workspace-button")
     private WebElement createWorkSpace;
-
     @FindBy(css = "#projects-search-bar")
     private WebElement searchProject;
-
     @FindBy(css = ".WorkspaceTile__name")
     private List<WebElement> worksSpaceNames;
-
     @FindBy(css = ".projectPaneSection__header__heading--count")
     private WebElement amountOfProjects;
-
     @FindBy(css = ".projectTileHeader__projectName")
     private List<WebElement> projectNames;
-
     @FindBy(css = "button[data-aid='show-more-projects-button']")
     private WebElement showMoreProjects;
-
     @FindBy(css = "#twitter_link")
     private WebElement twitterLink;
-
     @FindBy(css = "#projects-search-bar")
     private WebElement searchInput;
 
-    private final String projectXpath =
-            "//a[@data-aid='project-name' and contains(text(),'%s')]";
+    /**
+     * Check if exist and element in the list with name.
+     *
+     * @param list list where search.
+     * @param name name to search
+     * @return boolean.
+     **/
+    private static boolean hasElementWithName(final List<WebElement> list,
+                                              final String name) {
+        for (final WebElement element : list) {
+            if (element.getText().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    /** Create project. **/
+    /**
+     * check if a name exist in web elements list.
+     *
+     * @param list list of webelements.
+     * @param name string to search.
+     * @return boolean.
+     * @throws NoSuchElementException exception if item not found.
+     */
+    private static WebElement getElementWithName(final List<WebElement> list,
+                                                 final String name)
+            throws NoSuchElementException {
+        for (final WebElement element : list) {
+            if (element.getText().equals(name)) {
+                return element;
+            }
+        }
+        throw new NoSuchElementException("Web element not found");
+    }
+
+    /**
+     * Create project.
+     **/
     public void createProjectButton() {
         this.action.click(this.createProject);
     }
 
-    /** Create workspace. **/
+    /**
+     * Create workspace.
+     **/
     public void createWorkSpaceButton() {
         this.action.click(this.createWorkSpace);
     }
 
-    /** Go to work space tab. **/
+    /**
+     * Go to work space tab.
+     **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
         this.wait.until(ExpectedConditions.visibilityOf(this.createWorkSpace));
     }
 
-    /** Go to project tab. **/
+    /**
+     * Go to project tab.
+     **/
     public void goToProjectTab() {
         this.action.click(this.projects);
         this.wait.until(ExpectedConditions.visibilityOf(this.createProject));
@@ -108,43 +139,7 @@ public class Dashboard extends AbstractPage {
             this.action.click(this.showMoreProjects);
         }
         return this.action.isExistingSelector(
-                By.xpath(String.format(this.projectXpath, name)));
-    }
-
-    /**
-     * Check if exist and element in the list with name.
-     *
-     * @param list list where search.
-     * @param name name to search
-     * @return boolean.
-     **/
-    private boolean hasElementWithName(final List<WebElement> list,
-                                       final String name) {
-        for (final WebElement element : list) {
-            if (element.getText().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * check if a name exist in web elements list.
-     *
-     * @param list list of webelements.
-     * @param name string to search.
-     * @return boolean.
-     * @throws NoSuchElementException exception if item not found.
-     */
-    private WebElement getElementWithName(final List<WebElement> list,
-                                          final String name)
-            throws NoSuchElementException {
-        for (final WebElement element : list) {
-            if (element.getText().equals(name)) {
-                return element;
-            }
-        }
-        throw new NoSuchElementException("Web element not found");
+                By.xpath(String.format(PROJECTXPATH, name)));
     }
 
     /**
@@ -162,7 +157,7 @@ public class Dashboard extends AbstractPage {
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
-            LOGGER.warn("The Project web element was not find ", e);
+            LOGGER.warn("The Project web element was not found ", e);
         }
     }
 
@@ -177,7 +172,7 @@ public class Dashboard extends AbstractPage {
                     getElementWithName(this.worksSpaceNames, name);
             this.action.click(project);
         } catch (final NoSuchElementException e) {
-            LOGGER.warn("The Workspace web element was not find ", e);
+            LOGGER.warn("The Workspace web element was not found ", e);
         }
     }
 
@@ -225,13 +220,15 @@ public class Dashboard extends AbstractPage {
         }
 
         final String linkText = this.action.getAttribute(
-                By.xpath(String.format(this.projectXpath, projectName)),
+                By.xpath(String.format(PROJECTXPATH, projectName)),
                 "pathname");
         this.action.click(By.xpath("//a[@aria-label='settings' and @href='"
                 .concat(linkText).concat("/settings']")));
     }
 
-    /** This method reload dashboard page. **/
+    /**
+     * This method reload dashboard page.
+     **/
     public void reload() {
         this.driver.get(Environment.getInstance().getValue("url.base")
                 .concat("/dashboard"));

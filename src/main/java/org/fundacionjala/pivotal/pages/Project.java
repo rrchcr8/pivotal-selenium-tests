@@ -145,9 +145,9 @@ public class Project extends AbstractPage {
     public void createNewProject(final Map<String, String> projectElements) {
 
         final Map<String, ISteps> strategy = new HashMap<>();
-        strategy.put(FormsElements.TITLE.toString(),
+        strategy.put(FormsElements.NAME.toString(),
                 () -> setProjectNameTextField(projectElements
-                        .get(FormsElements.TITLE.toString())));
+                        .get(FormsElements.NAME.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
                 () -> selectAccount(projectElements
                         .get(FormsElements.ACCOUNT.toString())));
@@ -198,7 +198,7 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * Cofirm deletion.
+     * Confirm deletion.
      */
     public void clickOnDeleteButton() {
         action.click(confirmDelete);
@@ -211,9 +211,9 @@ public class Project extends AbstractPage {
      */
     public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
         final Map<String, ISteps> strategy = new HashMap<>();
-        strategy.put(FormsElements.TITLE.toString(),
+        strategy.put(FormsElements.NAME.toString(),
                 () -> setEditProjectTitle(projectElements
-                        .get(FormsElements.TITLE.toString())));
+                        .get(FormsElements.NAME.toString())));
         strategy.put(FormsElements.DESCRIPTION.toString(),
                 () -> setEditProjectDescription(projectElements
                         .get(FormsElements.DESCRIPTION.toString())));
