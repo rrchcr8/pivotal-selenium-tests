@@ -33,7 +33,7 @@ public class Story extends AbstractPage {
     @FindBy(css = "div[class='dropdown story_type']")
     private WebElement storyTypeDropdown;
 
-    @FindBy(xpath = "//div[@class='dropdown story_type']/a[contains(@class,'item_feature')]")
+    @FindBy(xpath = "//div[@class='dropdown story_type']/a[contains(@class,'item_feature')]/span")
     private WebElement storyTypeText;
 
     @FindBy(xpath = "//div[contains(@class,'dropdown story_estimate')]")
