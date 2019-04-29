@@ -62,7 +62,7 @@ public class Story extends AbstractPage {
     private WebElement blockersTextField;
 
     @FindBy(css = "button[data-aid='BlockerEdit__addButton']")
-    private WebElement addBlocker;
+    private WebElement addBlockerConfirm;
 
     @FindBy(css = "div[data-aid='renderedDescription']")
     private WebElement openDescription;
@@ -107,7 +107,6 @@ public class Story extends AbstractPage {
      * @param name of the story
      */
     public void createStory(final String name) {
-        clickAddButton();
         setStoryNameTextField(name);
         clickSaveButton();
     }
