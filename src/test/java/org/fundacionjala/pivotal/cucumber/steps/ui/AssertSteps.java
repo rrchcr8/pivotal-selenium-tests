@@ -2,7 +2,6 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import org.apache.log4j.Logger;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.HeaderMenu;
@@ -15,8 +14,6 @@ import org.testng.asserts.SoftAssert;
  * Assertion on common steps with soft assert.
  */
 public class AssertSteps {
-    private static final Logger LOGGER =
-            Logger.getLogger(WorkspaceSteps.class.getName());
 
     @Autowired
     private SoftAssert softAssert;
@@ -36,6 +33,7 @@ public class AssertSteps {
     @Autowired
     private ToastMessage toastMessage;
 
+    private static final String WORKSPACE = "Workspaces";
     /**
      * This steps verify that workspace.
      *
@@ -74,12 +72,12 @@ public class AssertSteps {
      */
     @And("validates {string} on {string} group list")
     public void validatesOnGroupList(final String name, final String specificGroup) {
-        if (specificGroup.equals("Workspaces")) {
+        if (specificGroup.equals(WORKSPACE)) {
             softAssert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
-                    String.format(" %s match on %s", name, specificGroup));
+                    String.format(" %s match inside group list on %s", name, specificGroup));
         } else {
             softAssert.assertTrue(this.headerMenu.isProjectListedOnMenu(name),
-                    String.format(" %s match on %s", name, specificGroup));
+                    String.format(" %s match inside group list on %s", name, specificGroup));
         }
     }
 
@@ -91,12 +89,12 @@ public class AssertSteps {
      */
     @And("validates {string} on {string} dashboard tab")
     public void validatesOnDashboardTab(final String name, final String specificList) {
-        if (specificList.equals("Workspaces")) {
+        if (specificList.equals(WORKSPACE)) {
             softAssert.assertTrue(this.dashboard.existWorkSpace(name),
-                    String.format(" %s match on %s", name, specificList));
+                    String.format(" %s found on dashboard page inside %s", name, specificList));
         } else {
             softAssert.assertTrue(this.dashboard.existProject(name),
-                    String.format(" %s match on %s", name, specificList));
+                    String.format(" %s found on dashboard page inside %s", name, specificList));
         }
     }
 
@@ -108,12 +106,12 @@ public class AssertSteps {
      */
     @And("validates {string} not listed on {string} group list")
     public void validatesNotListedOnGroupList(final String name, final String specificGroup) {
-        if (specificGroup.equals("Workspaces")) {
+        if (specificGroup.equals(WORKSPACE)) {
             softAssert.assertFalse(this.headerMenu.isWorkspaceListedOnMenu(name),
-                    String.format(" %s match on %s", name, specificGroup));
+                    String.format(" %s not listed on %s", name, specificGroup));
         } else {
             softAssert.assertFalse(this.headerMenu.isProjectListedOnMenu(name),
-                    String.format(" %s match on %s", name, specificGroup));
+                    String.format(" %s not listed on %s", name, specificGroup));
         }
     }
 
@@ -125,12 +123,12 @@ public class AssertSteps {
      */
     @And("validates {string} not listed on {string} dashboard tab")
     public void validatesNotListedOnDashboardTab(final String name, final String specificList) {
-        if (specificList.equals("Workspaces")) {
+        if (specificList.equals(WORKSPACE)) {
             softAssert.assertFalse(this.dashboard.existWorkSpace(name),
-                    String.format(" %s match on %s", name, specificList));
+                    String.format(" %s not listed on %s", name, specificList));
         } else {
             softAssert.assertFalse(this.dashboard.existProject(name),
-                    String.format(" %s match on %s", name, specificList));
+                    String.format(" %s not listed on %s", name, specificList));
         }
     }
 
