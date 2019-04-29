@@ -58,8 +58,17 @@ public class Story extends AbstractPage {
     @FindBy(css = "div[data-aid='BlockerAdd']")
     private WebElement addBlocker;
 
-    @FindBy(xpath = ".//*[@id='blocker-edit-new']")
+    @FindBy(css = "#blocker-edit-new")
     private WebElement blockersTextField;
+
+    @FindBy(css = "button[data-aid='BlockerEdit__addButton']")
+    private WebElement addBlocker;
+
+    @FindBy(css = "div[data-aid='renderedDescription']")
+    private WebElement openDescription;
+
+    @FindBy(css = "textarea[data-aid='textarea']")
+    private WebElement descriptionText;
 
     @FindBy(css = ".tracker_markup")
     private WebElement storyNameCreated;
