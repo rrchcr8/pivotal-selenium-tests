@@ -1,5 +1,6 @@
 package org.fundacionjala.core.api;
 
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -21,6 +22,7 @@ public final class RequestManager {
 
     /**
      * It processes the GET request for an endpoint url.
+     *
      * @param endpoint the endpoing url.
      * @return the response of the GET request.
      */
@@ -30,6 +32,7 @@ public final class RequestManager {
 
     /**
      * It processes the POST request for an endpoint url.
+     *
      * @param endpoint   the endpoint url.
      * @param parameters data to be filled on the endpoint created.
      * @return the response of the POST request.
@@ -40,8 +43,15 @@ public final class RequestManager {
                 .when().post(endpoint);
     }
 
+    public static Response postRequest(final String endpoint,
+                                       final String json) {
+        return given().spec(REQUEST).contentType(ContentType.JSON)
+                .when().body(json).post(endpoint);
+    }
+
     /**
      * It processes the PUT request for an endpoint url.
+     *
      * @param endpoint   the endpoint url.
      * @param parameters data to be updated on the endpoint.
      * @return the response of the PUT request.
@@ -54,6 +64,7 @@ public final class RequestManager {
 
     /**
      * IT processes the DELETE request for an endpoint url.
+     *
      * @param endpoint the endpoint url.
      * @return the response of the DELETE request.
      */

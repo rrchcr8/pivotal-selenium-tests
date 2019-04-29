@@ -61,7 +61,7 @@ public class ProjectSteps {
     /**
      * Open context on settings.
      */
-    @And("open project's settings")
+    @Given("Opens a project's settings")
     public void openProjectsSettings() {
         final String projectName = this.project.getProjectName();
         this.dashboard.openProjectSettings(projectName);
