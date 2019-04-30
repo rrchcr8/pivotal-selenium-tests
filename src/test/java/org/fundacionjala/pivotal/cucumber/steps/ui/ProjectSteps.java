@@ -198,7 +198,7 @@ public class ProjectSteps {
         this.dashboard.reload();
         this.header.openProjectMenu();
         final boolean actual = this.menu.isProjectListedOnMenu(
-                (String) ScenarioContext.getInstance().getContext("projectName"));
+                (String) ScenarioContext.getInstance().getContext(PROJECT_NAME));
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
 
@@ -264,7 +264,7 @@ public class ProjectSteps {
      * This is a method that loads all project Id's into a CONTEXT.
      */
     private void loadAllProjectIdsInContext() {
-        final String url = StringUtil.getExplicitEndpoint("/projects");
+        final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
         JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
         ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
