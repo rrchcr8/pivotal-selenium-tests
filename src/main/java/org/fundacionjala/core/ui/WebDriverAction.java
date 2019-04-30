@@ -147,7 +147,7 @@ public class WebDriverAction {
      * @return the value of String text.
      */
     public String getValue(final WebElement element) {
-        this.wait.until(ExpectedConditions.stalenessOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
         return element.getText();
     }
 

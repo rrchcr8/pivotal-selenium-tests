@@ -1,8 +1,10 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fundacionjala.core.Environment;
+import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.DeleteModal;
@@ -43,11 +45,10 @@ public class StorySteps {
     /**
      * This method clicks the expand button for a specific story.
      *
-     * @param storyKeyName the name of the story.
+     * @param storyName the name of the story.
      */
     @When("expands the story {string}")
-    public void expandsTheStory(final String storyKeyName) {
-        final String storyName = StringUtil.getValue(storyKeyName);
+    public void expandsTheStory(final String storyName) {
         this.panel.expandStory(storyName);
     }
 
@@ -92,15 +93,18 @@ public class StorySteps {
     /** This step verifies that story appears in panel. **/
     @Then("verifies the story is created in panel")
     public void verifiesTheStoryIsCreatedInPanel() {
-        final String storyName = ScenarioContext.getContextAsString("story_name");
+        final String storyName = ScenarioContext
+                .getContextInMapAsString("all_story_fields", "name");
         Assert.assertTrue(this.panel.existStory(storyName));
     }
 
-    /** This step verifies that story have all data provided in create step. **/
+    /**
+     * This step verifies that story have all data provided in create step.
+     *
+     * @param attributes input data.
+     **/
     @Then("verifies the story is created in story")
-    public void verifiesTheStoryIsCreatedInStory() {
-        final Map<String, String> attributes = (Map) ScenarioContext.getInstance()
-                .getContext(this.allFields);
+    public void verifiesTheStoryIsCreatedInStory(final Map<String, String> attributes) {
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.NAME.key(), () ->
                 Assert.assertEquals(this.story.getStoryNameText(),
@@ -140,12 +144,30 @@ public class StorySteps {
         ScenarioContext.getInstance().setContext(this.allFields, attributes);
     }
 
-    /** This step verifies the story counter in project list page. */
-    @Then("verifies the story is created in project list")
-    public void verifiesTheStoryIsCreatedInProjectList() {
-        final String projectName = ScenarioContext
-                .getContextAsString("project_response.name");
+    /**
+     * This step verifies the story counter in project list page.
+     *
+     * @param projectNameKey project name key in context.
+     * @param expectedCount  expected story count in project.
+     */
+    @Then("verifies the story count for project {string} is equal {string} in  project list")
+    public void verifiesTheStoryIsCreatedInProjectList(final String projectNameKey, final String expectedCount) {
+        final String projectName = StringUtil.getValue(projectNameKey);
         final String amount = this.projectList.getAmountOfStories(projectName);
-        Assert.assertEquals(amount, "1");
+        Assert.assertEquals(amount, expectedCount);
     }
+
+    /** After hook that delete project created in the background steps. **/
+    @After
+    public void after() {
+        final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
+        RequestManager.deleteRequest(url);
+    }
+
+    /** This step clicks on add story button. **/
+    @When("clicks on add story button")
+    public void clicksOnAddStoryButton() {
+        this.panel.clickAddButton();
+    }
+
 }

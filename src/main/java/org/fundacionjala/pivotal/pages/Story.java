@@ -1,5 +1,6 @@
 package org.fundacionjala.pivotal.pages;
 
+import org.apache.log4j.Logger;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.AbstractPage;
 import org.fundacionjala.core.ui.forms.FormsElements;
@@ -14,6 +15,8 @@ import java.util.Map;
 /** This class represents the story page. */
 @Component
 public class Story extends AbstractPage {
+    private static final Logger LOGGER =
+            Logger.getLogger(Story.class.getName());
 
     @FindBy(xpath = "//section[@class='story_or_epic_header']/child::button")
     private WebElement collapseStory;
@@ -60,6 +63,9 @@ public class Story extends AbstractPage {
     @FindBy(xpath = "//span[@class='wrapper hbsAvatarName']/span")
     private WebElement ownerName;
 
+    @FindBy(xpath = "//div[@class='story_owners']/a/span[@class='none']")
+    private WebElement defaultOwner;
+
     /** 1 follower, 2 followers. */
     @FindBy(css = ".count.not_read_only")
     private WebElement followerCount;
@@ -70,7 +76,7 @@ public class Story extends AbstractPage {
     @FindBy(css = "textarea[data-aid='textarea']")
     private WebElement descriptionText;
 
-    @FindBy(css = "div[data-aid='renderedDescription'] span p")
+    @FindBy(css = "div[data-aid='renderedDescription']")
     private WebElement descriptionTextLabel;
 
     @FindBy(css = ".tracker_markup")
@@ -177,6 +183,8 @@ public class Story extends AbstractPage {
     public void setEstimatedPoints(final String points) {
         if (isFeature()) {
             this.action.click(this.estimatedPointsDropdown);
+            final DropdownMenuSearch dropdown = new DropdownMenuSearch();
+            dropdown.selectItem(points);
         }
     }
 
@@ -214,11 +222,13 @@ public class Story extends AbstractPage {
     /**
      * This method set the owner.
      *
-     * @param ownerName owner name. e.g. owner1, member1.
+     * @param ownerNameKey owner name. e.g. owner1, member1.
      */
-    public void setOwner(final String ownerName) {
+    public void setOwner(final String ownerNameKey) {
+        final String ownerNameValue = Environment.getInstance()
+                .getAccountName(ownerNameKey);
         final String xpath = "//div/article[@class='content']//descendant::a"
-                .concat("/child::span[text() = '").concat(ownerName)
+                .concat("/child::span[text() = '").concat(ownerNameValue)
                 .concat("']/parent::a");
         this.action.click(this.addStoryOwner);
         this.action.click(By.xpath(xpath));
@@ -230,7 +240,13 @@ public class Story extends AbstractPage {
      * @return owner.
      */
     public String getOwner() {
-        return this.action.getValue(this.ownerName);
+        try {
+            return this.action.getValue(this.ownerName);
+        } catch (final Exception e) {
+            LOGGER.warn("Explicit owner not found. Trying to get default "
+                    .concat("owner text. Exception: ").concat(e.getMessage()));
+            return this.action.getValue(this.defaultOwner);
+        }
     }
 
     /**
@@ -258,9 +274,10 @@ public class Story extends AbstractPage {
      * @param attributes map.
      */
     public void createStory(final Map<String, String> attributes) {
+        final String name = attributes.get(FormsElements.NAME.key());
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.NAME.key(), () ->
-                setStoryNameText(attributes.get(FormsElements.NAME.key())));
+                setStoryNameText(name));
         strategy.put(FormsElements.STORY_TYPE.key(), () ->
                 setStoryType(attributes.get(FormsElements.STORY_TYPE.key())));
         strategy.put(FormsElements.ESTIMATED_POINTS.key(), () ->
@@ -275,5 +292,8 @@ public class Story extends AbstractPage {
         attributes.keySet()
                 .forEach(key -> strategy.get(key).perform());
         clickSaveButton();
+        final String xpath = "//span[@class='story_name']/span[text()='%s']";
+        this.action.waitPresenceOfElement(
+                By.xpath(String.format(xpath, name)));
     }
 }
