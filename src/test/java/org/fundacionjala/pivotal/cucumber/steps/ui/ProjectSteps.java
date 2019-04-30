@@ -30,6 +30,9 @@ import java.util.Map;
 public class ProjectSteps {
 
     static final String PROJECTURI = "/projects";
+    private static final String PROJECT_NAME = "projectName";
+    private static final String PROJECTS_IDS = "Projects_ids";
+
     @Autowired
     private Project project;
     @Autowired
@@ -46,7 +49,6 @@ public class ProjectSteps {
     private ProjectSettings projectSettings;
     @Autowired
     private SavePanelProjectSettings savePanelProjectSettings;
-
     private Object resp;
 
     /**
@@ -66,10 +68,10 @@ public class ProjectSteps {
      */
     @Then("validates {string} name on project's header title")
     public void validateTheProjectIsCreatedWithSpecifyName(final String projectName) {
-        ScenarioContext.getInstance().setContext("PROJECT_NAME", projectName);
+        ScenarioContext.getInstance().setContext(PROJECT_NAME, projectName);
         final String actual = this.header.getTitleName();
         Assert.assertEquals(actual, ScenarioContext.getInstance().getContext(
-                "PROJECT_NAME"), "Project name match");
+                PROJECT_NAME), "Project name match");
     }
 
     /**
@@ -91,7 +93,7 @@ public class ProjectSteps {
     public void
     openProjectsSettings(final String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
-        ScenarioContext.getInstance().setContext("projectName", projectName);
+        ScenarioContext.getInstance().setContext(PROJECT_NAME, projectName);
         this.dashboard.openProjectSettings(projectName);
     }
 
@@ -110,7 +112,7 @@ public class ProjectSteps {
     @Then("The project no longer appear on projects section")
     public void theProjectNoLongerAppearOnProjectsSection() {
         Assert.assertFalse(this.dashboard.existProject(
-                (String) ScenarioContext.getInstance().getContext("projectName")),
+                (String) ScenarioContext.getInstance().getContext(PROJECT_NAME)),
                 "False if project is not listed after deletion");
     }
 
@@ -123,7 +125,7 @@ public class ProjectSteps {
         this.header.openMenu();
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectList.isProjectListedOnPage(
-                (String) ScenarioContext.getInstance().getContext("projectName"));
+                (String) ScenarioContext.getInstance().getContext(PROJECT_NAME));
         Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
 
@@ -265,7 +267,7 @@ public class ProjectSteps {
         final String url = StringUtil.getExplicitEndpoint("/projects");
         JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
-        ScenarioContext.getInstance().setContext("Projects_ids", json.get("id"));
+        ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
     }
 
     /**
@@ -274,10 +276,10 @@ public class ProjectSteps {
     @And("get project id")
     public void getProjectId() {
         List ids = (List) ScenarioContext.getInstance()
-                .getContext("Projects_ids");
+                .getContext(PROJECTS_IDS);
         loadAllProjectIdsInContext();
         List ids2 = (List) ScenarioContext.getInstance()
-                .getContext("Projects_ids");
+                .getContext(PROJECTS_IDS);
         ids2.removeAll(ids);
         this.resp = ids2.get(0).toString();
     }
