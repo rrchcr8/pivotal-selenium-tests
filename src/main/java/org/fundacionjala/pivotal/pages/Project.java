@@ -115,8 +115,8 @@ public class Project extends AbstractPage {
          * This is a Workaround.
          * this need to be reviewed in the last selenium version. action.staleElement(backDrop);
          */
-        action.pause(3000);
-
+        this.action.click(createButton);
+        action.pause(8000);
     }
 
     /**

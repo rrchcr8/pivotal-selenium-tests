@@ -1,9 +1,11 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.pivotal.pages.*;
@@ -12,6 +14,7 @@ import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +40,7 @@ public class ProjectSteps {
     @Autowired
     private SavePanelProjectSettings savePanelProjectSettings;
 
+    private Object resp;
 
     /**
      * Create a new project.
@@ -53,7 +57,7 @@ public class ProjectSteps {
      */
     @Then("validates {string} name on project's header title")
     public void validateTheProjectIsCreatedWithSpecifyName(String projectName) {
-        ScenarioContext.getInstance().setContext("PROJECT_NAME",projectName);
+        ScenarioContext.getInstance().setContext("PROJECT_NAME", projectName);
         final String actual = this.header.getTitleName();
         Assert.assertEquals(actual, projectName, "Project name match");
     }
@@ -73,8 +77,8 @@ public class ProjectSteps {
      */
     @Given("Opens a {string} settings")
     public void openProjectsSettings(String projectKeyName) {
-        final String projectName =  StringUtil.getValue(projectKeyName);
-        ScenarioContext.getInstance().setContext("projectName",projectName);
+        final String projectName = StringUtil.getValue(projectKeyName);
+        ScenarioContext.getInstance().setContext("projectName", projectName);
         this.dashboard.openProjectSettings(projectName);
     }
 
@@ -93,7 +97,7 @@ public class ProjectSteps {
     @Then("The project no longer appear on projects section")
     public void theProjectNoLongerAppearOnProjectsSection() {
         Assert.assertFalse(this.dashboard.existProject(
-                 (String) ScenarioContext.getInstance().getContext("projectName")),
+                (String) ScenarioContext.getInstance().getContext("projectName")),
                 "False if project is not listed after deletion");
     }
 
@@ -207,7 +211,7 @@ public class ProjectSteps {
     /**
      * New project button on header menu.
      */
-    @Given("A create new button on header menu")
+    @Given("clicks new button on header menu")
     public void aCreateNewButtonOnHeaderMenu() {
         this.header.openProjectMenu();
         this.header.clickCreateNewProject();
@@ -223,10 +227,33 @@ public class ProjectSteps {
         this.project.clickCreateNewPRojectOption();
     }
 
-    @And("Set {string}")
-    public void set(String response) {
+    @And("set {string}")
+    public void set(String keyContext) {
+        ScenarioContext.getInstance().setContext(keyContext, this.resp);
+    }
+
+    @Before
+    public void setup() {
+        loadAllProjectIdsInContext();
+    }
+
+    private void loadAllProjectIdsInContext() {
         final String url = StringUtil.getExplicitEndpoint("/projects");
-        Response respGet =(Response) (RequestManager.getRequest(url).body());
-        ScenarioContext.getInstance().setContext(response, respGet);
-        }
+        JsonPath json =
+                ((Response) RequestManager.getRequest(url).body()).jsonPath();
+        ScenarioContext.getInstance().setContext("Projects_ids", json.get("id"));
+        System.out.println(json.get("id").toString());
+    }
+
+    @And("get project id")
+    public void getProjectId() {
+        List ids = (List) ScenarioContext.getInstance()
+                .getContext("Projects_ids");
+        loadAllProjectIdsInContext();
+        List ids2 = (List) ScenarioContext.getInstance()
+                .getContext("Projects_ids");
+        ids2.removeAll(ids);
+        this.resp = ids2.get(0).toString();
+        System.out.println("my id" + resp);
+    }
 }
