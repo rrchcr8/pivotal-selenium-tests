@@ -2,7 +2,7 @@
 Feature: edition of workspaces
 
   Background:
-    Given sends a POST request "/workspaces"
+    Given sends a POST request "/my/workspaces"
       | name | original workspace |
     And stores response as "workspace_response"
     And logs in with user "owner1"
@@ -13,17 +13,14 @@ Feature: edition of workspaces
     Given the settings page from the particular workspace
       | name | workspace_response.name |
     When edits attributes of the workspace
-      | name | random name |
-    And saves data on context
-      | id   |
-      | name |
+      | name | random |
     Then a "Changes saved." message should be displayed
     And validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
-    And sends a DELETE request "/workspace/{workspace.id}"
+    And sends a DELETE request "/my/workspace/{workspace_response.id}"
 
 
   Scenario: workspace can be edited from workspace home.
@@ -32,13 +29,10 @@ Feature: edition of workspaces
     And clicks on "more" tab on header menu
     When edits attributes of the workspace
       | name | random name |
-    And saves data on context
-      | id   |
-      | name |
     Then a "Changes saved." message should be displayed
     And validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
-    And sends a DELETE request "/workspace/{workspace.id}"
+    And sends a DELETE request "/my/workspace/{workspace_response.id}"

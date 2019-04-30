@@ -15,7 +15,7 @@ import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.pivotal.pages.Tasks;
 import org.fundacionjala.util.ScenarioContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.asserts.SoftAssert;
+import org.testng.Assert;
 
 import java.util.Map;
 
@@ -37,8 +37,6 @@ public class TaskSteps {
 
     @Autowired
     private Tasks tasksPanel;
-    @Autowired
-    private SoftAssert softAssert;
 
     /**
      * Step to set default project with story.
@@ -98,7 +96,7 @@ public class TaskSteps {
     public void verifyTheTaskWasAdded() {
         final String text = (String) ScenarioContext
                 .getContextAsString(TASK_NAME);
-        softAssert.assertTrue(this.tasksPanel.existTask(text));
+        Assert.assertTrue(this.tasksPanel.existTask(text));
     }
 
     /**
@@ -121,8 +119,9 @@ public class TaskSteps {
      */
     @Then("the old task should not be listed")
     public void verifyThatTaskNotListed() {
-        softAssert.assertFalse(this.tasksPanel.existTask((String) ScenarioContext
+        Assert.assertFalse(this.tasksPanel.existTask((String) ScenarioContext
                 .getContextAsString(TASK_NAME)));
+
     }
 
     /**
@@ -132,7 +131,7 @@ public class TaskSteps {
      **/
     @And("Task with name {string} exist")
     public void taskWithNameExist(final String name) {
-        softAssert.assertTrue(this.tasksPanel.existTask(name));
+        Assert.assertTrue(this.tasksPanel.existTask(name));
     }
 
     /**

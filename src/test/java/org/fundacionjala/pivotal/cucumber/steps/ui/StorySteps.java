@@ -1,21 +1,24 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.fundacionjala.core.Environment;
+import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.DeleteModal;
 import org.fundacionjala.pivotal.pages.HeaderContainer;
+import org.fundacionjala.pivotal.pages.ISteps;
 import org.fundacionjala.pivotal.pages.Panel;
 import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
 import org.fundacionjala.pivotal.pages.Story;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.Assert;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * this is an story steps.
@@ -23,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 public class StorySteps {
     @Autowired
     private Project project;
+    @Autowired
+    private ProjectWorkspaceList projectList;
     @Autowired
     private Dashboard dashboard;
     @Autowired
@@ -34,44 +39,7 @@ public class StorySteps {
     @Autowired
     private DeleteModal deleteModal;
 
-
-    /**
-     * Given step for story feature.
-     *
-     * @param arg0 is the name of the project.
-     */
-    @Given("a project called {string}")
-    public void aProjectCalled(final String arg0) {
-        this.dashboard.goToProject(arg0);
-        this.story.createStory("ird test");
-    }
-
-    /**
-     * @param name the name of the story.
-     */
-    @When("creates a story called {string}")
-    public void createsAStoryCalled(final String name) {
-        this.story.createStory(name);
-        ScenarioContext.getInstance().setContext("story_name", name);
-    }
-
-    /**
-     * this method verifies that a story is created.
-     */
-    @Then("verify the story is created")
-    public void verifytheStoryIsCreated() {
-        final String storyName = ScenarioContext.getContextAsString("story_name");
-        assertTrue(this.story.existStory(storyName));
-    }
-
-    /**
-     * @param arg1 name of other story.
-     */
-    @When("creates other a story called {string}")
-    public void createsOtherAStoryCalled(final String arg1) {
-        this.story.createStory(arg1);
-    }
-
+    private final String allFields = "all_story_fields";
     /**
      * This method clicks the expand button for a specific story.
      *
@@ -80,15 +48,13 @@ public class StorySteps {
     @When("expands the story {string}")
     public void expandsTheStory(final String storyKeyName) {
         final String storyName = StringUtil.getValue(storyKeyName);
-        panel.expandStory(storyName);
+        this.panel.expandStory(storyName);
     }
 
-    /**
-     * This method clicks the delete button inside the story page.
-     */
-    @And("click delete button")
+    /** This method clicks the delete button inside the story page. */
+    @When("clicks delete button")
     public void clickDeleteButton() {
-        story.clickDeleteButton();
+        this.story.clickDeleteButton();
     }
 
     /**
@@ -99,29 +65,87 @@ public class StorySteps {
     @When("selects the bulk of {string}")
     public void deletesSelectingTheCheckboxof(final String storyNameKey) {
         final String storyName = StringUtil.getValue(storyNameKey);
-        panel.clickStoryCheckboxButton(storyName);
-
-
+        this.panel.clickStoryCheckboxButton(storyName);
     }
 
     /**
      * @param storyNameKey is the name of the story.
      */
-    @Then("Verify that the story {string} is deleted")
+    @Then("verifies that the story {string} is deleted")
     public void verifyThatTheStoryIsDeleted(final String storyNameKey) {
         final String storyName = StringUtil.getValue(storyNameKey);
-        assertFalse(this.story.existStory(storyName));
+        Assert.assertFalse(this.panel.existStory(storyName));
     }
 
     /** clicks the button of the header container. */
-    @And("click delete button of Header container")
+    @When("clicks delete button of Header container")
     public void clickDeleteButtonOfHeaderContainer() {
-        headerContainer.clickDeleteButtonOfToast();
+        this.headerContainer.clickDeleteButtonOfToast();
     }
 
     /** Confirm button. */
-    @And("click confirm delete button")
+    @When("clicks confirm delete button")
     public void clickConfirmDeleteButton() {
-        deleteModal.clickConfirmDeleteButton();
+        this.deleteModal.clickConfirmDeleteButton();
+    }
+
+    /** This step verifies that story appears in panel. **/
+    @Then("verifies the story is created in panel")
+    public void verifiesTheStoryIsCreatedInPanel() {
+        final String storyName = ScenarioContext.getContextAsString("story_name");
+        Assert.assertTrue(this.panel.existStory(storyName));
+    }
+
+    /** This step verifies that story have all data provided in create step. **/
+    @Then("verifies the story is created in story")
+    public void verifiesTheStoryIsCreatedInStory() {
+        final Map<String, String> attributes = (Map) ScenarioContext.getInstance()
+                .getContext(this.allFields);
+        final Map<String, ISteps> strategy = new HashMap<>();
+        strategy.put(FormsElements.NAME.key(), () ->
+                Assert.assertEquals(this.story.getStoryNameText(),
+                        attributes.get(FormsElements.NAME.key())));
+        strategy.put(FormsElements.STORY_TYPE.key(), () ->
+                Assert.assertEquals(this.story.getStoryTypeText(),
+                        attributes.get(FormsElements.STORY_TYPE.key())));
+        strategy.put(FormsElements.ESTIMATED_POINTS.key(), () ->
+                Assert.assertEquals(this.story.getEstimatedPoints(),
+                        attributes.get(FormsElements.ESTIMATED_POINTS.key())));
+        strategy.put(FormsElements.REQUESTER.key(), () -> {
+            final String key = attributes.get(FormsElements.REQUESTER.key());
+            final String name = Environment.getInstance().getAccountName(key);
+            Assert.assertEquals(this.story.getRequester(), name);
+        });
+        strategy.put(FormsElements.OWNER.key(), () -> {
+            final String key = attributes.get(FormsElements.OWNER.key());
+            final String name = Environment.getInstance().getAccountName(key);
+            Assert.assertEquals(this.story.getOwner(), name);
+        });
+        strategy.put(FormsElements.DESCRIPTION.key(), () ->
+                Assert.assertEquals(this.story.getDescription(),
+                        attributes.get(FormsElements.DESCRIPTION.key())));
+
+        attributes.keySet()
+                .forEach(key -> strategy.get(key).perform());
+    }
+
+    /**
+     * This step create a story with given information.
+     *
+     * @param attributes story info.
+     */
+    @When("creates a story with:")
+    public void createsAStoryWith(final Map<String, String> attributes) {
+        this.story.createStory(attributes);
+        ScenarioContext.getInstance().setContext(this.allFields, attributes);
+    }
+
+    /** This step verifies the story counter in project list page. */
+    @Then("verifies the story is created in project list")
+    public void verifiesTheStoryIsCreatedInProjectList() {
+        final String projectName = ScenarioContext
+                .getContextAsString("project_response.name");
+        final String amount = this.projectList.getAmountOfStories(projectName);
+        Assert.assertEquals(amount, "1");
     }
 }

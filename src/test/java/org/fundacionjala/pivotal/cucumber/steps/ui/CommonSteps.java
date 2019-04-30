@@ -1,5 +1,6 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.fundacionjala.core.Environment;
@@ -9,6 +10,7 @@ import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.asserts.SoftAssert;
 
 /**
  * Common steps.
@@ -23,6 +25,8 @@ public class CommonSteps {
 
     @Autowired
     private Header header;
+
+    static SoftAssert Assert;
 
     /**
      * Logs in with user.
@@ -49,7 +53,7 @@ public class CommonSteps {
     @Given("goes to dashboard {string}")
     public void goToDashboardAndTab(final String tabName) {
         this.dashboard.reload();
-        if (tabName.toLowerCase().contains("Workspaces")) {
+        if (tabName.toLowerCase().contains("workspaces")) {
             this.dashboard.goToWorkSpaceTab();
         }
     }
@@ -73,4 +77,13 @@ public class CommonSteps {
         this.header.openMenu();
     }
 
+    @Before("@SoftAssert")
+    public static void initialize() {
+        Assert = new SoftAssert();
+    }
+
+    @And("asserts all")
+    public static void assertAll() {
+        Assert.assertAll();
+    }
 }

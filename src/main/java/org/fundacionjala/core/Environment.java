@@ -2,15 +2,16 @@ package org.fundacionjala.core;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import org.fundacionjala.util.StringUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -53,6 +54,30 @@ public final class Environment {
      * @return the String of user.
      */
     public String getValue(final String key) {
-        return  jsonContext.read(key);
+        return this.jsonContext.read(key);
+    }
+
+    /**
+     * This method get the username for provided key.
+     * {owner1, memeber1}
+     *
+     * @param key string.
+     * @return string.
+     */
+    public String getUserName(final String key) {
+        final String userNameKey = String
+                .format("credentials.%s.username", key);
+        return Environment.getInstance().getValue(userNameKey);
+    }
+
+    /**
+     * This method get the account name for a provided key.
+     * {owner1, memeber1}
+     *
+     * @param key string.
+     * @return string.
+     */
+    public String getAccountName(final String key) {
+        return StringUtil.getKey(getUserName(key), '@');
     }
 }

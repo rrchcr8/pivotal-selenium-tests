@@ -17,6 +17,6 @@ Feature: Add task test
     When adds a task to current Story
       | name | First Task |
     Then validates task aggregation
-    And validates task counter
-      | operation | increment |
+#    And validates task counter
+#      | operation | increment |
     And deletes the task

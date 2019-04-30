@@ -6,12 +6,9 @@ import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.WorkSpaceService;
 import org.fundacionjala.core.ui.forms.FormsElements;
-import org.fundacionjala.pivotal.pages.ConfirmAction;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.WorkSpaceNew;
-import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
+import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
+import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -91,11 +88,12 @@ public class WorkspaceSteps {
 
     /**
      * This step click over settings button.
+     *
      * @param workspaceAttributes Map of attributes
      **/
     @When("the settings page from the particular workspace")
     public void theUserClicksOnWorkSpaceSettingBtn(final Map<String, String> workspaceAttributes) {
-        final String name = workspaceAttributes.get(FormsElements.NAME.toString());
+        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
         try {
             final WorkSpaceSettings page =
                     this.dashboard.clickWorkSpaceSettings(name);
@@ -134,10 +132,9 @@ public class WorkspaceSteps {
      */
     @When("creates a workspace")
     public void createsAWorkspace(final Map<String, String> workspaceAttributes) {
-        this.workSpaceNew.setName(workspaceAttributes
-                .get(FormsElements.NAME.toString()));
-        ScenarioContext.getInstance().setContext(WS_NAME, workspaceAttributes
-                .get(FormsElements.NAME.toString()));
+        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
+        this.workSpaceNew.setName(name);
+        ScenarioContext.getInstance().setContext(WS_NAME, name);
         this.workSpaceNew.clickCreateButton();
     }
 
@@ -158,6 +155,9 @@ public class WorkspaceSteps {
      */
     @When("edits attributes of the workspace")
     public void editsAttributesOfTheWorkspace(final Map<String, String> workspaceAttributes) {
+        ScenarioContext.getInstance().setContext("workspace",
+                StringUtil.setKeyValue(FormsElements.NAME.toString(), workspaceAttributes
+                        .get(FormsElements.NAME.toString())));
         this.workSpaceSettings.setName(workspaceAttributes
                 .get(FormsElements.NAME.toString()));
     }
@@ -169,7 +169,8 @@ public class WorkspaceSteps {
      */
     @Given("the workspace home")
     public void theWorkspaceHome(final Map<String, String> workspaceAttributes) {
-        this.dashboard.goToWorkspace(workspaceAttributes
+        final String name = StringUtil.getValue(workspaceAttributes
                 .get(FormsElements.NAME.toString()));
+        this.dashboard.goToWorkspace(name);
     }
 }

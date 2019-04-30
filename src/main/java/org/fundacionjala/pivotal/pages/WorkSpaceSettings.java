@@ -51,6 +51,7 @@ public class WorkSpaceSettings extends AbstractPage {
      * @param newName string.
      */
     public void setName(final String newName) {
+        this.name.clear();
         this.name.sendKeys(newName);
     }
 
@@ -61,6 +62,6 @@ public class WorkSpaceSettings extends AbstractPage {
      */
     public void openWorkspaceMenuTab(final String tabNameOnHeader) {
         this.action.click(By.xpath(String.format(
-                "//nav[@class=\"PKIms__projectNavExpanded\"]/child::a/child::span[text()=\"%s\"]", tabNameOnHeader)));
+                "//nav[contains(@class,\"projectNavExpanded\")]/child::a/child::span[text()=\"%s\"]", tabNameOnHeader)));
     }
 }

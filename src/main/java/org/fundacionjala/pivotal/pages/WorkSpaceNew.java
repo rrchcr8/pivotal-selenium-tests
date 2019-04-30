@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkSpaceNew extends AbstractPage {
 
-    @FindBy(css = ".Dashboard__Tabs__tab Dashboard__Tabs__tab--active")
+    @FindBy(xpath = "//span[contains(text(),'Workspaces')]")
     private WebElement dashboardLink;
 
     @FindBy(css = "#create-workspace-button")
@@ -20,7 +20,7 @@ public class WorkSpaceNew extends AbstractPage {
     @FindBy(css = ".tc-form__input")
     private WebElement textBoxname;
 
-    @FindBy(css = ".zWDds__Button pvXpn__Button--positive")
+    @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
 
     @FindBy(css = ".raw_context_name")
