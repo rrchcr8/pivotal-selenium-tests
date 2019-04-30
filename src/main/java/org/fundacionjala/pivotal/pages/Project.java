@@ -18,7 +18,7 @@ import java.util.Map;
 public class Project extends AbstractPage {
 
 
-    private final int waitTime = 9000;
+    private static final int W_TIME = 9000;
     @FindBy(css = ".tc-form__input")
     private WebElement projectNameField;
     @FindBy(css = ".tc-account-selector")
@@ -109,7 +109,7 @@ public class Project extends AbstractPage {
          * this need to be reviewed in the last selenium version. action.staleElement(backDrop);
          */
         this.action.click(createButton);
-        action.pause(waitTime);
+        action.pause(W_TIME);
     }
 
     /**

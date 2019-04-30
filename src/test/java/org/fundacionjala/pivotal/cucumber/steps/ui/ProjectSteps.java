@@ -83,7 +83,8 @@ public class ProjectSteps {
      * Open context on settings.
      */
     @Given("Opens a {string} settings")
-    public void openProjectsSettings(String projectKeyName) {
+    public void
+    openProjectsSettings(String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
         ScenarioContext.getInstance().setContext("projectName", projectName);
         this.dashboard.openProjectSettings(projectName);
@@ -249,7 +250,6 @@ public class ProjectSteps {
         JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
         ScenarioContext.getInstance().setContext("Projects_ids", json.get("id"));
-        System.out.println(json.get("id").toString());
     }
 
     @And("get project id")
@@ -261,6 +261,5 @@ public class ProjectSteps {
                 .getContext("Projects_ids");
         ids2.removeAll(ids);
         this.resp = ids2.get(0).toString();
-        System.out.println("my id" + resp);
     }
 }
