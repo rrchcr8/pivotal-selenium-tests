@@ -20,4 +20,18 @@ public class ProjectWorkspaceList extends AbstractPage {
         return this.action.isExistingSelector(
                 By.xpath(String.format(xpath, name)));
     }
+
+    /**
+     * This method get the story amount of a project.
+     *
+     * @param projectName name of project.
+     * @return story amount.
+     */
+    public String getAmountOfStories(final String projectName) {
+        final String xpath = "//a[@class='project_name' and text()='"
+                .concat(projectName)
+                .concat("']/ancestor::li[contains(@class,'project_row')]")
+                .concat("/div[@class='stories column']");
+        return this.action.getValue(By.xpath(xpath));
+    }
 }
