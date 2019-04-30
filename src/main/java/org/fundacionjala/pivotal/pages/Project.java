@@ -18,28 +18,21 @@ import java.util.Map;
 public class Project extends AbstractPage {
 
 
+    private final int waitTime = 9000;
     @FindBy(css = ".tc-form__input")
     private WebElement projectNameField;
-
     @FindBy(css = ".tc-account-selector")
     private WebElement accountSelector;
-
     @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
-
     @FindBy(css = ".tc-account-selector__create-account-icon")
     private WebElement createAccount;
-
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
-
     @FindBy(linkText = "Delete")
     private WebElement deleteLink;
-
     @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
-
-
     @FindBy(xpath = "//input[@name='commit' and @type='submit']")
     private WebElement saveButtonOnEditProject;
 
@@ -116,7 +109,7 @@ public class Project extends AbstractPage {
          * this need to be reviewed in the last selenium version. action.staleElement(backDrop);
          */
         this.action.click(createButton);
-        action.pause(8000);
+        action.pause(waitTime);
     }
 
     /**

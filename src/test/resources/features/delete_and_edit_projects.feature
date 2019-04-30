@@ -20,63 +20,11 @@ Feature: Edit and delete a Project
   Scenario: Edit a project
     Given Opens a "project_response.name" settings
     And change values on form as
-      | name       | awt-00              |
+      | name        | awt-00              |
       | description | For testing purpose |
-      | taskenable  | Disable              |
-#      | privacy     | public              |
+      | taskenable  | Disable             |
     Then A successful message is displayed
     And Previous project's name no longer listed
     And The project no longer appear on projects section
     And the project is not present on active project
     And sends a DELETE request "/projects/{project_response.id}"
-
-
-#  Scenario: Edit project
-#    Given an existing project known as "at-00" that user intends to edit
-#    And change values on form as
-#      | title       | awt-00              |
-#      | description | For testing purpose |
-#      | account     | one                 |
-#      | taskEnable  | Enable              |
-#      | privacy     | public              |
-#    Then A successful message is displayed
-#    And Prior project's name no longer listed
-#
-#  Scenario Outline: Delete a project
-#    Given an existing project named as "<name>" that user intends to delete
-#    And open project's settings
-#    When user click over delete project link
-#    Then The project no longer appear on projects section
-#    And the project is not present on active project
-#    Examples:
-#      | name  |
-#      | at-01 |
-#      | at-02 |
-#      | at-03 |
-#
-#  Scenario Outline:Max two project assigned to a single member
-#    Given A create new button on dashboard
-#    When user creates project as
-#      | title   | <name>  |
-#      | account | <user>  |
-#      | privacy | private |
-#    Then validate the "<expected>" result on project account selection
-#    Examples:
-#      | name | user  | expected |
-#      | AT1  | David | Assigned |
-#      | AT2  | David | Assigned |
-#      | AT3  | David | Error    |
-#
-#  Scenario Outline: No duplicate name of existing project name
-#    When user creates project as
-#      | name    | <name> |
-#      | account | <user> |
-#      | privacy | public |
-#    Then validate creation on project's dashboard
-#    And validate creation on header project's list
-#    And validate creation on project's section
-#    Examples:
-#      | name              | user  |
-#      | A weird Project   | one   |
-#      | A Weird project   | two   |
-#      | A Weird Project   | three |

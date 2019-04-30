@@ -8,7 +8,14 @@ import cucumber.api.java.en.When;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.fundacionjala.core.api.RequestManager;
-import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.pivotal.pages.ConfirmAction;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
+import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.ProjectSettings;
+import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
+import org.fundacionjala.pivotal.pages.SavePanelProjectSettings;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +63,7 @@ public class ProjectSteps {
      * was project created with specific name.
      */
     @Then("validates {string} name on project's header title")
-    public void validateTheProjectIsCreatedWithSpecifyName(String projectName) {
+    public void validateTheProjectIsCreatedWithSpecifyName(final String projectName) {
         ScenarioContext.getInstance().setContext("PROJECT_NAME", projectName);
         final String actual = this.header.getTitleName();
         Assert.assertEquals(actual, projectName, "Project name match");

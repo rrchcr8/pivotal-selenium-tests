@@ -43,6 +43,13 @@ public final class RequestManager {
                 .when().post(endpoint);
     }
 
+    /**
+     * post request.
+     *
+     * @param endpoint url.
+     * @param json     data to be filled on the endpoint created.
+     * @return the response of the POST request.
+     */
     public static Response postRequest(final String endpoint,
                                        final String json) {
         return given().spec(REQUEST).contentType(ContentType.JSON)
