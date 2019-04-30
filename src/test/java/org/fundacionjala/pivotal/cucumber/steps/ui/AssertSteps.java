@@ -2,7 +2,11 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
+import org.fundacionjala.pivotal.pages.ToastMessage;
+import org.fundacionjala.pivotal.pages.WorkSpaceNew;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;

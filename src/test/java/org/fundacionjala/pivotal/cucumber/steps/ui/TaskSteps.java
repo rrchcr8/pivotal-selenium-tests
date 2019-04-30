@@ -140,8 +140,10 @@ public class TaskSteps {
     }
 
     /**
-     * Step to delete a task.
-     **/
+     * Deletes the task.
+     *
+     * @param taskName String
+     */
     @When("deletes the task {string}")
     public void deleteTask(final String taskName) {
         final String name = StringUtil.getValue(taskName);
@@ -164,7 +166,11 @@ public class TaskSteps {
         this.project.expandOneStory();
     }
 
-
+    /**
+     * Validate non-listing of task name.
+     *
+     * @param taskName String
+     */
     @Then("the {string} should not be listed")
     public void theShouldNotBeListed(final String taskName) {
         final String name = StringUtil.getValue(taskName);

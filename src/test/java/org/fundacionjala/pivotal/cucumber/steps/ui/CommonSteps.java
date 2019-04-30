@@ -26,7 +26,7 @@ public class CommonSteps {
     @Autowired
     private Header header;
 
-    private static SoftAssert Assert;
+    private static SoftAssert softAssert;
 
     /**
      * Logs in with user.
@@ -82,7 +82,7 @@ public class CommonSteps {
      */
     @Before("@SoftAssert")
     public static void initialize() {
-        Assert = new SoftAssert();
+        softAssert = new SoftAssert();
     }
 
     /**
@@ -90,6 +90,6 @@ public class CommonSteps {
      */
     @And("asserts all")
     public static void assertAll() {
-        Assert.assertAll();
+        softAssert.assertAll();
     }
 }
