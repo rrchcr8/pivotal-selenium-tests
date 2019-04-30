@@ -75,6 +75,17 @@ public final class ScenarioContext {
     }
 
     /**
+     * This method get context string value for key.
+     *
+     * @param key string
+     * @return object value.
+     */
+    public static String getContextInMapAsString(final String key, final String mapKey) {
+        final Map map = (Map) CONTEXT.scenarioContext.get(key);
+        return map.get(mapKey).toString();
+    }
+
+    /**
      * This method check if a key is in the context.
      *
      * @param key string

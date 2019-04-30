@@ -45,11 +45,10 @@ public class StorySteps {
     /**
      * This method clicks the expand button for a specific story.
      *
-     * @param storyKeyName the name of the story.
+     * @param storyName the name of the story.
      */
     @When("expands the story {string}")
-    public void expandsTheStory(final String storyKeyName) {
-        final String storyName = StringUtil.getValue(storyKeyName);
+    public void expandsTheStory(final String storyName) {
         this.panel.expandStory(storyName);
     }
 
@@ -94,15 +93,14 @@ public class StorySteps {
     /** This step verifies that story appears in panel. **/
     @Then("verifies the story is created in panel")
     public void verifiesTheStoryIsCreatedInPanel() {
-        final String storyName = ScenarioContext.getContextAsString("story_name");
+        final String storyName = ScenarioContext
+                .getContextInMapAsString("all_story_fields", "name");
         Assert.assertTrue(this.panel.existStory(storyName));
     }
 
     /** This step verifies that story have all data provided in create step. **/
     @Then("verifies the story is created in story")
-    public void verifiesTheStoryIsCreatedInStory() {
-        final Map<String, String> attributes = (Map) ScenarioContext.getInstance()
-                .getContext(this.allFields);
+    public void verifiesTheStoryIsCreatedInStory(final Map<String, String> attributes) {
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.NAME.key(), () ->
                 Assert.assertEquals(this.story.getStoryNameText(),

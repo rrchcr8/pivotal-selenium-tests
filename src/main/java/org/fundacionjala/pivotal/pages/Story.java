@@ -60,6 +60,9 @@ public class Story extends AbstractPage {
     @FindBy(xpath = "//span[@class='wrapper hbsAvatarName']/span")
     private WebElement ownerName;
 
+    @FindBy(xpath = "//div[@class='story_owners']/a/span[@class='none']")
+    private WebElement defaultOwner;
+
     /** 1 follower, 2 followers. */
     @FindBy(css = ".count.not_read_only")
     private WebElement followerCount;
@@ -230,7 +233,11 @@ public class Story extends AbstractPage {
      * @return owner.
      */
     public String getOwner() {
-        return this.action.getValue(this.ownerName);
+        return this.action.getValue(
+                this.ownerName.isDisplayed()
+                        ? this.ownerName
+                        : this.defaultOwner);
+
     }
 
     /**
@@ -258,9 +265,10 @@ public class Story extends AbstractPage {
      * @param attributes map.
      */
     public void createStory(final Map<String, String> attributes) {
+        final String name = attributes.get(FormsElements.NAME.key());
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.NAME.key(), () ->
-                setStoryNameText(attributes.get(FormsElements.NAME.key())));
+                setStoryNameText(name));
         strategy.put(FormsElements.STORY_TYPE.key(), () ->
                 setStoryType(attributes.get(FormsElements.STORY_TYPE.key())));
         strategy.put(FormsElements.ESTIMATED_POINTS.key(), () ->
@@ -275,5 +283,8 @@ public class Story extends AbstractPage {
         attributes.keySet()
                 .forEach(key -> strategy.get(key).perform());
         clickSaveButton();
+        final String xpath = "//span[@class='story_name']/span[text()='%s']";
+        this.action.waitPresenceOfElement(
+                By.xpath(String.format(xpath, name)));
     }
 }
