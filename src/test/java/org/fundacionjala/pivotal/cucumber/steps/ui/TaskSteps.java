@@ -13,7 +13,9 @@ import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Project;
 import org.fundacionjala.pivotal.pages.Tasks;
+import org.fundacionjala.pivotal.pages.ToastMessage;
 import org.fundacionjala.util.ScenarioContext;
+import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
@@ -37,6 +39,9 @@ public class TaskSteps {
 
     @Autowired
     private Tasks tasksPanel;
+
+    @Autowired
+    private ToastMessage toastMessage;
 
     /**
      * Step to set default project with story.
@@ -84,7 +89,7 @@ public class TaskSteps {
     @When("adds a task to current Story")
     public void addsATaskToCurrentStory(final Map<String, String> taskAttributes) {
         this.tasksPanel.clickOnAddTaskButton();
-        this.tasksPanel.setTaskText(taskAttributes.get(FormsElements.NAME.toString()));
+        this.tasksPanel.setTaskNewText(taskAttributes.get(FormsElements.NAME.toString()));
         this.tasksPanel.clickOnSave();
         ScenarioContext.getInstance().setContext(TASK_NAME, FormsElements.NAME.toString());
     }
@@ -109,7 +114,7 @@ public class TaskSteps {
         final String text = (String) ScenarioContext
                 .getContextAsString(TASK_NAME);
         this.tasksPanel.selectTask(text);
-        this.tasksPanel.setTaskText(taskAttributes.get(FormsElements.NAME.toString()));
+        this.tasksPanel.setTaskEditText(taskAttributes.get(FormsElements.NAME.toString()));
         this.tasksPanel.clickOnSave();
         ScenarioContext.getInstance().setContext(TASK_NAME, taskAttributes.get(FormsElements.NAME.toString()));
     }
@@ -137,11 +142,10 @@ public class TaskSteps {
     /**
      * Step to delete a task.
      **/
-    @When("deletes the task")
-    public void deleteTask() {
-        final String text = (String) ScenarioContext
-                .getContextAsString(TASK_NAME);
-        this.tasksPanel.deleteTask(text);
+    @When("deletes the task {string}")
+    public void deleteTask(final String taskName) {
+        final String name = StringUtil.getValue(taskName);
+        this.tasksPanel.deleteTask(name);
     }
 
     /**
@@ -158,5 +162,12 @@ public class TaskSteps {
     @And("Open a story")
     public void openAStory() {
         this.project.expandOneStory();
+    }
+
+
+    @Then("the {string} should not be listed")
+    public void theShouldNotBeListed(final String taskName) {
+        final String name = StringUtil.getValue(taskName);
+        Assert.assertTrue(this.toastMessage.checkVisibilityOfMessage(name));
     }
 }

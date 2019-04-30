@@ -22,6 +22,9 @@ public class Header extends AbstractPage {
     @FindBy(css = ".raw_context_name")
     private WebElement titleOnHeader;
 
+    @FindBy(css = ".tc_header_project_name")
+    private WebElement titleOnWSHeader;
+
     @FindBy(css = ".Dropdown__button _2Oy9G__NotificationsBell__button")
     private WebElement notifications;
 
@@ -48,8 +51,8 @@ public class Header extends AbstractPage {
      * This method open project menu.
      */
     public void openProjectMenu() {
-            this.action.waitVisibility(this.projecMenu);
-            this.action.click(this.projecMenu);
+        this.action.waitVisibility(this.projecMenu);
+        this.action.click(this.projecMenu);
     }
 
     /**
@@ -95,6 +98,16 @@ public class Header extends AbstractPage {
     public String getTitleName() {
         this.action.waitPresenceOfElement(By.className("raw_context_name"));
         return this.titleOnHeader.getAttribute("innerHTML");
+    }
+
+    /**
+     * Capture workspace name on header.
+     *
+     * @return title text displayed on header
+     */
+    public String getTitleWSName() {
+        this.action.waitPresenceOfElement(By.className("tc_header_project_name"));
+        return this.titleOnWSHeader.getAttribute("innerHTML");
     }
 
     /**

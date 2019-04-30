@@ -13,14 +13,14 @@ Feature: edition of workspaces
     Given the settings page from the particular workspace
       | name | workspace_response.name |
     When edits attributes of the workspace
-      | name | random |
+      | workspace.name | random |
     Then a "Changes saved." message should be displayed
-    And validates "workspace.name" on header title
+    And validates "workspace.name" on workspace header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
-    And sends a DELETE request "/my/workspace/{workspace_response.id}"
+    And sends a DELETE request "/my/workspaces/{workspace_response.id}"
 
 
   Scenario: workspace can be edited from workspace home.
@@ -28,11 +28,11 @@ Feature: edition of workspaces
       | name | workspace_response.name |
     And clicks on "more" tab on header menu
     When edits attributes of the workspace
-      | name | random name |
+      | workspace.name | random |
     Then a "Changes saved." message should be displayed
-    And validates "workspace.name" on header title
+    And validates "workspace.name" on workspace header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
-    And sends a DELETE request "/my/workspace/{workspace_response.id}"
+    And sends a DELETE request "/my/workspaces/{workspace_response.id}"

@@ -132,9 +132,11 @@ public class WorkspaceSteps {
      */
     @When("creates a workspace")
     public void createsAWorkspace(final Map<String, String> workspaceAttributes) {
-        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
+        final String name = workspaceAttributes.get(FormsElements.WS_NAME.toString());
         this.workSpaceNew.setName(name);
-        ScenarioContext.getInstance().setContext(WS_NAME, name);
+        for (final String key : workspaceAttributes.keySet()) {
+            ScenarioContext.getInstance().setContext(key, name);
+        }
         this.workSpaceNew.clickCreateButton();
     }
 
@@ -155,11 +157,12 @@ public class WorkspaceSteps {
      */
     @When("edits attributes of the workspace")
     public void editsAttributesOfTheWorkspace(final Map<String, String> workspaceAttributes) {
-        ScenarioContext.getInstance().setContext("workspace",
-                StringUtil.setKeyValue(FormsElements.NAME.toString(), workspaceAttributes
-                        .get(FormsElements.NAME.toString())));
-        this.workSpaceSettings.setName(workspaceAttributes
-                .get(FormsElements.NAME.toString()));
+        final String name = workspaceAttributes.get(FormsElements.WS_NAME.toString());
+        this.workSpaceSettings.setName(name);
+        for (final String key : workspaceAttributes.keySet()) {
+            ScenarioContext.getInstance().setContext(key, name);
+        }
+        this.workSpaceSettings.clickOnSave();
     }
 
     /**
@@ -169,8 +172,7 @@ public class WorkspaceSteps {
      */
     @Given("the workspace home")
     public void theWorkspaceHome(final Map<String, String> workspaceAttributes) {
-        final String name = StringUtil.getValue(workspaceAttributes
-                .get(FormsElements.NAME.toString()));
+        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
         this.dashboard.goToWorkspace(name);
     }
 }

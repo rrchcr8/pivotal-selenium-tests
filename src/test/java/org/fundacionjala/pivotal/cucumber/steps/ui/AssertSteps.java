@@ -3,6 +3,7 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -55,20 +56,34 @@ public class AssertSteps {
      */
     @Then("validates {string} on header title")
     public void validatesOnHeaderTitle(final String headerTitle) {
-        final String name = StringUtil.getValue(headerTitle);
+        final String name = ScenarioContext.getContextAsString(headerTitle);
+
         final String actual = this.header.getTitleName();
         Assert.assertEquals(actual, name, String.format(" %s match on header title", name));
     }
 
     /**
+     * Validate title match on workspace header title.
+     *
+     * @param headerWSTitle String
+     */
+    @Then("validates {string} on workspace header title")
+    public void validatesOnWSHeaderTitle(final String headerWSTitle) {
+        final String name = ScenarioContext.getContextAsString(headerWSTitle);
+
+        final String actual = this.header.getTitleWSName();
+        Assert.assertEquals(actual, name, String.format(" %s match on workspace header title", name));
+    }
+
+    /**
      * Validate listing of item on a specific group.
      *
-     * @param jsonName      String
+     * @param key           String
      * @param specificGroup String
      */
     @And("validates {string} on {string} group list")
-    public void validatesOnGroupList(final String jsonName, final String specificGroup) {
-        final String name = StringUtil.getValue(jsonName);
+    public void validatesOnGroupList(final String key, final String specificGroup) {
+        final String name = ScenarioContext.getContextAsString(key);
         if (specificGroup.equals(WORKSPACE)) {
             Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
@@ -81,12 +96,12 @@ public class AssertSteps {
     /**
      * Validate listing of item on a specific dashboard tab.
      *
-     * @param jsonName     String
+     * @param key          String
      * @param specificList String
      */
     @And("validates {string} on {string} dashboard tab")
-    public void validatesOnDashboardTab(final String jsonName, final String specificList) {
-        final String name = StringUtil.getValue(jsonName);
+    public void validatesOnDashboardTab(final String key, final String specificList) {
+        final String name = ScenarioContext.getContextAsString(key);
         if (specificList.equals(WORKSPACE)) {
             Assert.assertTrue(this.dashboard.existWorkSpace(name),
                     String.format(" %s found on dashboard page inside %s", name, specificList));
@@ -99,12 +114,12 @@ public class AssertSteps {
     /**
      * Validate not listing of item on a specific group.
      *
-     * @param jsonName      String
+     * @param key           String
      * @param specificGroup String
      */
     @And("validates {string} not listed on {string} group list")
-    public void validatesNotListedOnGroupList(final String jsonName, final String specificGroup) {
-        final String name = StringUtil.getValue(jsonName);
+    public void validatesNotListedOnGroupList(final String key, final String specificGroup) {
+        final String name = StringUtil.getValue(key);
         if (specificGroup.equals(WORKSPACE)) {
             Assert.assertFalse(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s not listed on %s group", name, specificGroup));
@@ -117,11 +132,13 @@ public class AssertSteps {
     /**
      * Validate not listing of item on a specific dashboard tab.
      *
-     * @param name         String
+     * @param key          String
      * @param specificList String
      */
     @And("validates {string} not listed on {string} dashboard tab")
-    public void validatesNotListedOnDashboardTab(final String name, final String specificList) {
+    public void validatesNotListedOnDashboardTab(final String key, final String specificList) {
+        final String name = StringUtil.getValue(key);
+
         if (specificList.equals(WORKSPACE)) {
             Assert.assertFalse(this.dashboard.existWorkSpace(name),
                     String.format(" %s not listed on %s dashboard tab", name, specificList));
@@ -144,12 +161,12 @@ public class AssertSteps {
     /**
      * Validate the display of a given message.
      *
-     * @param jsonName        String
+     * @param key             String
      * @param messageOnScreen String
      */
     @Then("a {string} {string} message should be displayed")
-    public void aPersonalizedMessageShouldBeDisplayed(final String jsonName, final String messageOnScreen) {
-        final String name = StringUtil.getValue(jsonName);
+    public void aPersonalizedMessageShouldBeDisplayed(final String key, final String messageOnScreen) {
+        final String name = StringUtil.getValue(key);
         Assert.assertTrue(this.toastMessage.checkVisibilityOfMessage(String.format("%s %s", name, messageOnScreen)));
     }
 }

@@ -1,4 +1,4 @@
-@bvt
+@wip
 Feature: Creating workspaces
 
   Background:
@@ -9,38 +9,38 @@ Feature: Creating workspaces
   Scenario: Create new workspace from dashboard
     Given clicks on create workspace button
     When creates a workspace
-      | name | From Dashboard |
+      | workspace.name | From Dashboard |
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
+    #And sends a DELETE request "/my/workspace/{workspace.id}"
     And asserts all
-    And sends a DELETE request "/my/workspace/{workspace.id}"
 
   @SoftAssert
   Scenario: Create new workspace from projects section
     Given clicks on create workspace button
     When creates a workspace
-      | name | From Projects |
+      | workspace.name | From Projects |
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
+    #And sends a DELETE request "/my/workspace/{workspace.id}"
     And asserts all
-    And sends a DELETE request "/my/workspace/{workspace.id}"
 
   @SoftAssert
   Scenario: Create new workspace from header menu section
     Given clicks on create workspace button
     When creates a workspace
-      | name | From header |
+      | workspace.name | From header |
     Then validates "workspace.name" on header title
     And opens the popover from header title
     And validates "workspace.name" on "Workspaces" group list
     And goes to dashboard "Workspaces"
     And validates "workspace.name" on "Workspaces" dashboard tab
+    #And sends a DELETE request "/my/workspace/{workspace.id}"
     And asserts all
-    And sends a DELETE request "/my/workspace/{workspace.id}"
 

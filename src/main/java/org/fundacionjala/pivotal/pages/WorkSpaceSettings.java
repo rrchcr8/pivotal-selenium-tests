@@ -62,6 +62,7 @@ public class WorkSpaceSettings extends AbstractPage {
      */
     public void openWorkspaceMenuTab(final String tabNameOnHeader) {
         this.action.click(By.xpath(String.format(
-                "//nav[contains(@class,\"projectNavExpanded\")]/child::a/child::span[text()=\"%s\"]", tabNameOnHeader)));
+                "//nav[contains(@class,\"projectNavExpanded\")]/child::a/child::span[text()=\"%s\"]",
+                tabNameOnHeader)));
     }
 }

@@ -26,7 +26,7 @@ public class CommonSteps {
     @Autowired
     private Header header;
 
-    static SoftAssert Assert;
+    private static SoftAssert Assert;
 
     /**
      * Logs in with user.
@@ -77,11 +77,17 @@ public class CommonSteps {
         this.header.openMenu();
     }
 
+    /**
+     * Based on tag annotation enable soft assert.
+     */
     @Before("@SoftAssert")
     public static void initialize() {
         Assert = new SoftAssert();
     }
 
+    /**
+     * Final step validation for soft assert.
+     */
     @And("asserts all")
     public static void assertAll() {
         Assert.assertAll();
