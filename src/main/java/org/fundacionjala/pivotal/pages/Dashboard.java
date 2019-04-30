@@ -151,7 +151,7 @@ public class Dashboard extends AbstractPage {
         this.searchInput.sendKeys(name);
         try {
             this.action.scrollToElement(this.twitterLink);
-            this.action.click(By.xpath(String.format(this.PROJECTXPATH, name)));
+            this.action.click(By.xpath(String.format(PROJECTXPATH, name)));
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
