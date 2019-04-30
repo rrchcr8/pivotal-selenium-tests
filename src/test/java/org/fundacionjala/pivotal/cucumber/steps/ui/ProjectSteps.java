@@ -4,14 +4,11 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 

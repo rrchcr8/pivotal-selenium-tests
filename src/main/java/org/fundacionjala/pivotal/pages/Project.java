@@ -111,11 +111,12 @@ public class Project extends AbstractPage {
      * Clicks the create button.
      */
     public void clickCreateButton() {
-        action.click(createButton);
-        //This is a Workaround.
+        /**
+         * This is a Workaround.
+         * this need to be reviewed in the last selenium version. action.staleElement(backDrop);
+         */
         action.pause(3000);
-        //this need to be reviewed in the last selenium version.
-        //action.staleElement(backDrop);
+
     }
 
     /**
@@ -190,7 +191,7 @@ public class Project extends AbstractPage {
      */
     public void saveFormOnEditProject() {
         action.click(saveButtonOnEditProject);
-        //driver.switchTo().alert().accept();
+
     }
 
     /**
