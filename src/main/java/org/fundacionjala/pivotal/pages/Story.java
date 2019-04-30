@@ -225,10 +225,10 @@ public class Story extends AbstractPage {
      * @param ownerNameKey owner name. e.g. owner1, member1.
      */
     public void setOwner(final String ownerNameKey) {
-        final String ownerName = Environment.getInstance()
+        final String ownerNameValue = Environment.getInstance()
                 .getAccountName(ownerNameKey);
         final String xpath = "//div/article[@class='content']//descendant::a"
-                .concat("/child::span[text() = '").concat(ownerName)
+                .concat("/child::span[text() = '").concat(ownerNameValue)
                 .concat("']/parent::a");
         this.action.click(this.addStoryOwner);
         this.action.click(By.xpath(xpath));

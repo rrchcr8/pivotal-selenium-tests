@@ -25,7 +25,7 @@ Feature: Story
       | description     | Add a description |
     And opens header menu
     And selects show all projects
-    And verifies the story is created in project list
+    And verifies the story count for project "project_response.name" is equal "1" in  project list
 
   Scenario: creates a story with the all possible fields
     Given logs in with user "owner1"
@@ -37,17 +37,16 @@ Feature: Story
       | storyType       | feature           |
       | estimatedPoints | 2 points          |
       | requester       | owner1            |
-      | owners          | member1           |
       | description     | story description |
     Then verifies the story is created in panel
     And expands the story "new story"
     And verifies the story is created in story
       | name            | new story         |
       | storyType       | Feature           |
-      | estimatedPoints | 2 points          |
+      | estimatedPoints | 2 Points          |
       | requester       | owner1            |
-      | owners          | member1           |
+      | owners          | <none>            |
       | description     | story description |
     And opens header menu
     And selects show all projects
-    And verifies the story is created in project list
+    And verifies the story count for project "project_response.name" is equal "1" in  project list

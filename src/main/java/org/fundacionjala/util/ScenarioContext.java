@@ -77,7 +77,8 @@ public final class ScenarioContext {
     /**
      * This method get context string value for key.
      *
-     * @param key string
+     * @param key key in the context.
+     * @param mapKey key in the map.
      * @return object value.
      */
     public static String getContextInMapAsString(final String key, final String mapKey) {

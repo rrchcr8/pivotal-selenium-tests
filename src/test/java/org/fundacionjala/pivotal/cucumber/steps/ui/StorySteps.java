@@ -141,12 +141,11 @@ public class StorySteps {
     }
 
     /** This step verifies the story counter in project list page. */
-    @Then("verifies the story is created in project list")
-    public void verifiesTheStoryIsCreatedInProjectList() {
-        final String projectName = ScenarioContext
-                .getContextAsString("project_response.name");
+    @Then("verifies the story count for project {string} is equal {string} in  project list")
+    public void verifiesTheStoryIsCreatedInProjectList(final String projectNameKey, final String expectedCount) {
+        final String projectName = StringUtil.getValue(projectNameKey);
         final String amount = this.projectList.getAmountOfStories(projectName);
-        Assert.assertEquals(amount, "1");
+        Assert.assertEquals(amount, expectedCount);
     }
 
     @After
@@ -159,4 +158,5 @@ public class StorySteps {
     public void clicksOnAddStoryButton() {
         this.panel.clickAddButton();
     }
+
 }
