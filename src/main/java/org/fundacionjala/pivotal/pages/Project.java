@@ -17,48 +17,22 @@ import java.util.Map;
 @Component
 public class Project extends AbstractPage {
 
-    @FindBy(css = "#create-project-button")
-    private WebElement createNewProjectButton;
 
+    private static final int W_TIME = 9000;
     @FindBy(css = ".tc-form__input")
     private WebElement projectNameField;
-
     @FindBy(css = ".tc-account-selector")
     private WebElement accountSelector;
-
     @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
-
     @FindBy(css = ".tc-account-selector__create-account-icon")
     private WebElement createAccount;
-
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
-
     @FindBy(linkText = "Delete")
     private WebElement deleteLink;
-
     @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
-
-    @FindBy(css = "#project_name")
-    private WebElement editProjectNameField;
-
-    @FindBy(css = "#project_description")
-    private WebElement editProjectDescriptionField;
-
-    @FindBy(css = "#project_enable_tasks")
-    private WebElement editProjectEnableTask;
-
-    @FindBy(css = "#project_public")
-    private WebElement editProjectPrivacy;
-
-    @FindBy(css = "#account_change_link")
-    private WebElement editAccountLink;
-
-    @FindBy(css = "#project_account_id_select")
-    private WebElement editAccountComboBox;
-
     @FindBy(xpath = "//input[@name='commit' and @type='submit']")
     private WebElement saveButtonOnEditProject;
 
@@ -79,9 +53,6 @@ public class Project extends AbstractPage {
     /**
      * Clicks the create new project button.
      */
-    public void clickCreateNewProjectButton() {
-        action.click(createNewProjectButton);
-    }
 
     /**
      * This method set value of project name text field.
@@ -133,8 +104,12 @@ public class Project extends AbstractPage {
      * Clicks the create button.
      */
     public void clickCreateButton() {
-        action.click(createButton);
-        action.pause();
+        /**
+         * This is a Workaround.
+         * this need to be reviewed in the last selenium version. action.staleElement(backDrop);
+         */
+        this.action.click(createButton);
+        action.pause(W_TIME);
     }
 
     /**
@@ -145,9 +120,9 @@ public class Project extends AbstractPage {
     public void createNewProject(final Map<String, String> projectElements) {
 
         final Map<String, ISteps> strategy = new HashMap<>();
-        strategy.put(FormsElements.TITLE.toString(),
+        strategy.put(FormsElements.NAME.toString(),
                 () -> setProjectNameTextField(projectElements
-                        .get(FormsElements.TITLE.toString())));
+                        .get(FormsElements.NAME.toString())));
         strategy.put(FormsElements.ACCOUNT.toString(),
                 () -> selectAccount(projectElements
                         .get(FormsElements.ACCOUNT.toString())));
@@ -205,89 +180,11 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * Set values on form as specified.
-     *
-     * @param projectElements Attributes to set on form
-     */
-    public void setValuesOnEditProjectForm(final Map<String, String> projectElements) {
-        final Map<String, ISteps> strategy = new HashMap<>();
-        strategy.put(FormsElements.TITLE.toString(),
-                () -> setEditProjectTitle(projectElements
-                        .get(FormsElements.TITLE.toString())));
-        strategy.put(FormsElements.DESCRIPTION.toString(),
-                () -> setEditProjectDescription(projectElements
-                        .get(FormsElements.DESCRIPTION.toString())));
-        strategy.put(FormsElements.ACCOUNT.toString(),
-                () -> setEditProjectAccount(projectElements
-                        .get(FormsElements.ACCOUNT.toString())));
-        strategy.put(FormsElements.TASKENABLE.toString(),
-                () -> setEditProjectTaskEnable(projectElements
-                        .get(FormsElements.TASKENABLE.toString())));
-        strategy.put(FormsElements.PRIVACY.toString(),
-                () -> setEditProjectPrivacy(projectElements
-                        .get(FormsElements.PRIVACY.toString())));
-
-        projectElements.keySet()
-                .forEach(key -> strategy.get(key).perform());
-    }
-
-    /**
-     * change check status if different.
-     *
-     * @param privacy between private and public
-     */
-    private void setEditProjectPrivacy(final String privacy) {
-        if (editProjectPrivacy.isSelected() && "private".equals(privacy)) {
-            action.click(editProjectPrivacy);
-        }
-    }
-
-    /**
-     * change check status if different.
-     *
-     * @param taskEnable between allow or disallow
-     */
-    private void setEditProjectTaskEnable(final String taskEnable) {
-        if (editProjectPrivacy.isSelected() && "Enable".equals(taskEnable)) {
-            action.click(editProjectEnableTask);
-        }
-    }
-
-    /**
-     * Proccess to change account.
-     *
-     * @param account account name
-     */
-    private void setEditProjectAccount(final String account) {
-        action.click(editAccountLink);
-        action.click(editAccountComboBox);
-        action.click(By.xpath("//option[contains(text(),'" + account + "')]"));
-    }
-
-    /**
-     * Set value to description field.
-     *
-     * @param description the desired value
-     */
-    private void setEditProjectDescription(final String description) {
-        action.setValue(editProjectDescriptionField, description);
-    }
-
-    /**
-     * Set value to title field.
-     *
-     * @param title desired title
-     */
-    private void setEditProjectTitle(final String title) {
-        action.setValue(editProjectNameField, title);
-    }
-
-    /**
      * Click to save button on edit project form.
      */
     public void saveFormOnEditProject() {
         action.click(saveButtonOnEditProject);
-        driver.switchTo().alert().accept();
+
     }
 
     /**

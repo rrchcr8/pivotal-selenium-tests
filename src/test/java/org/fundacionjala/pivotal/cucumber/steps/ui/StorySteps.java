@@ -3,6 +3,7 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.apache.log4j.Logger;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.core.ui.forms.FormsElements;
@@ -26,6 +27,9 @@ import java.util.Map;
  * this is an story steps.
  */
 public class StorySteps {
+    private static final Logger LOGGER =
+            Logger.getLogger(StorySteps.class.getName());
+    private final String allFields = "all_story_fields";
     @Autowired
     private Project project;
     @Autowired
@@ -41,7 +45,6 @@ public class StorySteps {
     @Autowired
     private DeleteModal deleteModal;
 
-    private final String allFields = "all_story_fields";
     /**
      * This method clicks the expand button for a specific story.
      *
@@ -160,8 +163,12 @@ public class StorySteps {
     /** After hook that delete project created in the background steps. **/
     @After
     public void after() {
-        final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
-        RequestManager.deleteRequest(url);
+        try {
+            final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
+            RequestManager.deleteRequest(url);
+        } catch (Exception e) {
+            LOGGER.warn("After hook for story steps doesn't run");
+        }
     }
 
     /** This step clicks on add story button. **/

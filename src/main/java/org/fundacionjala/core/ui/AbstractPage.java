@@ -4,6 +4,7 @@ import org.fundacionjala.core.ui.driver.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,10 +13,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public abstract class AbstractPage {
 
+    public static final long WAIT_TIME = 60;
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected WebDriverAction action;
-    public static final long WAIT_TIME = 60;
+    @FindBy(css = "#modal_area .tc_scrim.tc_scrim_dark")
+    protected WebElement backDrop;
 
     /**
      * Constructor of class.

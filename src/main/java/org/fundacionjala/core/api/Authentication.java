@@ -9,11 +9,9 @@ import org.fundacionjala.core.Environment;
  */
 public final class Authentication {
 
-    private static Authentication instance;
-
-    private RequestSpecification requestSpecification;
-
     private static final String TOKEN_HEADER = "X-TrackerToken";
+    private static Authentication instance;
+    private RequestSpecification requestSpecification;
 
     /**
      * Class constructor.
@@ -24,6 +22,7 @@ public final class Authentication {
 
     /**
      * It returns the instance of the Authentication class.
+     *
      * @return the needeed instance.
      */
     public static Authentication getInstance() {
@@ -40,7 +39,6 @@ public final class Authentication {
      */
     private void initApi() {
         this.requestSpecification = new RequestSpecBuilder()
-                .setRelaxedHTTPSValidation()
                 .addHeader(TOKEN_HEADER,
                         Environment.getInstance()
                                 .getValue("credentials.owner1.apiToken"))
@@ -51,6 +49,7 @@ public final class Authentication {
 
     /**
      * It gets the request specification parameter from the instance created.
+     *
      * @return the specification proxy that had obtained inside initApi method.
      */
     public RequestSpecification getRequestSpecification() {

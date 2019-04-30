@@ -55,6 +55,17 @@ public class WebDriverAction {
     }
 
     /**
+     * javascript click.
+     *
+     * @param element a web elment.
+     */
+    public void clickJS(final WebElement element) {
+        this.wait.until(ExpectedConditions.elementToBeClickable(element));
+        final JavascriptExecutor js = (JavascriptExecutor) this.driver;
+        js.executeScript("arguments[0].click();", element);
+    }
+
+    /**
      * Click event with explicit wait for click.
      *
      * @param element to click.
@@ -89,6 +100,14 @@ public class WebDriverAction {
      */
     public void waitVisibility(final By element) {
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+    }
+
+    /***
+     * class review.
+     * @param element web element.
+     */
+    public void waitInvisibility(final WebElement element) {
+        this.wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     /**
