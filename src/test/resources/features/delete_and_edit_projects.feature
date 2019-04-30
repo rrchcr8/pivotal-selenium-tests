@@ -7,7 +7,7 @@ Feature: Edit and delete a Project
     """
     And stores response as "project_response"
     And logs in with user "owner1"
-    And goes to Dashboard "project"
+    And goes to dashboard "project"
 
   Scenario: Delete a project
     Given opens a "project_response.name" settings

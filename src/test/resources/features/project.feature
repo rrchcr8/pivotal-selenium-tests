@@ -2,7 +2,7 @@ Feature: Project
 
   Background:
     Given logs in with user "owner1"
-    And goes to Dashboard "Project"
+    And goes to dashboard "Project"
 
   Scenario: Create new project from Dashboard
     Given clicks on create new project button

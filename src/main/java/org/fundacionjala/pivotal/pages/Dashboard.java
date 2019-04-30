@@ -114,7 +114,7 @@ public class Dashboard extends AbstractPage {
             this.action.click(this.showMoreProjects);
         }
         return this.action.isExistingSelector(
-                By.xpath(String.format(this.projectXpath, name)));
+                By.xpath(String.format(PROJECTXPATH, name)));
     }
 
     /**
@@ -142,10 +142,11 @@ public class Dashboard extends AbstractPage {
     public void goToProject(final String name) {
         this.searchInput.sendKeys(name);
         this.action.scrollToElement(this.twitterLink);
-        this.action.click(By.xpath(String.format(this.projectXpath, name)));
+        this.action.click(By.xpath(String.format(PROJECTXPATH, name)));
         this.action.waitPresenceOfElement(
                 By.cssSelector("a[data-aid='navTab-stories']"));
     }
+
     /**
      * Go to workspace with name.
      *

@@ -8,7 +8,7 @@ Feature: Story
     And logs in with user "owner1"
 
   Scenario: creates a story with the minimum required field
-    When goes to Dashboard "project"
+    When goes to dashboard "project"
     And opens a project "project_response.name"
     And clicks on add story button
     And creates a story with:
@@ -27,7 +27,7 @@ Feature: Story
     And verifies the story count for project "project_response.name" is equal "1" in  project list
 
   Scenario: creates a story with the all possible fields
-    And goes to Dashboard "project"
+    And goes to dashboard "project"
     And opens a project "project_response.name"
     When clicks on add story button
     And creates a story with:

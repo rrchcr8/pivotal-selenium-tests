@@ -102,7 +102,7 @@ public class ProjectSteps {
     @When("clicks delete project link")
     public void userClickOverDeleteProjectLink() {
         this.projectSettings.clickOnDeleteProjectLink();
-        this.confirm.clickOnDeleteButton();
+        this.confirm.clickOnConfirmWorkspaceProjectDeleteButton();
     }
 
     /**
