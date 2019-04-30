@@ -4,7 +4,12 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.pivotal.pages.Dashboard;
+import org.fundacionjala.pivotal.pages.DeleteModal;
+import org.fundacionjala.pivotal.pages.HeaderContainer;
+import org.fundacionjala.pivotal.pages.Panel;
+import org.fundacionjala.pivotal.pages.Project;
+import org.fundacionjala.pivotal.pages.Story;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +38,12 @@ public class StorySteps {
     /**
      * Given step for story feature.
      *
-     * @param projectName is the name of the project.
+     * @param arg0 is the name of the project.
      */
     @Given("a project called {string}")
-    public void aProjectCalled(final String projectName) {
-        this.dashboard.goToProject(projectName);
+    public void aProjectCalled(final String arg0) {
+        this.dashboard.goToProject(arg0);
+        this.panel.clickAddButton();
         this.story.createStory("ird test");
     }
 
@@ -46,6 +52,7 @@ public class StorySteps {
      */
     @When("creates a story called {string}")
     public void createsAStoryCalled(final String name) {
+        this.panel.clickAddButton();
         this.story.createStory(name);
         ScenarioContext.getInstance().setContext("story_name", name);
     }
@@ -56,7 +63,7 @@ public class StorySteps {
     @Then("verify the story is created")
     public void verifytheStoryIsCreated() {
         final String storyName = ScenarioContext.getContextAsString("story_name");
-        assertTrue(this.story.existStory(storyName));
+        assertTrue(this.panel.existStory(storyName));
     }
 
     /**
@@ -64,6 +71,7 @@ public class StorySteps {
      */
     @When("creates other a story called {string}")
     public void createsOtherAStoryCalled(final String arg1) {
+        this.panel.clickAddButton();
         this.story.createStory(arg1);
     }
 
@@ -75,7 +83,7 @@ public class StorySteps {
     @When("expands the story {string}")
     public void expandsTheStory(final String storyKeyName) {
         final String storyName = StringUtil.getValue(storyKeyName);
-        panel.expandStory(storyName);
+        this.panel.expandStory(storyName);
     }
 
     /**
@@ -83,7 +91,7 @@ public class StorySteps {
      */
     @And("click delete button")
     public void clickDeleteButton() {
-        story.clickDeleteButton();
+        this.story.clickDeleteButton();
     }
 
     /**
@@ -94,7 +102,7 @@ public class StorySteps {
     @When("selects the bulk of {string}")
     public void deletesSelectingTheCheckboxof(final String storyNameKey) {
         final String storyName = StringUtil.getValue(storyNameKey);
-        panel.clickStoryCheckboxButton(storyName);
+        this.panel.clickStoryCheckboxButton(storyName);
 
 
     }
@@ -105,18 +113,18 @@ public class StorySteps {
     @Then("Verify that the story {string} is deleted")
     public void verifyThatTheStoryIsDeleted(final String storyNameKey) {
         final String storyName = StringUtil.getValue(storyNameKey);
-        assertFalse(this.story.existStory(storyName));
+        assertFalse(this.panel.existStory(storyName));
     }
 
     /** clicks the button of the header container. */
     @And("click delete button of Header container")
     public void clickDeleteButtonOfHeaderContainer() {
-        headerContainer.clickDeleteButtonOfToast();
+        this.headerContainer.clickDeleteButtonOfToast();
     }
 
     /** Confirm button. */
     @And("click confirm delete button")
     public void clickConfirmDeleteButton() {
-        deleteModal.clickConfirmDeleteButton();
+        this.deleteModal.clickConfirmDeleteButton();
     }
 }
