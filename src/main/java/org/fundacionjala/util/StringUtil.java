@@ -79,32 +79,4 @@ public final class StringUtil {
         return index == line.length() - 1 ? StringUtils.EMPTY
                 : line.substring(index + 1);
     }
-
-    /**
-     * This method build explicit endpoint from a format url.
-     *
-     * @param response url format.
-     * @return string specific url.
-     */
-    public static String getResponseValue(final String response) {
-        final String baseUrl = "";
-        if (response.contains("{")) {
-            final StringBuilder result = new StringBuilder();
-            result.append(baseUrl);
-            for (final String part : response.split("\\{")) {
-                if (part.contains("}")) {
-                    final String key = getKey(part, '}');
-                    final String value = getValue(key);
-                    final String restPart = getRestPart(part, '}');
-                    result.append(value).append(restPart);
-                } else {
-                    result.append(part);
-                }
-            }
-            return result.toString();
-        }
-        return baseUrl.concat(response);
-    }
-
-
 }
