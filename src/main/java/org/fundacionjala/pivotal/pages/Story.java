@@ -70,6 +70,9 @@ public class Story extends AbstractPage {
     @FindBy(css = "textarea[data-aid='textarea']")
     private WebElement descriptionText;
 
+    @FindBy(css = "div[data-aid='renderedDescription'] span p")
+    private WebElement descriptionTextLabel;
+
     @FindBy(css = ".tracker_markup")
     private WebElement storyNameCreated;
 
@@ -92,6 +95,15 @@ public class Story extends AbstractPage {
      */
     public void setStoryNameText(final String strStoryName) {
         this.action.setValue(this.storyName, strStoryName);
+    }
+
+    /**
+     * This method gets the story name.
+     *
+     * @return string.
+     */
+    public String getStoryNameText() {
+        return this.action.getValue(this.storyName);
     }
 
     /**
@@ -232,6 +244,15 @@ public class Story extends AbstractPage {
     }
 
     /**
+     * This method get the story description.
+     *
+     * @return description.
+     */
+    public String getDescription() {
+        return this.action.getValue(this.descriptionTextLabel);
+    }
+
+    /**
      * This method create a story with data provided in attributes map.
      *
      * @param attributes map.
@@ -251,5 +272,8 @@ public class Story extends AbstractPage {
                 setOwner(attributes.get(FormsElements.OWNER.key())));
         strategy.put(FormsElements.DESCRIPTION.key(), () ->
                 setDescription(attributes.get(FormsElements.DESCRIPTION.key())));
+        attributes.keySet()
+                .forEach(key -> strategy.get(key).perform());
+        clickSaveButton();
     }
 }

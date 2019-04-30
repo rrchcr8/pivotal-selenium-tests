@@ -11,7 +11,6 @@ Feature: Story
     Given logs in with user "owner1"
     And goes to Dashboard "project"
     And opens a project "project_response.name"
-    When creates a story called "carlos test"
     When creates a story with:
       | name | carlos test |
     Then verifies the story is created in panel
