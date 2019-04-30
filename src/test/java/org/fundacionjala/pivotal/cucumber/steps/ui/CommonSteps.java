@@ -10,6 +10,7 @@ import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
 /**
@@ -26,7 +27,7 @@ public class CommonSteps {
     @Autowired
     private Header header;
 
-    private static SoftAssert softAssert;
+    private static Assertion assertion;
 
     /**
      * Logs in with user.
@@ -82,7 +83,15 @@ public class CommonSteps {
      */
     @Before("@SoftAssert")
     public static void initialize() {
-        softAssert = new SoftAssert();
+        assertion = new SoftAssert();
+    }
+
+    /**
+     * Based on tag annotation enable soft assert.
+     */
+    @Before
+    public static void initializeHardAssert() {
+        assertion = new Assertion();
     }
 
     /**
@@ -90,6 +99,10 @@ public class CommonSteps {
      */
     @And("asserts all")
     public static void assertAll() {
-        softAssert.assertAll();
+        if (assertion instanceof SoftAssert) {
+            ((SoftAssert) assertion).assertAll();
+        }
+
+
     }
 }

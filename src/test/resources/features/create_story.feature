@@ -22,7 +22,7 @@ Feature: Story
       | requester       | owner1            |
       | owners          | <none>            |
       | description     | Add a description |
-    And opens header menu
+    And opens the popover from header title
     And selects show all projects
     And verifies the story count for project "project_response.name" is equal "1" in  project list
 
@@ -45,6 +45,6 @@ Feature: Story
       | requester       | owner1            |
       | owners          | <none>            |
       | description     | story description |
-    And opens header menu
+    And opens the popover from header title
     And selects show all projects
     And verifies the story count for project "project_response.name" is equal "1" in  project list
