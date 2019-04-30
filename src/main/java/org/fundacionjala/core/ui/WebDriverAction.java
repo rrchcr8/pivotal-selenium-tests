@@ -128,6 +128,17 @@ public class WebDriverAction {
     }
 
     /**
+     * Method for return text By element.
+     *
+     * @param element WebElement type.
+     * @return the value of String text.
+     */
+    public String getValue(final WebElement element) {
+        this.wait.until(ExpectedConditions.stalenessOf(element));
+        return element.getText();
+    }
+
+    /**
      * Method for return attribute By element.
      *
      * @param element   By type.
