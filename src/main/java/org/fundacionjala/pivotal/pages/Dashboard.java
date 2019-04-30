@@ -52,41 +52,30 @@ public class Dashboard extends AbstractPage {
     private WebElement searchInput;
 
     /**
-     * check if a name exist in web elements list.
-     *
-     * @param list list of webelements.
-     * @param name string to search.
-     * @return boolean.
-     * @throws NoSuchElementException exception if item not found.
-     */
-    private static WebElement getElementWithName(final List<WebElement> list,
-                                                 final String name)
-            throws NoSuchElementException {
-        for (final WebElement element : list) {
-            if (element.getText().equals(name)) {
-                return element;
-            }
-        }
-        throw new NoSuchElementException("Web element not found");
-    }
-
-    /** Create project. **/
+     * Create project.
+     **/
     public void createProjectButton() {
         this.action.click(this.createProject);
     }
 
-    /** Create workspace. **/
+    /**
+     * Create workspace.
+     **/
     public void createWorkSpaceButton() {
         this.action.click(this.createWorkSpace);
     }
 
-    /** Go to work space tab. **/
+    /**
+     * Go to work space tab.
+     **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
         this.wait.until(ExpectedConditions.visibilityOf(this.createWorkSpace));
     }
 
-    /** Go to project tab. **/
+    /**
+     * Go to project tab.
+     **/
     public void goToProjectTab() {
         this.action.click(this.projects);
         this.wait.until(ExpectedConditions.visibilityOf(this.createProject));
@@ -124,8 +113,8 @@ public class Dashboard extends AbstractPage {
      * @param name name to search
      * @return boolean.
      **/
-    private boolean hasElementWithName(final List<WebElement> list,
-                                       final String name) {
+    private static boolean hasElementWithName(final List<WebElement> list,
+                                              final String name) {
         for (final WebElement element : list) {
             if (element.getText().equals(name)) {
                 return true;
@@ -212,7 +201,9 @@ public class Dashboard extends AbstractPage {
                 .concat(linkText).concat("/settings']")));
     }
 
-    /** This method reload dashboard page. **/
+    /**
+     * This method reload dashboard page.
+     **/
     public void reload() {
         this.driver.get(Environment.getInstance().getValue("url.base")
                 .concat("/dashboard"));
