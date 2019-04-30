@@ -141,19 +141,13 @@ public class Dashboard extends AbstractPage {
      */
     public void goToProject(final String name) {
         this.searchInput.sendKeys(name);
-        try {
             this.action.scrollToElement(this.twitterLink);
             final WebElement project =
                     getElementWithName(this.projectNames, name);
             this.action.click(project);
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
-        } catch (final NoSuchElementException e) {
-            LOGGER.error("The Project web element was not find ", e);
-            throw new RuntimeException(e);
-        }
     }
-
     /**
      * Go to workspace with name.
      *
