@@ -89,9 +89,8 @@ public class ProjectSteps {
      *
      * @param projectKeyName name of the project.
      */
-    @Given("Opens a {string} settings")
-    public void
-    openProjectsSettings(final String projectKeyName) {
+    @Given("opens a {string} settings")
+    public void openProjectsSettings(final String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
         ScenarioContext.getInstance().setContext(PROJECT_NAME, projectName);
         this.dashboard.openProjectSettings(projectName);
@@ -108,25 +107,26 @@ public class ProjectSteps {
 
     /**
      * Check if project is still displayed.
+     *
+     * @param projectName project name.
      */
-    @Then("The project no longer appear on projects section")
-    public void theProjectNoLongerAppearOnProjectsSection() {
-        Assert.assertFalse(this.dashboard.existProject(
-                (String) ScenarioContext.getInstance().getContext(PROJECT_NAME)),
+    @Then("verifies that project {string} doesn't appear on dashboard")
+    public void theProjectNoLongerAppearOnProjectsSection(String projectName) {
+        Assert.assertFalse(this.dashboard.existProject(projectName),
                 "False if project is not listed after deletion");
     }
 
     /**
      * Validate non-existance on active projects.
+     *
+     * @param projectName project name.
      */
-    @And("the project is not present on active project")
-    public void theProjectIsNotPresentOnActiveProject() {
-        this.dashboard.reload();
-        this.header.openMenu();
-        this.menu.showAllProjectsWorkSpaces();
-        final boolean actual = this.projectList.isProjectListedOnPage(
-                (String) ScenarioContext.getInstance().getContext(PROJECT_NAME));
-        Assert.assertFalse(actual, "Passed if project is no longer on active project list");
+    @And("verifies that project {string} doesn't appear on project list")
+    public void theProjectIsNotPresentOnActiveProject(String projectName) {
+        final boolean actual = this.projectList
+                .isProjectListedOnPage(projectName);
+        Assert.assertFalse(actual,
+                "Passed if project is no longer on active project list");
     }
 
     /**

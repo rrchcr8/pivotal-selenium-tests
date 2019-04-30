@@ -11,10 +11,12 @@ Feature: Edit and delete a Project
 
 
   Scenario: Delete a project
-    Given Opens a "project_response.name" settings
+    Given opens a "project_response.name" settings
     When clicks delete project link
-    Then The project no longer appear on projects section
-    And the project is not present on active project
+    Then verifies that project "a1" doesn't appear on dashboard
+    And opens header menu
+    And selects show all projects
+    And verifies that project "a1" doesn't appear on project list
 
 
   Scenario: Edit a project
