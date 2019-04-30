@@ -51,9 +51,6 @@ public class Dashboard extends AbstractPage {
     @FindBy(css = "#projects-search-bar")
     private WebElement searchInput;
 
-    private final String projectXpath =
-            "//a[@data-aid='project-name' and contains(text(),'%s')]";
-
     /**
      * Check if exist and element in the list with name.
      *
@@ -154,7 +151,7 @@ public class Dashboard extends AbstractPage {
         this.searchInput.sendKeys(name);
         try {
             this.action.scrollToElement(this.twitterLink);
-            this.action.click(By.xpath(String.format(this.projectXpath, name)));
+            this.action.click(By.xpath(String.format(this.PROJECTXPATH, name)));
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
