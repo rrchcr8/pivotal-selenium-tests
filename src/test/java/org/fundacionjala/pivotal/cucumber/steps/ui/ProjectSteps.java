@@ -61,12 +61,15 @@ public class ProjectSteps {
 
     /**
      * was project created with specific name.
+     *
+     * @param projectName name of the project, defined as a string.
      */
     @Then("validates {string} name on project's header title")
     public void validateTheProjectIsCreatedWithSpecifyName(final String projectName) {
         ScenarioContext.getInstance().setContext("PROJECT_NAME", projectName);
         final String actual = this.header.getTitleName();
-        Assert.assertEquals(actual, projectName, "Project name match");
+        Assert.assertEquals(actual, ScenarioContext.getInstance().getContext(
+                "PROJECT_NAME"), "Project name match");
     }
 
     /**
@@ -81,10 +84,12 @@ public class ProjectSteps {
 
     /**
      * Open context on settings.
+     *
+     * @param projectKeyName name of the project.
      */
     @Given("Opens a {string} settings")
     public void
-    openProjectsSettings(String projectKeyName) {
+    openProjectsSettings(final String projectKeyName) {
         final String projectName = StringUtil.getValue(projectKeyName);
         ScenarioContext.getInstance().setContext("projectName", projectName);
         this.dashboard.openProjectSettings(projectName);
@@ -235,16 +240,27 @@ public class ProjectSteps {
         this.project.clickCreateNewPRojectOption();
     }
 
+    /**
+     * set the id into context.
+     *
+     * @param keyContext is the key for the map.
+     */
     @And("set {string}")
-    public void set(String keyContext) {
+    public void set(final String keyContext) {
         ScenarioContext.getInstance().setContext(keyContext, this.resp);
     }
 
+    /**
+     * this is a hook.
+     */
     @Before
     public void setup() {
         loadAllProjectIdsInContext();
     }
 
+    /**
+     * This is a method that loads all project Id's into a CONTEXT.
+     */
     private void loadAllProjectIdsInContext() {
         final String url = StringUtil.getExplicitEndpoint("/projects");
         JsonPath json =
@@ -252,6 +268,9 @@ public class ProjectSteps {
         ScenarioContext.getInstance().setContext("Projects_ids", json.get("id"));
     }
 
+    /**
+     * this method gets the id of the created project.
+     */
     @And("get project id")
     public void getProjectId() {
         List ids = (List) ScenarioContext.getInstance()
