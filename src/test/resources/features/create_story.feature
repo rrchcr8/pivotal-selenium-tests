@@ -26,7 +26,6 @@ Feature: Story
     And opens header menu
     And selects show all projects
     And verifies the story is created in project list
-    And sends a DELETE request "/projects/{project_response.id}"
 
   Scenario: creates a story with the all possible fields
     Given logs in with user "owner1"
@@ -52,4 +51,3 @@ Feature: Story
     And opens header menu
     And selects show all projects
     And verifies the story is created in project list
-    And sends a DELETE request "/projects/{project_response.id}"
