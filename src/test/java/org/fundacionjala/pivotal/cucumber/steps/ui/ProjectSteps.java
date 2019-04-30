@@ -111,7 +111,7 @@ public class ProjectSteps {
      * @param projectName project name.
      */
     @Then("verifies that project {string} doesn't appear on dashboard")
-    public void theProjectNoLongerAppearOnProjectsSection(String projectName) {
+    public void theProjectNoLongerAppearOnProjectsSection(final String projectName) {
         Assert.assertFalse(this.dashboard.existProject(projectName),
                 "False if project is not listed after deletion");
     }
@@ -122,7 +122,7 @@ public class ProjectSteps {
      * @param projectName project name.
      */
     @And("verifies that project {string} doesn't appear on project list")
-    public void theProjectIsNotPresentOnActiveProject(String projectName) {
+    public void theProjectIsNotPresentOnActiveProject(final String projectName) {
         final boolean actual = this.projectList
                 .isProjectListedOnPage(projectName);
         Assert.assertFalse(actual,
