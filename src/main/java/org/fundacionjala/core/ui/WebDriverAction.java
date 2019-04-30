@@ -128,7 +128,7 @@ public class WebDriverAction {
      * @return the value of String text.
      */
     public String getValue(final WebElement element) {
-        this.wait.until(ExpectedConditions.stalenessOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
         return element.getText();
     }
 
@@ -153,7 +153,7 @@ public class WebDriverAction {
      * @return String.
      */
     public String getAttribute(final WebElement element, final String attribute) {
-        this.wait.until(ExpectedConditions.stalenessOf(element));
+        this.wait.until(ExpectedConditions.visibilityOf(element));
         return element.getAttribute(attribute);
     }
 

@@ -129,25 +129,6 @@ public class Dashboard extends AbstractPage {
     }
 
     /**
-     * check if a name exist in web elements list.
-     *
-     * @param list list of webelements.
-     * @param name string to search.
-     * @return boolean.
-     * @throws NoSuchElementException exception if item not found.
-     */
-    private WebElement getElementWithName(final List<WebElement> list,
-                                          final String name)
-            throws NoSuchElementException {
-        for (final WebElement element : list) {
-            if (element.getText().equals(name)) {
-                return element;
-            }
-        }
-        throw new NoSuchElementException("Web element not found");
-    }
-
-    /**
      * Go to project with name.
      *
      * @param name string project name.
@@ -156,9 +137,7 @@ public class Dashboard extends AbstractPage {
         this.searchInput.sendKeys(name);
         try {
             this.action.scrollToElement(this.twitterLink);
-            final WebElement project =
-                    getElementWithName(this.projectNames, name);
-            this.action.click(project);
+            this.action.click(By.xpath(String.format(this.projectXpath, name)));
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
@@ -173,9 +152,9 @@ public class Dashboard extends AbstractPage {
      */
     public void goToWorkspace(final String name) {
         try {
-            final WebElement project =
-                    getElementWithName(this.worksSpaceNames, name);
-            this.action.click(project);
+            final String xpath = "//a[@class='WorkspaceTile__name' and "
+                    .concat("contains(text(),'%s')]");
+            this.action.click(By.xpath(String.format(xpath, name)));
         } catch (final NoSuchElementException e) {
             LOGGER.warn("The Workspace web element was not find ", e);
         }
