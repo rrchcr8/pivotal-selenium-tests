@@ -98,7 +98,11 @@ public class StorySteps {
         Assert.assertTrue(this.panel.existStory(storyName));
     }
 
-    /** This step verifies that story have all data provided in create step. **/
+    /**
+     * This step verifies that story have all data provided in create step.
+     *
+     * @param attributes input data.
+     **/
     @Then("verifies the story is created in story")
     public void verifiesTheStoryIsCreatedInStory(final Map<String, String> attributes) {
         final Map<String, ISteps> strategy = new HashMap<>();
@@ -140,7 +144,12 @@ public class StorySteps {
         ScenarioContext.getInstance().setContext(this.allFields, attributes);
     }
 
-    /** This step verifies the story counter in project list page. */
+    /**
+     * This step verifies the story counter in project list page.
+     *
+     * @param projectNameKey project name key in context.
+     * @param expectedCount  expected story count in project.
+     */
     @Then("verifies the story count for project {string} is equal {string} in  project list")
     public void verifiesTheStoryIsCreatedInProjectList(final String projectNameKey, final String expectedCount) {
         final String projectName = StringUtil.getValue(projectNameKey);
@@ -148,12 +157,14 @@ public class StorySteps {
         Assert.assertEquals(amount, expectedCount);
     }
 
+    /** After hook that delete project created in the background steps. **/
     @After
     public void after() {
         final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
         RequestManager.deleteRequest(url);
     }
 
+    /** This step clicks on add story button. **/
     @When("clicks on add story button")
     public void clicksOnAddStoryButton() {
         this.panel.clickAddButton();
