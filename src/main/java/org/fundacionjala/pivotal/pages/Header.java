@@ -16,7 +16,7 @@ public class Header extends AbstractPage {
     @FindBy(css = ".tc_header_item tc_header_logo")
     private WebElement goDashboard;
 
-    @FindBy(css = ".tc_context_name")
+    @FindBy(css = ".tc_projects_dropdown_link.tc_context_name")
     private WebElement projecMenu;
 
     @FindBy(css = ".raw_context_name")

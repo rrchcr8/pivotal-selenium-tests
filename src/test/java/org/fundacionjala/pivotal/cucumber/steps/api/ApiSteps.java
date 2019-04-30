@@ -21,7 +21,7 @@ public class ApiSteps {
      *
      * @param endpoint is the strings that is needed to complete the url for the
      *                 endpoint.
-     * @param param    is the attributes read on the feature
+     * @param json     is the attributes read on the feature
      *                 file.
      */
     @Given("sends a POST request {string}")
@@ -29,6 +29,13 @@ public class ApiSteps {
                                   final Map<String, String> param) {
         final String builtEndpoint = StringUtil.getExplicitEndpoint(endpoint);
         this.resp = RequestManager.postRequest(builtEndpoint, param);
+    }
+
+    @Given("sends a POST request {string} with json")
+    public void sendsAPOSTRequest(final String endpoint,
+                                  final String json) {
+        final String builtEndpoint = StringUtil.getExplicitEndpoint(endpoint);
+        this.resp = RequestManager.postRequest(builtEndpoint, json);
     }
 
     /**
