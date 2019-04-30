@@ -139,7 +139,24 @@ public class Dashboard extends AbstractPage {
             this.action.click(this.showMoreProjects);
         }
         return this.action.isExistingSelector(
-                By.xpath(String.format(PROJECTXPATH, name)));
+                By.xpath(String.format(this.projectXpath, name)));
+    }
+
+    /**
+     * Check if exist and element in the list with name.
+     *
+     * @param list list where search.
+     * @param name name to search
+     * @return boolean.
+     **/
+    private boolean hasElementWithName(final List<WebElement> list,
+                                       final String name) {
+        for (final WebElement element : list) {
+            if (element.getText().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -151,7 +168,7 @@ public class Dashboard extends AbstractPage {
         this.searchInput.sendKeys(name);
         try {
             this.action.scrollToElement(this.twitterLink);
-            this.action.click(By.xpath(String.format(PROJECTXPATH, name)));
+            this.action.click(By.xpath(String.format(this.projectXpath, name)));
             this.action.waitPresenceOfElement(
                     By.cssSelector("a[data-aid='navTab-stories']"));
         } catch (final NoSuchElementException e) {
@@ -166,9 +183,9 @@ public class Dashboard extends AbstractPage {
      */
     public void goToWorkspace(final String name) {
         try {
-            final WebElement project =
-                    getElementWithName(this.worksSpaceNames, name);
-            this.action.click(project);
+            final String xpath = "//a[@class='WorkspaceTile__name' and "
+                    .concat("contains(text(),'%s')]");
+            this.action.click(By.xpath(String.format(xpath, name)));
         } catch (final NoSuchElementException e) {
             LOGGER.warn("The Workspace web element was not found ", e);
         }

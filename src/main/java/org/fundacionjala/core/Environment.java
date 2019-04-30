@@ -2,6 +2,8 @@ package org.fundacionjala.core;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fundacionjala.util.StringUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,6 +20,7 @@ import java.nio.charset.StandardCharsets;
  * Singleton Class of environment.
  */
 public final class Environment {
+    private static final Logger LOGGER = LogManager.getLogger(Environment.class.getName());
 
     private static final String CONF_FILE = "environment.json";
     private static Environment ourInstance;
@@ -78,6 +81,13 @@ public final class Environment {
      * @return string.
      */
     public String getAccountName(final String key) {
-        return StringUtil.getKey(getUserName(key), '@');
+        try {
+            return StringUtil.getKey(getUserName(key), '@').replace(".", "");
+        } catch (final Exception e) {
+            final String format =
+                    "Account name for key %s doesn't found.\nException: %s";
+            LOGGER.warn(String.format(format, key, e.getMessage()));
+            return key;
+        }
     }
 }

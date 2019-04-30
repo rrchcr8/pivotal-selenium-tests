@@ -6,8 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * This is a page located between the dashboard and the story page.
  */
@@ -16,12 +14,6 @@ public class Panel extends AbstractPage {
 
     @FindBy(css = "a[data-aid='AddButton']")
     private WebElement addStoryButton;
-
-    @FindBy(css = "span[class='tracker_markup']")
-    private List<WebElement> storyNames;
-
-    @FindBy(css = "a[title='Select this story for bulk actions']")
-    private List<WebElement> storyCheckBoxes;
 
     /** Basic method with the minimum requerid for create a story. */
     public void clickAddButton() {
@@ -35,12 +27,9 @@ public class Panel extends AbstractPage {
      * @return boolean true or false
      */
     public boolean existStory(final String text) {
-        for (final WebElement element : this.storyNames) {
-            if (element.getText().equals(text)) {
-                return true;
-            }
-        }
-        return false;
+        final String xpath = "//span[@class='story_name']/span[text()='%s']";
+        return this.action.isExistingSelector(
+                By.xpath(String.format(xpath, text)));
     }
 
     /**
