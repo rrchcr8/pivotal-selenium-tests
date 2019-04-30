@@ -1,8 +1,10 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fundacionjala.core.Environment;
+import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.core.ui.forms.FormsElements;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.DeleteModal;
@@ -147,5 +149,16 @@ public class StorySteps {
                 .getContextAsString("project_response.name");
         final String amount = this.projectList.getAmountOfStories(projectName);
         Assert.assertEquals(amount, "1");
+    }
+
+    @After
+    public void after() {
+        final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
+        RequestManager.deleteRequest(url);
+    }
+
+    @When("clicks on add story button")
+    public void clicksOnAddStoryButton() {
+        this.panel.clickAddButton();
     }
 }

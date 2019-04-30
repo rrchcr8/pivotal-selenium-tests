@@ -11,7 +11,8 @@ Feature: Story
     Given logs in with user "owner1"
     And goes to Dashboard "project"
     And opens a project "project_response.name"
-    When creates a story with:
+    When clicks on add story button
+    And creates a story with:
       | name | carlos test |
     Then verifies the story is created in panel
     And expands the story "carlos test"
@@ -25,7 +26,8 @@ Feature: Story
     Given logs in with user "owner1"
     And goes to Dashboard "project"
     And opens a project "project_response.name"
-    When creates a story with:
+    When clicks on add story button
+    And creates a story with:
       | name            | new story         |
       | storyType       | feature           |
       | estimatedPoints | 2 points          |
