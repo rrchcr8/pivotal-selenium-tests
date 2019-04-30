@@ -4,7 +4,14 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.fundacionjala.core.api.RequestManager;
 import org.fundacionjala.pivotal.pages.*;
+import org.fundacionjala.util.ScenarioContext;
+import org.fundacionjala.util.StringUtil;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
@@ -28,13 +35,18 @@ public class ProjectSteps {
     private HeaderMenu menu;
     @Autowired
     private ProjectWorkspaceList projectList;
+    @Autowired
+    private ProjectSettings projectSettings;
+    @Autowired
+    private SavePanelProjectSettings savePanelProjectSettings;
+
 
     /**
      * Create a new project.
      *
      * @param projectAttributes for create project.
      */
-    @When("user creates project as")
+    @When("creates project as")
     public void userCreatesNewProjectAs(final Map<String, String> projectAttributes) {
         this.project.createNewProject(projectAttributes);
     }
@@ -42,10 +54,11 @@ public class ProjectSteps {
     /**
      * was project created with specific name.
      */
-    @Then("validate creation on project's dashboard")
-    public void validateTheProjectIsCreatedWithSpecifyName() {
+    @Then("validates {string} name on project's header title")
+    public void validateTheProjectIsCreatedWithSpecifyName(String projectName) {
+        ScenarioContext.getInstance().setContext("PROJECT_NAME",projectName);
         final String actual = this.header.getTitleName();
-        Assert.assertEquals(actual, this.project.getProjectName(), "Project name match");
+        Assert.assertEquals(actual, projectName, "Project name match");
     }
 
     /**
@@ -61,18 +74,19 @@ public class ProjectSteps {
     /**
      * Open context on settings.
      */
-    @Given("Opens a project's settings")
-    public void openProjectsSettings() {
-        final String projectName = this.project.getProjectName();
+    @Given("Opens a {string} settings")
+    public void openProjectsSettings(String projectKeyName) {
+        final String projectName =  StringUtil.getValue(projectKeyName);
+        ScenarioContext.getInstance().setContext("projectName",projectName);
         this.dashboard.openProjectSettings(projectName);
     }
 
     /**
      * Delete project by link.
      */
-    @When("user click over delete project link")
+    @When("clicks delete project link")
     public void userClickOverDeleteProjectLink() {
-        this.confirm.clickOnDeleteProjectLink();
+        this.projectSettings.clickOnDeleteProjectLink();
         this.confirm.clickOnDeleteButton();
     }
 
@@ -82,7 +96,7 @@ public class ProjectSteps {
     @Then("The project no longer appear on projects section")
     public void theProjectNoLongerAppearOnProjectsSection() {
         Assert.assertFalse(this.dashboard.existProject(
-                this.project.getProjectName()),
+                 (String) ScenarioContext.getInstance().getContext("projectName")),
                 "False if project is not listed after deletion");
     }
 
@@ -91,10 +105,11 @@ public class ProjectSteps {
      */
     @And("the project is not present on active project")
     public void theProjectIsNotPresentOnActiveProject() {
+        this.dashboard.reload();
         this.header.openMenu();
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectList.isProjectListedOnPage(
-                this.project.getProjectName());
+                (String) ScenarioContext.getInstance().getContext("projectName"));
         Assert.assertFalse(actual, "Passed if project is no longer on active project list");
     }
 
@@ -116,8 +131,8 @@ public class ProjectSteps {
      */
     @And("change values on form as")
     public void changeValuesOnFormAs(final Map<String, String> projectAttributes) {
-        this.project.setValuesOnEditProjectForm(projectAttributes);
-        this.project.saveFormOnEditProject();
+        this.projectSettings.setValuesOnEditProjectForm(projectAttributes);
+        this.savePanelProjectSettings.saveFormOnEditProject();
     }
 
     /**
@@ -133,7 +148,7 @@ public class ProjectSteps {
      */
     @Then("A successful message is displayed")
     public void aSuccessfulMessageIsDisplayed() {
-        final boolean actual = this.project.getResponseMessage();
+        final boolean actual = this.projectSettings.getResponseMessage();
         Assert.assertTrue(actual, "Passed if edit project was processed");
     }
 
@@ -144,7 +159,7 @@ public class ProjectSteps {
     public void validateCreationOnHeaderProjectSList() {
         this.header.openProjectMenu();
         final boolean actual = this.menu.isProjectListedOnMenu(
-                this.project.getProjectName());
+                (String) ScenarioContext.getInstance().getContext("PROJECT_NAME"));
         Assert.assertTrue(actual, "Passed if project is on Header menu section");
     }
 
@@ -155,18 +170,19 @@ public class ProjectSteps {
     public void validateCreationOnProjectsSection() {
         this.menu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectList.isProjectListedOnPage(
-                this.project.getProjectName());
+                (String) ScenarioContext.getInstance().getContext("PROJECT_NAME"));
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
     /**
      * Validate non-existance of project's name on menu.
      */
-    @And("Prior project's name no longer listed")
+    @And("Previous project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
+        this.dashboard.reload();
         this.header.openProjectMenu();
         final boolean actual = this.menu.isProjectListedOnMenu(
-                this.project.getProjectName());
+                (String) ScenarioContext.getInstance().getContext("projectName"));
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
 
@@ -186,7 +202,7 @@ public class ProjectSteps {
     /**
      * New project button on dashboard.
      */
-    @Given("A create new button on dashboard")
+    @Given("clicks on create new project button")
     public void aCreateNewButtonOnDashboard() {
         this.dashboard.createProjectButton();
     }
@@ -209,4 +225,11 @@ public class ProjectSteps {
         this.menu.showAllProjectsWorkSpaces();
         this.project.clickCreateNewPRojectOption();
     }
+
+    @And("Set {string}")
+    public void set(String response) {
+        final String url = StringUtil.getExplicitEndpoint("/projects");
+        Response respGet =(Response) (RequestManager.getRequest(url).body());
+        ScenarioContext.getInstance().setContext(response, respGet);
+        }
 }
