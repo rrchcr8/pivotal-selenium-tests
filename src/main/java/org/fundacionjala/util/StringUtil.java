@@ -57,14 +57,26 @@ public final class StringUtil {
      * @return value in the context for key.
      */
     public static String getValue(final String key) {
-        if (key.contains(".")) {
-            final String mainKey = getKey(key, '.');
+        final String cleanKey = cleanBrackets(key);
+        if (cleanKey.contains(".")) {
+            final String mainKey = getKey(cleanKey, '.');
             final JsonPath value = ((Response) ScenarioContext.getInstance()
                     .getContext(mainKey)).body().jsonPath();
-            final String subKey = getRestPart(key, '.');
+            final String subKey = getRestPart(cleanKey, '.');
             return value.get(subKey).toString();
         }
-        return String.valueOf(ScenarioContext.getContextAsString(key));
+        return String.valueOf(ScenarioContext.getContextAsString(cleanKey));
+    }
+
+    /**
+     * This method remove the brakes of a possible key.
+     *
+     * @param key key string.
+     * @return
+     */
+    private static String cleanBrackets(final String key) {
+        return StringUtils.isNoneBlank(key) ? key.replace("{", "")
+                .replace("}", "") : key;
     }
 
     /**

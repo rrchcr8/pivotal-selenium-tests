@@ -20,7 +20,9 @@ import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +47,8 @@ public class StorySteps {
     @Autowired
     private DeleteModal deleteModal;
 
+    private List<String> names;
+
     /**
      * This method clicks the expand button for a specific story.
      *
@@ -64,12 +68,24 @@ public class StorySteps {
     /**
      * Not a reliable method.
      *
-     * @param storyNameKey not really sure (it was in progress).
+     * @param params not really sure (it was in progress).
      */
-    @When("selects the bulk of {string}")
-    public void deletesSelectingTheCheckboxof(final String storyNameKey) {
-        final String storyName = StringUtil.getValue(storyNameKey);
-        this.panel.clickStoryCheckboxButton(storyName);
+    @When("selects the bulk of:")
+    public void selectsStoryBulk(final List<String> params) {
+        this.names = new ArrayList();
+        for (final String storyNameKey : params) {
+            final String storyName = StringUtil
+                    .getValue(storyNameKey);
+            this.panel.clickStoryCheckboxButton(storyName);
+            this.names.add(storyName);
+        }
+    }
+
+    @Then("verifies that the stories are not present on panel")
+    public void verifiesThatTheStoriesAreNotPresentOnPanel() {
+        for (final String storyName : this.names) {
+            this.panel.existStory(storyName);
+        }
     }
 
     /**
@@ -166,7 +182,7 @@ public class StorySteps {
         try {
             final String url = StringUtil.getExplicitEndpoint("/projects/{project_response.id}");
             RequestManager.deleteRequest(url);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.warn("After hook for story steps doesn't run");
         }
     }
@@ -176,5 +192,4 @@ public class StorySteps {
     public void clicksOnAddStoryButton() {
         this.panel.clickAddButton();
     }
-
 }
