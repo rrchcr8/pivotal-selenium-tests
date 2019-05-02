@@ -16,13 +16,13 @@ Feature: Story feature allow bulk delete (multiple delete).
     And stores response as "story_response3"
     And logs in with user "owner1"
     And goes to Dashboard "project"
-    When opens a project "project_response.name"
-    And selects the bulk of:
+    And opens a project "project_response.name"
+    When selects the bulk of:
       | {story_response1.name} |
       | {story_response2.name} |
     And clicks delete button of Header container
     And clicks confirm delete button
-    Then verifies that the stories are not present on panel
+    Then verifies that the stories deleted are not present on panel
     And opens header menu
-    And selects show all projects
+    And clicks show all projects
     And verifies the story count for project "project_response.name" is equal "1" in  project list

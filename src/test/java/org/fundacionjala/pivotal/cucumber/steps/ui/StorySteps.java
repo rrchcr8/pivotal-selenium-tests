@@ -47,7 +47,7 @@ public class StorySteps {
     @Autowired
     private DeleteModal deleteModal;
 
-    private List<String> names;
+    private final List<String> names = new ArrayList();
 
     /**
      * This method clicks the expand button for a specific story.
@@ -57,6 +57,7 @@ public class StorySteps {
     @When("expands the story {string}")
     public void expandsTheStory(final String storyName) {
         this.panel.expandStory(storyName);
+        this.names.add(storyName);
     }
 
     /** This method clicks the delete button inside the story page. */
@@ -72,7 +73,6 @@ public class StorySteps {
      */
     @When("selects the bulk of:")
     public void selectsStoryBulk(final List<String> params) {
-        this.names = new ArrayList();
         for (final String storyNameKey : params) {
             final String storyName = StringUtil
                     .getValue(storyNameKey);
@@ -81,11 +81,12 @@ public class StorySteps {
         }
     }
 
-    @Then("verifies that the stories are not present on panel")
+    @Then("verifies that the stories deleted are not present on panel")
     public void verifiesThatTheStoriesAreNotPresentOnPanel() {
         for (final String storyName : this.names) {
             this.panel.existStory(storyName);
         }
+        this.names.clear();
     }
 
     /**
@@ -113,7 +114,7 @@ public class StorySteps {
     @Then("verifies the story is created in panel")
     public void verifiesTheStoryIsCreatedInPanel() {
         final String storyName = ScenarioContext
-                .getContextInMapAsString("all_story_fields", "name");
+                .getContextInMapAsString(this.allFields, "name");
         Assert.assertTrue(this.panel.existStory(storyName));
     }
 
@@ -122,7 +123,7 @@ public class StorySteps {
      *
      * @param attributes input data.
      **/
-    @Then("verifies the story is created in story")
+    @Then("verifies the story is created:")
     public void verifiesTheStoryIsCreatedInStory(final Map<String, String> attributes) {
         final Map<String, ISteps> strategy = new HashMap<>();
         strategy.put(FormsElements.NAME.key(), () ->

@@ -72,7 +72,7 @@ public class CommonSteps {
     }
 
     /**  This method selects show all project option in menu. */
-    @And("selects show all projects")
+    @And("clicks show all projects")
     public void selectsShowAllProjects() {
         this.headerMenu.showAllProjectsWorkSpaces();
     }
