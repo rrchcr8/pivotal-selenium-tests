@@ -261,7 +261,7 @@ public class ProjectSteps {
     }
 
     /**
-     * This is a method that loads all project Id's into a CONTEXT.
+     * This is a method that loads all project Id's into a ArrayList.
      */
     private void loadAllProjectIdsInContext() {
         final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
