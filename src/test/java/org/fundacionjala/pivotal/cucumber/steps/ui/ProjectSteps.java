@@ -247,7 +247,7 @@ public class ProjectSteps {
      *
      * @param keyContext is the key for the map.
      */
-    @And("save data {string}")
+    @And("saves data {string}")
     public void set(final String keyContext) {
         final List ids = (List) ScenarioContext.getInstance()
                 .getContext(PROJECTS_IDS);

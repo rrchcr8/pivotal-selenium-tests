@@ -11,7 +11,7 @@ Feature: Project
       | account | one     |
       | privacy | private |
     #And get project id
-    And save data "project_id"
+    And saves data "project_id"
     Then validates "at-01" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section
@@ -24,7 +24,7 @@ Feature: Project
       | account | two   |
 #    And get project id
 #    And set "project_id"
-    And save data "project_id"
+    And saves data "project_id"
     Then validates "at-02" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section
@@ -38,8 +38,23 @@ Feature: Project
       | privacy | private |
 #    And get project id
 #    And set "project_id"
-    And save data "project_id"
+    And saves data "project_id"
     Then validates "at-03" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section
     And sends a DELETE request "/projects/{project_id}"
+
+
+  Scenario: Create new project following davis steps
+    Given clicks on create new project button
+    When creates project as
+      | name    | at-00   |
+      | account | one     |
+      | privacy | private |
+    #And get project id
+    And saves data "project_id"
+    Then validates "at-00" on header title
+    And opens the popover from header title
+    And validates "at-00" on "Project" group list
+    And goes to dashboard "Project"
+    And validates "at-00" on "Project" dashboard tab
