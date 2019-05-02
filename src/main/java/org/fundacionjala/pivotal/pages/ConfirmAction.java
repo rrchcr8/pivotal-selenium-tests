@@ -11,12 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfirmAction extends AbstractPage {
 
-    @FindBy(css = "#delete_link")
-    private WebElement deleteLink;
-
-    @FindBy(css = "#archive_link")
-    private WebElement archiveLink;
-
     @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
 
@@ -30,32 +24,16 @@ public class ConfirmAction extends AbstractPage {
     private WebElement cancelDeleteStory;
 
     /**
-     * Delete through link option.
+     * Confirm deletion projects and workspaces.
      */
-    public void clickOnDeleteWorkspaceProjectLink() {
-        action.scrollToElement(deleteLink);
-        action.click(deleteLink);
-    }
-
-    /**
-     * Confirm deletion.
-     */
-    public void clickOnConfirmWorkspaceProjectDeleteButton() {
+    public void clickOnDeleteButton() {
         action.click(confirmDelete);
     }
 
     /**
-     * Delete through link option.
+     * Confirm archive projects and workspaces.
      */
-    public void clickOnArchiveLink() {
-        action.scrollToElement(archiveLink);
-        action.click(archiveLink);
-    }
-
-    /**
-     * Confirm archive.
-     */
-    public void clickOnConfirmArchiveButton() {
+    public void clickOnArchiveButton() {
         action.click(confirmArchive);
     }
 

@@ -85,8 +85,8 @@ public class WorkspaceSteps {
      **/
     @And("clicks on delete workspace link")
     public void clickDeleteWorkspace() {
-        this.confirm.clickOnDeleteWorkspaceProjectLink();
-        this.confirm.clickOnConfirmWorkspaceProjectDeleteButton();
+        this.workSpaceSettings.clickOnDeleteLink();
+        this.confirm.clickOnDeleteButton();
     }
 
 
