@@ -10,8 +10,8 @@ Feature: Project
       | name    | at-01   |
       | account | one     |
       | privacy | private |
-    And get project id
-    And set "project_id"
+    #And get project id
+    And save data "project_id"
     Then validates "at-01" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section
@@ -22,8 +22,9 @@ Feature: Project
     When creates project as
       | name    | at-02 |
       | account | two   |
-    And get project id
-    And set "project_id"
+#    And get project id
+#    And set "project_id"
+    And save data "project_id"
     Then validates "at-02" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section
@@ -35,8 +36,9 @@ Feature: Project
       | name    | at-03   |
       | account | three   |
       | privacy | private |
-    And get project id
-    And set "project_id"
+#    And get project id
+#    And set "project_id"
+    And save data "project_id"
     Then validates "at-03" name on project's header title
     And validate creation on header project's list
     And validate creation on project's section

@@ -247,8 +247,15 @@ public class ProjectSteps {
      *
      * @param keyContext is the key for the map.
      */
-    @And("set {string}")
+    @And("save data {string}")
     public void set(final String keyContext) {
+        final List ids = (List) ScenarioContext.getInstance()
+                .getContext(PROJECTS_IDS);
+        loadAllProjectIdsInContext();
+        final List ids2 = (List) ScenarioContext.getInstance()
+                .getContext(PROJECTS_IDS);
+        ids2.removeAll(ids);
+        this.resp = ids2.get(0).toString();
         ScenarioContext.getInstance().setContext(keyContext, this.resp);
     }
 
@@ -268,19 +275,5 @@ public class ProjectSteps {
         final JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
         ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
-    }
-
-    /**
-     * this method gets the id of the created project.
-     */
-    @And("get project id")
-    public void getProjectId() {
-        final List ids = (List) ScenarioContext.getInstance()
-                .getContext(PROJECTS_IDS);
-        loadAllProjectIdsInContext();
-        final List ids2 = (List) ScenarioContext.getInstance()
-                .getContext(PROJECTS_IDS);
-        ids2.removeAll(ids);
-        this.resp = ids2.get(0).toString();
     }
 }
