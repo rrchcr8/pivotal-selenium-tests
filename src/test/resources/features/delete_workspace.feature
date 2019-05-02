@@ -2,27 +2,30 @@
 Feature: Deletion of workspaces
 
   Background:
-    Given sends a POST request "/workspaces"
-      | title | trash workspace |
+    Given sends a POST request "/my/workspaces"
+      | name | trash workspace |
     And stores response as "workspace_response"
     And logs in with user "owner1"
-    And Go to Dashboard
-      | tab | workspace |
+    And goes to dashboard "Workspaces"
 
-  Scenario: Workspace can be deleted from projects section.
+  Scenario: Workspace can be deleted from workspace tab on dashboard.
 
-    Given the settings workspace page from projects section
-      | title | workspace_response.name |
-    When the user clicks on delete this workspace link
-    Then validate deletion on workspace dashboard
-    And validate deletion on header workspaces list
-    And validate deletion on workspaces section
+    Given the settings page from the particular workspace
+      | name | workspace_response.name |
+    When clicks on delete workspace link
+    Then a "workspace_response.name" "was successfully deleted." message should be displayed
+    And opens the popover from header title
+    And validates "workspace_response.name" not listed on "Workspaces" group list
+    And goes to dashboard "Workspaces"
+    And validates "workspace_response.name" not listed on "Workspaces" dashboard tab
 
-  Scenario: Workspace can be deleted from its dashboard.
-
-    Given the settings workspace page from its dashboard
-      | title | workspace_response.name |
-    When the user clicks on delete this workspace link
-    Then validate deletion on workspace dashboard
-    And validate deletion on header workspaces list
-    And validate deletion on workspaces section
+  Scenario: Workspace can be deleted from its home.
+    Given the workspace home
+      | name | workspace_response.name |
+    And clicks on "more" tab on header menu
+    When clicks on delete workspace link
+    Then a "workspace_response.name" "was successfully deleted." message should be displayed
+    And opens the popover from header title
+    And validates "workspace_response.name" not listed on "Workspaces" group list
+    And goes to dashboard "Workspaces"
+    And validates "workspace_response.name" not listed on "Workspaces" dashboard tab

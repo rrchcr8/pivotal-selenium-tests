@@ -25,7 +25,9 @@ public class HeaderMenu extends AbstractPage {
     @FindBy(xpath = "//a[text()='Create Workspace']")
     private WebElement createWorkspace;
 
-    /** This method click on showAllProject/showAllWorkspaces. **/
+    /**
+     * This method click on showAllProject/showAllWorkspaces.
+     **/
     public void showAllProjectsWorkSpaces() {
         this.action.click(this.showAllProjectsWorkSpaces);
     }
@@ -49,7 +51,7 @@ public class HeaderMenu extends AbstractPage {
      * @param name Workspace name.
      * @return Boolean true if it is seeing on contextual menu
      */
-    public boolean isWorksapceListedOnMenu(final String name) {
+    public boolean isWorkspaceListedOnMenu(final String name) {
         final String xpath =
                 "//span[@class='raw_workspace_name' and contains(text(),'%s')]";
         return this.action.isExistingSelector(
@@ -68,12 +70,16 @@ public class HeaderMenu extends AbstractPage {
         return new Dashboard();
     }
 
-    /** This method click on create Project option menu. **/
+    /**
+     * This method click on create Project option menu.
+     **/
     public void createProject() {
         this.action.click(this.createProject);
     }
 
-    /** This method click on create workspace option menu. **/
+    /**
+     * This method click on create workspace option menu.
+     **/
     public void createWorkspace() {
         this.action.click(this.createWorkspace);
     }

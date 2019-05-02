@@ -191,7 +191,7 @@ public class ProjectSteps {
     }
 
     /**
-     * Validate non-existance of project's name on menu.
+     * Validate non-existence of project's name on menu.
      */
     @And("Previous project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
@@ -203,7 +203,7 @@ public class ProjectSteps {
     }
 
     /**
-     * Validate account asignation.
+     * Validate account assignation.
      *
      * @param expected String
      */
@@ -265,7 +265,7 @@ public class ProjectSteps {
      */
     private void loadAllProjectIdsInContext() {
         final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
-        JsonPath json =
+        final JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
         ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
     }
@@ -275,10 +275,10 @@ public class ProjectSteps {
      */
     @And("get project id")
     public void getProjectId() {
-        List ids = (List) ScenarioContext.getInstance()
+        final List ids = (List) ScenarioContext.getInstance()
                 .getContext(PROJECTS_IDS);
         loadAllProjectIdsInContext();
-        List ids2 = (List) ScenarioContext.getInstance()
+        final List ids2 = (List) ScenarioContext.getInstance()
                 .getContext(PROJECTS_IDS);
         ids2.removeAll(ids);
         this.resp = ids2.get(0).toString();

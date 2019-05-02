@@ -1,3 +1,4 @@
+@wip
 Feature: Story second part
   Test cases with common background.
 
@@ -9,7 +10,7 @@ Feature: Story second part
       | name | story1 |
     And stores response as "story_response"
     And logs in with user "owner1"
-    And goes to Dashboard "project"
+    And goes to dashboard "project"
     And opens a project "project_response.name"
 
   Scenario: delete a story using delete button inside story page

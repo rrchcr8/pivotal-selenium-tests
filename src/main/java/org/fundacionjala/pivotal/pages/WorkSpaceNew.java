@@ -5,11 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-/** This class represent page to create new workspace. */
+/**
+ * This class represent page to create new workspace.
+ */
 @Component
 public class WorkSpaceNew extends AbstractPage {
 
-    @FindBy(css = ".Dashboard__Tabs__tab Dashboard__Tabs__tab--active")
+    @FindBy(xpath = "//span[contains(text(),'Workspaces')]")
     private WebElement dashboardLink;
 
     @FindBy(css = "#create-workspace-button")
@@ -18,19 +20,23 @@ public class WorkSpaceNew extends AbstractPage {
     @FindBy(css = ".tc-form__input")
     private WebElement textBoxname;
 
-    @FindBy(css = ".zWDds__Button pvXpn__Button--positive")
+    @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
 
     @FindBy(css = ".raw_context_name")
     private WebElement labelWorkSpaceName;
 
 
-    /** Clicks the next button. */
+    /**
+     * Clicks the next button.
+     */
     public void clickDashboardLink() {
         this.action.click(this.dashboardLink);
     }
 
-    /** this method represent click action on create button. */
+    /**
+     * this method represent click action on create button.
+     */
     public void clickCreateWorkSpaceButton() {
         this.action.click(this.createWorkSpaceButton);
     }
@@ -44,7 +50,9 @@ public class WorkSpaceNew extends AbstractPage {
         this.action.setValue(this.textBoxname, strname);
     }
 
-    /** This method represent a click action on create button. */
+    /**
+     * This method represent a click action on create button.
+     */
     public void clickCreateButton() {
         this.action.click(this.createButton);
     }
