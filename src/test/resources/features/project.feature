@@ -2,7 +2,7 @@ Feature: Project
 
   Background:
     Given logs in with user "owner1"
-    And goes to Dashboard "Project"
+    And goes to dashboard "Project"
 
   Scenario: Create new project from Dashboard
     Given clicks on create new project button
@@ -28,7 +28,6 @@ Feature: Project
     And validate creation on header project's list
     And validate creation on project's section
     And sends a DELETE request "/projects/{project_id}"
-
 
   Scenario: Create new project from project's section
     Given An option to create a new project on project's section

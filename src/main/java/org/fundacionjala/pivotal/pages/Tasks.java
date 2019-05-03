@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,22 +14,22 @@ import java.util.List;
  **/
 @Component
 public class Tasks extends AbstractPage {
-    @FindBy(css = ".div[data-aid=\"Tasks\"] h4")
+    @FindBy(css = "div[data-aid=\"Tasks\"] h4")
     private WebElement status;
 
-    @FindBy(css = ".div[data-aid=\"TaskDescription\"] span p")
+    @FindBy(css = "div[data-aid=\"TaskDescription\"] span p")
     private List<WebElement> tasksNames;
 
-    @FindBy(css = ".textarea[data-aid='editor']")
-    private WebElement taskText;
+    @FindBy(css = "textarea[data-aid='editor']")
+    private WebElement taskTextEditor;
 
-    @FindBy(css = ".button[data-aid='saveTaskButton'] ")
+    @FindBy(css = "textarea[data-aid='new']")
+    private WebElement taskTextNew;
+
+    @FindBy(css = "button[data-aid='addTaskButton']")
     private WebElement saveTask;
 
-    @FindBys({
-            @FindBy(css = ".AddSubresourceButton__message___2vsNCBXi"),
-            @FindBy(linkText = "Add a task")
-    })
+    @FindBy(xpath = "//span[@class='AddSubresourceButton__message___2vsNCBXi' and contains(text(),'Add a task')]")
     private WebElement addTaskBtn;
 
     /**
@@ -45,10 +44,21 @@ public class Tasks extends AbstractPage {
      *
      * @param text string
      **/
-    public void setTaskText(final String text) {
-        this.taskText.sendKeys(Keys.TAB);
-        this.taskText.clear();
-        this.taskText.sendKeys(text);
+    public void setTaskNewText(final String text) {
+        this.taskTextNew.sendKeys(Keys.TAB);
+        this.taskTextNew.clear();
+        this.taskTextNew.sendKeys(text);
+    }
+
+    /**
+     * This method set text in a task.
+     *
+     * @param text string
+     **/
+    public void setTaskEditText(final String text) {
+        this.taskTextEditor.sendKeys(Keys.TAB);
+        this.taskTextEditor.clear();
+        this.taskTextEditor.sendKeys(text);
     }
 
     /**

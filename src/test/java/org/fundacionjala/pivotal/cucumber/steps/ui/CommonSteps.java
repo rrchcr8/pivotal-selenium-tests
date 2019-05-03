@@ -1,15 +1,17 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.HeaderMenu;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testng.asserts.Assertion;
+import org.testng.asserts.SoftAssert;
 
 /**
  * Common steps.
@@ -27,6 +29,8 @@ public class CommonSteps {
 
     @Autowired
     private HeaderMenu headerMenu;
+
+    private static Assertion assertion;
 
     /**
      * Logs in with user.
@@ -48,16 +52,18 @@ public class CommonSteps {
      *
      * @param tabName name of dashboard tab.
      **/
-    @And("goes to Dashboard {string}")
+    @Given("goes to dashboard {string}")
     public void goToDashboardAndTab(final String tabName) {
         this.dashboard.reload();
-        if (tabName.toLowerCase().contains("workspace")) {
+        if (tabName.toLowerCase().contains("workspaces")) {
             this.dashboard.goToWorkSpaceTab();
         }
     }
 
     /**
-     * @param projectKeyName is the name of the project.
+     * Open the project given by name on dashboard page.
+     *
+     * @param projectKeyName is the name of the project
      */
     @And("opens a project {string}")
     public void opensAProject(final String projectKeyName) {
@@ -65,9 +71,11 @@ public class CommonSteps {
         this.dashboard.goToProject(projectName);
     }
 
-    /**  This method opens header menu. */
-    @And("opens header menu")
-    public void opensHeaderMenu() {
+    /**
+     * Opens the popover from header title.
+     */
+    @And("opens the popover from header title")
+    public void opensThePopoverFromHeaderTitle() {
         this.header.openMenu();
     }
 
@@ -75,5 +83,31 @@ public class CommonSteps {
     @And("clicks show all projects")
     public void selectsShowAllProjects() {
         this.headerMenu.showAllProjectsWorkSpaces();
+    }
+
+    /**
+     * Based on tag annotation enable soft assert.
+     */
+    @Before("@SoftAssert")
+    public static void initialize() {
+        assertion = new SoftAssert();
+    }
+
+    /**
+     * Based on tag annotation enable soft assert.
+     */
+    @Before
+    public static void initializeHardAssert() {
+        assertion = new Assertion();
+    }
+
+    /**
+     * Final step validation for soft assert.
+     */
+    @And("asserts all")
+    public static void assertAll() {
+        if (assertion instanceof SoftAssert) {
+            ((SoftAssert) assertion).assertAll();
+        }
     }
 }

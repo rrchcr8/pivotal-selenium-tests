@@ -20,7 +20,7 @@ import java.util.List;
 public class Dashboard extends AbstractPage {
     private static final Logger LOGGER =
             Logger.getLogger(Dashboard.class.getName());
-    private final String projectXpath =
+    private static final String PROJECTXPATH =
             "//a[@data-aid='project-name' and contains(text(),'%s')]";
     @FindBys({
             @FindBy(css = ".Dashboard__Tabs__tab"),
@@ -51,23 +51,31 @@ public class Dashboard extends AbstractPage {
     @FindBy(css = "#projects-search-bar")
     private WebElement searchInput;
 
-    /** Create project. **/
+    /**
+     * Create project.
+     **/
     public void createProjectButton() {
         this.action.click(this.createProject);
     }
 
-    /** Create workspace. **/
+    /**
+     * Create workspace.
+     **/
     public void createWorkSpaceButton() {
         this.action.click(this.createWorkSpace);
     }
 
-    /** Go to work space tab. **/
+    /**
+     * Go to work space tab.
+     **/
     public void goToWorkSpaceTab() {
         this.action.click(this.workspaces);
         this.wait.until(ExpectedConditions.visibilityOf(this.createWorkSpace));
     }
 
-    /** Go to project tab. **/
+    /**
+     * Go to project tab.
+     **/
     public void goToProjectTab() {
         this.action.click(this.projects);
         this.wait.until(ExpectedConditions.visibilityOf(this.createProject));
@@ -95,7 +103,7 @@ public class Dashboard extends AbstractPage {
             this.action.click(this.showMoreProjects);
         }
         return this.action.isExistingSelector(
-                By.xpath(String.format(this.projectXpath, name)));
+                By.xpath(String.format(PROJECTXPATH, name)));
     }
 
     /**
@@ -105,8 +113,8 @@ public class Dashboard extends AbstractPage {
      * @param name name to search
      * @return boolean.
      **/
-    private boolean hasElementWithName(final List<WebElement> list,
-                                       final String name) {
+    private static boolean hasElementWithName(final List<WebElement> list,
+                                              final String name) {
         for (final WebElement element : list) {
             if (element.getText().equals(name)) {
                 return true;
@@ -122,11 +130,12 @@ public class Dashboard extends AbstractPage {
      */
     public void goToProject(final String name) {
         this.searchInput.sendKeys(name);
-            this.action.scrollToElement(this.twitterLink);
-            this.action.click(By.xpath(String.format(this.projectXpath, name)));
-            this.action.waitPresenceOfElement(
-                    By.cssSelector("a[data-aid='navTab-stories']"));
+        this.action.scrollToElement(this.twitterLink);
+        this.action.click(By.xpath(String.format(PROJECTXPATH, name)));
+        this.action.waitPresenceOfElement(
+                By.cssSelector("a[data-aid='navTab-stories']"));
     }
+
     /**
      * Go to workspace with name.
      *
@@ -138,7 +147,7 @@ public class Dashboard extends AbstractPage {
                     .concat("contains(text(),'%s')]");
             this.action.click(By.xpath(String.format(xpath, name)));
         } catch (final NoSuchElementException e) {
-            LOGGER.warn("The Workspace web element was not find ", e);
+            LOGGER.warn("The Workspace web element was not found ", e);
         }
     }
 
@@ -186,13 +195,15 @@ public class Dashboard extends AbstractPage {
         }
 
         final String linkText = this.action.getAttribute(
-                By.xpath(String.format(this.projectXpath, projectName)),
+                By.xpath(String.format(PROJECTXPATH, projectName)),
                 "pathname");
         this.action.click(By.xpath("//a[@aria-label='settings' and @href='"
                 .concat(linkText).concat("/settings']")));
     }
 
-    /** This method reload dashboard page. **/
+    /**
+     * This method reload dashboard page.
+     **/
     public void reload() {
         this.driver.get(Environment.getInstance().getValue("url.base")
                 .concat("/dashboard"));

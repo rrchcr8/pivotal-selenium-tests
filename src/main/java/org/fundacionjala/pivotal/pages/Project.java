@@ -17,22 +17,29 @@ import java.util.Map;
 @Component
 public class Project extends AbstractPage {
 
-
     private static final int W_TIME = 9000;
+
     @FindBy(css = ".tc-form__input")
     private WebElement projectNameField;
+
     @FindBy(css = ".tc-account-selector")
     private WebElement accountSelector;
+
     @FindBy(css = ".zWDds__Button.pvXpn__Button--positive")
     private WebElement createButton;
+
     @FindBy(css = ".tc-account-selector__create-account-icon")
     private WebElement createAccount;
+
     @FindBy(css = ".tc-account-creator__name")
     private WebElement newAccountField;
+
     @FindBy(linkText = "Delete")
     private WebElement deleteLink;
+
     @FindBy(css = "#confirm_delete")
     private WebElement confirmDelete;
+
     @FindBy(xpath = "//input[@name='commit' and @type='submit']")
     private WebElement saveButtonOnEditProject;
 
@@ -50,9 +57,6 @@ public class Project extends AbstractPage {
     @FindBy(css = "a[data-aid='StoryPreviewItem__expander']")
     private List<WebElement> expandStoryButtons;
 
-    /**
-     * Clicks the create new project button.
-     */
 
     /**
      * This method set value of project name text field.
@@ -173,7 +177,7 @@ public class Project extends AbstractPage {
     }
 
     /**
-     * Cofirm deletion.
+     * Confirm deletion.
      */
     public void clickOnDeleteButton() {
         action.click(confirmDelete);
@@ -184,7 +188,6 @@ public class Project extends AbstractPage {
      */
     public void saveFormOnEditProject() {
         action.click(saveButtonOnEditProject);
-
     }
 
     /**

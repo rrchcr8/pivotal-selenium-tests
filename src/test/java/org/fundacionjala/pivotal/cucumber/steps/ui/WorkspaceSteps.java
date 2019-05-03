@@ -2,30 +2,30 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.log4j.Logger;
 import org.fundacionjala.core.api.services.WorkSpaceService;
+import org.fundacionjala.core.ui.forms.FormsElements;
+import org.fundacionjala.pivotal.pages.ConfirmAction;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
 import org.fundacionjala.pivotal.pages.WorkSpaceNew;
 import org.fundacionjala.pivotal.pages.WorkSpaceSettings;
 import org.fundacionjala.util.ScenarioContext;
+import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-/** This class will have steps for workspace feature. **/
+/**
+ * This class will have steps for workspace feature.
+ **/
 public class WorkspaceSteps {
-    private static final Logger LOGGER =
-            Logger.getLogger(WorkspaceSteps.class.getName());
     public static final String WS_SETTINGS_PAGE = "ws_settings_page";
     public static final String WS_NAME = "ws_name";
-
+    private static final Logger LOGGER =
+            Logger.getLogger(WorkspaceSteps.class.getName());
     @Autowired
     private Dashboard dashboard;
 
@@ -35,11 +35,12 @@ public class WorkspaceSteps {
     @Autowired
     private WorkSpaceNew workSpaceNew;
 
-    /** Step to enter to workspace area. **/
-    @Given("an workspace")
-    public void clickDashboardLink() {
-        this.header.goToDashBoard();
-    }
+    @Autowired
+    private WorkSpaceSettings workSpaceSettings;
+
+    @Autowired
+    private ConfirmAction confirm;
+
 
     /**
      * This step edit workspace.
@@ -47,7 +48,7 @@ public class WorkspaceSteps {
      * @param strname param.
      **/
     @And("edit workspace’s title")
-    public void setWorkSpacename(final String strname) {
+    public static void setWorkSpacename(final String strname) {
 
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
@@ -56,9 +57,11 @@ public class WorkspaceSteps {
         settingsPage.setName(strname);
     }
 
-    /** This step save workspace. **/
+    /**
+     * This step save workspace.
+     **/
     @And("clicks on Save Button")
-    public void clickSaveButton() {
+    public static void clickSaveButton() {
         final WorkSpaceSettings settingsPage =
                 (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
                         WS_SETTINGS_PAGE);
@@ -66,29 +69,35 @@ public class WorkspaceSteps {
 
     }
 
-    /** This step display workspace edited. **/
-    @Then("workspace title should be edited")
-    public void getWorkSpaceLabel() {
-        final String name = (String) ScenarioContext.getInstance().getContext(
-                WS_NAME);
-        this.dashboard.goToWorkSpaceTab();
-        assertTrue(this.dashboard.existWorkSpace(name));
-    }
-
-    /** This step create a workspace. **/
+    /**
+     * This step create a workspace.
+     **/
     @Given("create an workspace")
-    public void createaworkspace() {
+    public static void createaworkspace() {
         final String name = "My WorkSpace Test";
         final int workspaceId = WorkSpaceService.createWorkspace(name);
         ScenarioContext.getInstance().setContext(WS_NAME, name);
         ScenarioContext.getInstance().setContext("ws_id", workspaceId);
     }
 
-    /** This step click over settings button. **/
-    @When("the user clicks on workspace settings button")
-    public void theUserClicksOnWorkSpaceSettingBtn() {
-        final String name = (String) ScenarioContext.getInstance().getContext(
-                WS_NAME);
+    /**
+     * This step delete a workspace.
+     **/
+    @And("clicks on delete workspace link")
+    public void clickDeleteWorkspace() {
+        this.workSpaceSettings.clickOnDeleteLink();
+        this.confirm.clickOnDeleteButton();
+    }
+
+
+    /**
+     * This step click over settings button.
+     *
+     * @param workspaceAttributes Map of attributes
+     **/
+    @When("the settings page from the particular workspace")
+    public void theUserClicksOnWorkSpaceSettingBtn(final Map<String, String> workspaceAttributes) {
+        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
         try {
             final WorkSpaceSettings page =
                     this.dashboard.clickWorkSpaceSettings(name);
@@ -100,37 +109,10 @@ public class WorkspaceSteps {
         }
     }
 
-    /** This step delete a workspace. **/
-    @And("click delete workspace")
-    public void clickDeleteWorkspace() {
-        final WorkSpaceSettings settingsPage =
-                (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        WS_SETTINGS_PAGE);
-        settingsPage.clickOnDeleteLink();
-
-    }
-
-    /** This step confirm delete. **/
-    @And("click delete confirm")
-    public void clickConfirmDeleteWorkspace() {
-        final WorkSpaceSettings settingsPage =
-                (WorkSpaceSettings) ScenarioContext.getInstance().getContext(
-                        WS_SETTINGS_PAGE);
-        settingsPage.clickOnConfirmDelete();
-
-    }
-
-    /** workspace si deleted. **/
-    @Then("workspace should be deleted")
-    public void verifyDelete() {
-        final String name = (String) ScenarioContext.getInstance().getContext(
-                WS_NAME);
-        this.dashboard.goToWorkSpaceTab();
-        assertFalse(this.dashboard.existWorkSpace(name));
-    }
-
-    /** This step click over create button. **/
-    @When("clicks the create workspace button")
+    /**
+     * This step click over create button.
+     **/
+    @Given("clicks on create workspace button")
     public void clicksTheCreateWorkspaceButton() {
         this.workSpaceNew.clickDashboardLink();
         this.workSpaceNew.clickCreateWorkSpaceButton();
@@ -143,28 +125,58 @@ public class WorkspaceSteps {
      **/
     @And("sets the workspace name: {string}")
     public void setsTheWorkspaceNameName(final String name) {
-        // guardar el name de forma mas optima q e una variable
         this.workSpaceNew.setName(name);
         this.workSpaceNew.clickCreateButton();
     }
 
     /**
-     * This steps verify that workspace.
+     * Creates a workspace by given attributes.
      *
-     * @param name param.
-     **/
-    @Then("the workspace should be created: {string}")
-    public void theWorkspaceShouldBeCreated(final String name) {
-        final String actualresult = this.workSpaceNew.getWorkSpaceLabel();
-        Assert.assertEquals(actualresult, name);
+     * @param workspaceAttributes Map ot attributes
+     */
+    @When("creates a workspace")
+    public void createsAWorkspace(final Map<String, String> workspaceAttributes) {
+        final String name = workspaceAttributes.get(FormsElements.WS_NAME.toString());
+        this.workSpaceNew.setName(name);
+        for (final String key : workspaceAttributes.keySet()) {
+            ScenarioContext.getInstance().setContext(key, name);
+        }
+        this.workSpaceNew.clickCreateButton();
     }
 
-    /** This step verify that workspace is displayed. **/
-    @And("the workspace board should be displayed")
-    public void theWorkspaceBoardShouldBeDisplayed() {
-        assertTrue(true);
+    /**
+     * Click over a tab from header menu.
+     *
+     * @param tabNameOnHeader String
+     */
+    @And("clicks on {string} tab on header menu")
+    public void clicksOnTabOnHeaderMenu(final String tabNameOnHeader) {
+        this.workSpaceSettings.openWorkspaceMenuTab(tabNameOnHeader);
+    }
+
+    /**
+     * Set the given attributes on workspace form.
+     *
+     * @param workspaceAttributes Map of attributes
+     */
+    @When("edits attributes of the workspace")
+    public void editsAttributesOfTheWorkspace(final Map<String, String> workspaceAttributes) {
+        final String name = workspaceAttributes.get(FormsElements.WS_NAME.toString());
+        this.workSpaceSettings.setName(name);
+        for (final String key : workspaceAttributes.keySet()) {
+            ScenarioContext.getInstance().setContext(key, name);
+        }
+        this.workSpaceSettings.clickOnSave();
+    }
+
+    /**
+     * Go to the specify workspace home.
+     *
+     * @param workspaceAttributes Map of attributes
+     */
+    @Given("the workspace home")
+    public void theWorkspaceHome(final Map<String, String> workspaceAttributes) {
+        final String name = StringUtil.getValue(workspaceAttributes.get(FormsElements.NAME.toString()));
+        this.dashboard.goToWorkspace(name);
     }
 }
-
-
-

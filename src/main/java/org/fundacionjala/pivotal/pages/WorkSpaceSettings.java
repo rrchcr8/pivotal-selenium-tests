@@ -1,11 +1,14 @@
 package org.fundacionjala.pivotal.pages;
 
 import org.fundacionjala.core.ui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.stereotype.Component;
 
-/** This class represent workspace settings page. **/
+/**
+ * This class represent workspace settings page.
+ **/
 @Component
 public class WorkSpaceSettings extends AbstractPage {
 
@@ -21,17 +24,23 @@ public class WorkSpaceSettings extends AbstractPage {
     @FindBy(css = ".save_bar__submit")
     private WebElement saveButton;
 
-    /** This represent click action on delete link. */
+    /**
+     * This represent click action on delete link.
+     */
     public void clickOnDeleteLink() {
         this.action.click(this.deleteLink);
     }
 
-    /** This represent click action on confirm delete. */
+    /**
+     * This represent click action on confirm delete.
+     */
     public void clickOnConfirmDelete() {
         this.action.click(this.confirmDelete);
     }
 
-    /** This represent click action on save. */
+    /**
+     * This represent click action on save.
+     */
     public void clickOnSave() {
         this.action.click(this.saveButton);
     }
@@ -42,6 +51,18 @@ public class WorkSpaceSettings extends AbstractPage {
      * @param newName string.
      */
     public void setName(final String newName) {
+        this.name.clear();
         this.name.sendKeys(newName);
+    }
+
+    /**
+     * Open specify tab over Workspace home.
+     *
+     * @param tabNameOnHeader String
+     */
+    public void openWorkspaceMenuTab(final String tabNameOnHeader) {
+        this.action.click(By.xpath(String.format(
+                "//nav[contains(@class,\"projectNavExpanded\")]/child::a/child::span[text()=\"%s\"]",
+                tabNameOnHeader)));
     }
 }
