@@ -115,5 +115,6 @@ public class Header extends AbstractPage {
      **/
     public void openMenu() {
         this.action.click(this.projecMenu);
+        this.action.pause(3000);
     }
 }
