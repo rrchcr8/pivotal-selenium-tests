@@ -21,6 +21,3 @@ Feature: Story feature allow edition and delete.
     And opens the popover from header title
     And clicks show all projects
     And verifies the story count for project "project_response.name" is equal "0" in  project list
-
-  @wip
-  Scenario: Update story data.

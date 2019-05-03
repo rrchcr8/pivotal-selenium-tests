@@ -7,6 +7,7 @@ import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
