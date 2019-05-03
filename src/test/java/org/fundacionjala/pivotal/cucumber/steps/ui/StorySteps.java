@@ -81,6 +81,7 @@ public class StorySteps {
         }
     }
 
+    /** This step verifies that the stories are not present on panel. **/
     @Then("verifies that the stories deleted are not present on panel")
     public void verifiesThatTheStoriesAreNotPresentOnPanel() {
         for (final String storyName : this.names) {
