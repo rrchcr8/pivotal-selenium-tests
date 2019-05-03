@@ -72,7 +72,7 @@ public final class StringUtil {
      * This method remove the brakes of a possible key.
      *
      * @param key key string.
-     * @return
+     * @return string.
      */
     private static String cleanBrackets(final String key) {
         return StringUtils.isNoneBlank(key) ? key.replace("{", "")
