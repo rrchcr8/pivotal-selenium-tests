@@ -1,7 +1,7 @@
 Feature: Story feature allow bulk delete (multiple delete).
   This feature file represent all possible scenarios over bulk delete of stories.
 
-  Scenario: delete a story selecting bulk
+  Background:
     Given sends a POST request "/projects"
       | name | project b |
     And stores response as "project_response"
@@ -14,10 +14,12 @@ Feature: Story feature allow bulk delete (multiple delete).
     And sends a POST request "/projects/{project_response.id}/stories"
       | name | story3 |
     And stores response as "story_response3"
-    And logs in with user "owner1"
+
+  Scenario: delete a story selecting bulk
+    When logs in with user "owner1"
     And goes to Dashboard "project"
     And opens a project "project_response.name"
-    When selects the bulk of:
+    And selects the bulk of:
       | {story_response1.name} |
       | {story_response2.name} |
     And clicks delete button of Header container
