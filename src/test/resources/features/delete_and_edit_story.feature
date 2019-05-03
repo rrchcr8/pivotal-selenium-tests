@@ -18,7 +18,7 @@ Feature: Story feature allow edition and delete.
     And clicks delete button
     And clicks confirm delete button
     Then verifies that the stories deleted are not present on panel
-    And opens header menu
+    And opens the popover from header title
     And clicks show all projects
     And verifies the story count for project "project_response.name" is equal "0" in  project list
 
