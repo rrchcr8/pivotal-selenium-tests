@@ -1,6 +1,5 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -32,6 +31,9 @@ public class ProjectSteps {
     static final String PROJECTURI = "/projects";
     private static final String PROJECT_NAME = "projectName";
     private static final String PROJECTS_IDS = "Projects_ids";
+    private final String allFields = "all_projects_fields";
+    private final String settingsFields = "all_projects_settings_fields";
+
 
     @Autowired
     private Project project;
@@ -50,6 +52,7 @@ public class ProjectSteps {
     @Autowired
     private SavePanelProjectSettings savePanelProjectSettings;
     private Object resp;
+    private Map<String, String> atributesMap;
 
     /**
      * Create a new project.
@@ -59,6 +62,7 @@ public class ProjectSteps {
     @When("creates project as")
     public void userCreatesNewProjectAs(final Map<String, String> projectAttributes) {
         this.project.createNewProject(projectAttributes);
+        this.atributesMap = projectAttributes;
     }
 
     /**
@@ -262,18 +266,37 @@ public class ProjectSteps {
     /**
      * this is a hook.
      */
-    @Before
-    public void setup() {
-        loadAllProjectIdsInContext();
-    }
+//    @Before
+//    public void setup() {
+//        loadAllProjectIdsInContext();
+//    }
 
     /**
      * This is a method that loads all project Id's into a ArrayList.
      */
-    private void loadAllProjectIdsInContext() {
-        final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
+    private void loadAllProjectIdsInContext(String bareURL) {
+        final String url = StringUtil.getExplicitEndpoint(bareURL);
         final JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
-        ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
+        //ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get
+        // ("id"));
+    }
+
+    /**
+     * @param key
+     */
+    @And("stores datatable as {string}")
+    public void storesDatatableAs(String key) {
+        ScenarioContext.getInstance().setContext(key, atributesMap);
+    }
+
+    /**
+     * @param arg0
+     * @param arg1
+     * @param arg2
+     */
+    @And("stores {string} that matches with {string} from {string}")
+    public void storesThatMatchesWithFrom(String arg0, String arg1, String arg2) {
+        loadAllProjectIdsInContext(arg2);
     }
 }
