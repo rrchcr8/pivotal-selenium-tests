@@ -14,7 +14,7 @@ Feature: Edit and delete a Project
     When clicks delete project link
     Then verifies that project "a1" doesn't appear on dashboard
     And opens the popover from header title
-    And selects show all projects
+    And clicks show all projects
     And verifies that project "a1" doesn't appear on project list
 
   Scenario: Edit a project
@@ -27,6 +27,6 @@ Feature: Edit and delete a Project
     And Previous project's name no longer listed
     And verifies that project "awt-00" doesn't appear on dashboard
     And opens the popover from header title
-    And selects show all projects
+    And clicks show all projects
     And verifies that project "awt-00" doesn't appear on project list
     And sends a DELETE request "/projects/{project_response.id}"

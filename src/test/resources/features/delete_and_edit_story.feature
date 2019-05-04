@@ -1,6 +1,6 @@
-@wip
-Feature: Story second part
-  Test cases with common background.
+Feature: Story feature allow edition and delete.
+  This feature file represent all possible scenarios over story edition and
+  story delete.
 
   Background:
     Given sends a POST request "/projects"
@@ -17,13 +17,7 @@ Feature: Story second part
     When expands the story "story1"
     And clicks delete button
     And clicks confirm delete button
-    Then verifies that the story "story_response.name" is deleted
-    And sends a DELETE request "/projects/{project_response.id}"
-
-
-  Scenario: delete a story selecting bulk
-    When selects the bulk of "story_response.name"
-    And clicks delete button of Header container
-    And clicks confirm delete button
-    Then verifies that the story "story_response.name" is deleted
-    And sends a DELETE request "/projects/{project_response.id}"
+    Then verifies that the stories deleted are not present on panel
+    And opens the popover from header title
+    And clicks show all projects
+    And verifies the story count for project "project_response.name" is equal "0" in  project list

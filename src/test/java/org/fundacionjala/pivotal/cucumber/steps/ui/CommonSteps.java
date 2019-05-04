@@ -7,6 +7,7 @@ import org.fundacionjala.core.Environment;
 import org.fundacionjala.core.ui.driver.DriverManager;
 import org.fundacionjala.pivotal.pages.Dashboard;
 import org.fundacionjala.pivotal.pages.Header;
+import org.fundacionjala.pivotal.pages.HeaderMenu;
 import org.fundacionjala.pivotal.pages.Login;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class CommonSteps {
     @Autowired
     private Header header;
 
+    @Autowired
+    private HeaderMenu headerMenu;
+
     private static Assertion assertion;
 
     /**
@@ -36,13 +40,11 @@ public class CommonSteps {
      */
     @Given("logs in with user {string}")
     public void logsInWithUser(final String key) {
-        final String userNameKey = String
-                .format("credentials.%s.username", key);
         final String passwordKey = String
                 .format("credentials.%s.password", key);
         DriverManager.getInstance().getDriver().get(Environment.getInstance()
                 .getValue("url.login"));
-        this.login.loginAs(Environment.getInstance().getValue(userNameKey),
+        this.login.loginAs(Environment.getInstance().getUserName(key),
                 Environment.getInstance().getValue(passwordKey));
     }
 
@@ -78,6 +80,12 @@ public class CommonSteps {
         this.header.openMenu();
     }
 
+    /**  This method selects show all project option in menu. */
+    @And("clicks show all projects")
+    public void selectsShowAllProjects() {
+        this.headerMenu.showAllProjectsWorkSpaces();
+    }
+
     /**
      * Based on tag annotation enable soft assert.
      */
@@ -102,7 +110,5 @@ public class CommonSteps {
         if (assertion instanceof SoftAssert) {
             ((SoftAssert) assertion).assertAll();
         }
-
-
     }
 }
