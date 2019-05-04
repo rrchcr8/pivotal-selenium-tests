@@ -291,12 +291,12 @@ public class ProjectSteps {
     }
 
     /**
-     * @param arg0
-     * @param arg1
-     * @param arg2
+     * @param idKey
+     * @param mapKey
+     * @param bareURL
      */
     @And("stores {string} that matches with {string} from {string}")
-    public void storesThatMatchesWithFrom(String arg0, String arg1, String arg2) {
-        loadAllProjectIdsInContext(arg2);
+    public void storesThatMatchesWithFrom(String idKey, String mapKey, String bareURL) {
+        loadAllProjectIdsInContext(bareURL);
     }
 }
