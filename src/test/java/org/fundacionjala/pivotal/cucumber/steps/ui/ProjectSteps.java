@@ -1,6 +1,5 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
-import com.google.gson.JsonObject;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -9,26 +8,12 @@ import cucumber.api.java.en.When;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.fundacionjala.core.api.RequestManager;
-import org.fundacionjala.pivotal.pages.ConfirmAction;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.HeaderMenu;
-import org.fundacionjala.pivotal.pages.Project;
-import org.fundacionjala.pivotal.pages.ProjectSettings;
-import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
-import org.fundacionjala.pivotal.pages.SavePanelProjectSettings;
+import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.openqa.selenium.json.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +47,24 @@ public class ProjectSteps {
     private SavePanelProjectSettings savePanelProjectSettings;
     private Object resp;
     private Map<String, String> atributesMap;
+
+    /**
+     * this is a hook.
+     */
+    @Before
+    public static void setup() {
+        loadAllProjectIdsInContext();
+    }
+
+    /**
+     * This is a method that loads all project Id's into a ArrayList.
+     */
+    private static void loadAllProjectIdsInContext() {
+        final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
+        final JsonPath json =
+                ((Response) RequestManager.getRequest(url).body()).jsonPath();
+        ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get("id"));
+    }
 
     /**
      * Create a new project.
@@ -273,50 +276,30 @@ public class ProjectSteps {
     }
 
     /**
-     * this is a hook.
-     */
-    @Before
-    public void setup() {
-        loadAllProjectIdsInContext();
-    }
-
-    /**
-     * This is a method that loads all project Id's into a ArrayList.
-     */
-    private void loadAllProjectIdsInContext() {
-        final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
-        final JsonPath json =
-                ((Response) RequestManager.getRequest(url).body()).jsonPath();
-        ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get
-        ("id"));
-    }
-
-    /**
-     * @param key
+     * @param key is the name of the key that will goes to context.
      */
     @And("stores datatable as {string}")
-    public void storesDatatableAs(String key) {
+    public void storesDatatableAs(final String key) {
         ScenarioContext.getInstance().setContext(key, atributesMap);
     }
 
     /**
-     * @param idKey
-     * @param mapKey
-     * @param bareURL
+     * This method has a litle workaround. instead of using map list, the proper way is:
+     * String idP= jsonPath.param("names", pN).get("find {id -> name == names}").toString(); or
+     * tring idP= jsonPath.get(String.format("find {id -> name == '%s'}", pN)).toString();
+     *
+     * @param idKey   is the key for the id that will goes on context.
+     * @param mapKey  is the key for the id that will goes on context.
+     * @param bareURL is the key for the id that will goes on context.
      */
     @And("stores {string} that matches with {string} from {string}")
-    public void storesThatMatchesWithFrom(String idKey, String mapKey, String bareURL) {
+    public void storesThatMatchesWithFrom(final String idKey, final String mapKey, final String bareURL) {
         final String url = StringUtil.getExplicitEndpoint(bareURL);
-        String pN= StringUtil.getValueFromMap(mapKey);
-        final  JsonPath jsonPath = ((Response) RequestManager.getRequest(url).body()).jsonPath();
-        //String id =jsonPath.get("id[0]").toString();
-        List<String> nameList =jsonPath.get("name");
-        int i = nameList.indexOf(pN);
-        this.resp =jsonPath.get(String.format("id[%d]", i)).toString();
+        final String projName = StringUtil.getValueFromMap(mapKey);
+        final JsonPath jsonPath = ((Response) RequestManager.getRequest(url).body()).jsonPath();
+        final List<String> nameList = jsonPath.get("name");
+        final int i = nameList.indexOf(projName);
+        this.resp = jsonPath.get(String.format("id[%d]", i)).toString();
         ScenarioContext.getInstance().setContext(idKey, this.resp);
-        //String idP= jsonPath.param("names", pN).get("find {id -> name == names}").toString();
-        //String idP= jsonPath.get(String.format("find {id -> name == '%s'}", pN)).toString();
-
-
     }
 }
