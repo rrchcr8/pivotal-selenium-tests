@@ -11,9 +11,16 @@ Feature: Project
       | account | one     |
       | privacy | private |
     And stores datatable as "project_datatable"
-    Then validates "at-01" name on project's header title
-    And validate creation on header project's list
-    And validate creation on project's section
+    Then validates "project_datatable.name" name on project's header title
+    And opens the popover from header title
+    And verifies that "project_datatable.name" appears on "Projects" group list
+    And goes to dashboard "Workspaces"
+    And validates "workspace.name" on "Workspaces" dashboard tab
+    And opens the popover from header title
+    And clicks show all projects
+    And verifies that project "a1" doesn't appear on project list
+     # And validate creation on header project's list
+#    And validate creation on project's section
     And stores "project_id" that matches with "project_datatable.name" from "/projects"
     And sends a DELETE request "/projects/{project_id}"
 
@@ -23,8 +30,8 @@ Feature: Project
       | name    | at-02 |
       | account | two   |
     And stores datatable as "project_datatable"
-    Then validates "at-02" name on project's header title
-    And validate creation on header project's list
+    Then validates "project_datatable.name" name on project's header title
+#    And validate creation on header project's list
     And validate creation on project's section
     And stores "project_id" that matches with "project_datatable.name" from "/projects"
     And sends a DELETE request "/projects/{project_id}"

@@ -38,7 +38,7 @@ public class ProjectSteps {
     @Autowired
     private ConfirmAction confirm;
     @Autowired
-    private HeaderMenu menu;
+    private HeaderMenu headerMenu;
     @Autowired
     private ProjectWorkspaceList projectList;
     @Autowired
@@ -84,10 +84,9 @@ public class ProjectSteps {
      */
     @Then("validates {string} name on project's header title")
     public void validateTheProjectIsCreatedWithSpecifyName(final String projectName) {
-        ScenarioContext.getInstance().setContext(PROJECT_NAME, projectName);
+        final String projName = StringUtil.getValueFromMap(projectName);
         final String actual = this.header.getTitleName();
-        Assert.assertEquals(actual, ScenarioContext.getInstance().getContext(
-                PROJECT_NAME), "Project name match");
+        Assert.assertEquals(actual, projName, "Project name match");
     }
 
     /**
@@ -185,14 +184,14 @@ public class ProjectSteps {
     }
 
     /**
-     * Check existance of project's name on header menu list.
+     * Check existance of project's name on header headerMenu list.
      */
     @And("validate creation on header project's list")
     public void validateCreationOnHeaderProjectSList() {
-        this.header.openProjectMenu();
-        final boolean actual = this.menu.isProjectListedOnMenu(
+        //this.header.openProjectMenu();
+        final boolean actual = this.headerMenu.isProjectListedOnMenu(
                 (String) ScenarioContext.getInstance().getContext("PROJECT_NAME"));
-        Assert.assertTrue(actual, "Passed if project is on Header menu section");
+        Assert.assertTrue(actual, "Passed if project is on Header headerMenu section");
     }
 
     /**
@@ -200,20 +199,20 @@ public class ProjectSteps {
      */
     @And("validate creation on project's section")
     public void validateCreationOnProjectsSection() {
-        this.menu.showAllProjectsWorkSpaces();
+        this.headerMenu.showAllProjectsWorkSpaces();
         final boolean actual = this.projectList.isProjectListedOnPage(
                 (String) ScenarioContext.getInstance().getContext("PROJECT_NAME"));
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
     /**
-     * Validate non-existence of project's name on menu.
+     * Validate non-existence of project's name on headerMenu.
      */
     @And("Previous project's name no longer listed")
     public void priorProjectSNameNoLongerListed() {
         this.dashboard.reload();
         this.header.openProjectMenu();
-        final boolean actual = this.menu.isProjectListedOnMenu(
+        final boolean actual = this.headerMenu.isProjectListedOnMenu(
                 (String) ScenarioContext.getInstance().getContext(PROJECT_NAME));
         Assert.assertFalse(actual, "Passed if project was changed its name");
     }
@@ -240,9 +239,9 @@ public class ProjectSteps {
     }
 
     /**
-     * New project button on header menu.
+     * New project button on header headerMenu.
      */
-    @Given("clicks new button on header menu")
+    @Given("clicks new button on header headerMenu")
     public void aCreateNewButtonOnHeaderMenu() {
         this.header.openProjectMenu();
         this.header.clickCreateNewProject();
@@ -254,7 +253,7 @@ public class ProjectSteps {
     @Given("An option to create a new project on project's section")
     public void anOptionToCreateANewProjectOnProjectSSection() {
         this.header.openMenu();
-        this.menu.showAllProjectsWorkSpaces();
+        this.headerMenu.showAllProjectsWorkSpaces();
         this.project.clickCreateNewPRojectOption();
     }
 
@@ -302,4 +301,5 @@ public class ProjectSteps {
         this.resp = jsonPath.get(String.format("id[%d]", i)).toString();
         ScenarioContext.getInstance().setContext(idKey, this.resp);
     }
+
 }

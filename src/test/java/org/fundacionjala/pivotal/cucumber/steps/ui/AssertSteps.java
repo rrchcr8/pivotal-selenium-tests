@@ -2,11 +2,7 @@ package org.fundacionjala.pivotal.cucumber.steps.ui;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.HeaderMenu;
-import org.fundacionjala.pivotal.pages.ToastMessage;
-import org.fundacionjala.pivotal.pages.WorkSpaceNew;
+import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +13,25 @@ import org.testng.Assert;
  */
 public class AssertSteps {
 
+    private static final String WORKSPACE = "Workspaces";
     @Autowired
     private Dashboard dashboard;
-
     @Autowired
     private WorkSpaceNew workSpaceNew;
-
     @Autowired
     private Header header;
-
     @Autowired
     private HeaderMenu headerMenu;
-
     @Autowired
     private ToastMessage toastMessage;
 
-    private static final String WORKSPACE = "Workspaces";
+    /**
+     * This step verify that workspace is displayed.
+     **/
+    @And("the workspace board should be displayed")
+    public static void theWorkspaceBoardShouldBeDisplayed() {
+        Assert.assertTrue(true);
+    }
 
     /**
      * This steps verify that workspace.
@@ -43,14 +42,6 @@ public class AssertSteps {
     public void theWorkspaceShouldBeCreated(final String name) {
         final String actualresult = this.workSpaceNew.getWorkSpaceLabel();
         Assert.assertEquals(actualresult, name);
-    }
-
-    /**
-     * This step verify that workspace is displayed.
-     **/
-    @And("the workspace board should be displayed")
-    public static void theWorkspaceBoardShouldBeDisplayed() {
-        Assert.assertTrue(true);
     }
 
     /**
@@ -88,11 +79,13 @@ public class AssertSteps {
     @And("validates {string} on {string} group list")
     public void validatesOnGroupList(final String key, final String specificGroup) {
         final String name = ScenarioContext.getContextAsString(key);
+
         if (specificGroup.equals(WORKSPACE)) {
             Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         } else {
-            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(name),
+            final String projName = StringUtil.getValueFromMap(key);
+            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(projName),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         }
     }
@@ -173,4 +166,24 @@ public class AssertSteps {
         final String name = StringUtil.getValue(key);
         Assert.assertTrue(this.toastMessage.checkVisibilityOfMessage(String.format("%s %s", name, messageOnScreen)));
     }
+
+    /**
+     * ----------------------------------------------------------
+     * from this point I will overwrite the softassert method.
+     */
+    @And("verifies that {string} appears on {string} group list")
+    public void verifiesThatAppearsOnGroupList(final String key, final String specificGroup) {
+        final String name = ScenarioContext.getContextAsString(key);
+
+        if (specificGroup.equals(WORKSPACE)) {
+            Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
+                    String.format(" %s match inside group list on %s", name, specificGroup));
+        } else {
+            final String projName = StringUtil.getValueFromMap(key);
+            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(projName),
+                    String.format(" %s match inside group list on %s", name, specificGroup));
+        }
+    }
+
 }
+
