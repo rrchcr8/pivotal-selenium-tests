@@ -1,5 +1,7 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
+import com.google.gson.JsonObject;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -17,9 +19,16 @@ import org.fundacionjala.pivotal.pages.ProjectWorkspaceList;
 import org.fundacionjala.pivotal.pages.SavePanelProjectSettings;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.openqa.selenium.json.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -266,20 +275,20 @@ public class ProjectSteps {
     /**
      * this is a hook.
      */
-//    @Before
-//    public void setup() {
-//        loadAllProjectIdsInContext();
-//    }
+    @Before
+    public void setup() {
+        loadAllProjectIdsInContext();
+    }
 
     /**
      * This is a method that loads all project Id's into a ArrayList.
      */
-    private void loadAllProjectIdsInContext(String bareURL) {
-        final String url = StringUtil.getExplicitEndpoint(bareURL);
+    private void loadAllProjectIdsInContext() {
+        final String url = StringUtil.getExplicitEndpoint(PROJECTURI);
         final JsonPath json =
                 ((Response) RequestManager.getRequest(url).body()).jsonPath();
-        //ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get
-        // ("id"));
+        ScenarioContext.getInstance().setContext(PROJECTS_IDS, json.get
+        ("id"));
     }
 
     /**
@@ -297,6 +306,17 @@ public class ProjectSteps {
      */
     @And("stores {string} that matches with {string} from {string}")
     public void storesThatMatchesWithFrom(String idKey, String mapKey, String bareURL) {
-        loadAllProjectIdsInContext(bareURL);
+        final String url = StringUtil.getExplicitEndpoint(bareURL);
+        String pN= StringUtil.getValueFromMap(mapKey);
+        final  JsonPath jsonPath = ((Response) RequestManager.getRequest(url).body()).jsonPath();
+        //String id =jsonPath.get("id[0]").toString();
+        List<String> nameList =jsonPath.get("name");
+        int i = nameList.indexOf(pN);
+        this.resp =jsonPath.get(String.format("id[%d]", i)).toString();
+        ScenarioContext.getInstance().setContext(idKey, this.resp);
+        //String idP= jsonPath.param("names", pN).get("find {id -> name == names}").toString();
+        //String idP= jsonPath.get(String.format("find {id -> name == '%s'}", pN)).toString();
+
+
     }
 }
