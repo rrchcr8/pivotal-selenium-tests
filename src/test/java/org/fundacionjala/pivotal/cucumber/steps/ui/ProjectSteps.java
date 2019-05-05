@@ -197,11 +197,10 @@ public class ProjectSteps {
     /**
      * Validate existance on project's section.
      */
-    @And("validate creation on project's section")
-    public void validateCreationOnProjectsSection() {
-        this.headerMenu.showAllProjectsWorkSpaces();
-        final boolean actual = this.projectList.isProjectListedOnPage(
-                (String) ScenarioContext.getInstance().getContext("PROJECT_NAME"));
+    @And("verifies that project {string} appears on project list")
+    public void validateCreationOnProjectsSection(final String key) {
+        final String name = StringUtil.getValueFromMap(key);
+        final boolean actual = this.projectList.isProjectListedOnPage(name);
         Assert.assertTrue(actual, "Passed if project is on Project-s section");
     }
 
@@ -241,7 +240,7 @@ public class ProjectSteps {
     /**
      * New project button on header headerMenu.
      */
-    @Given("clicks new button on header headerMenu")
+    @Given("clicks new button on header menu")
     public void aCreateNewButtonOnHeaderMenu() {
         this.header.openProjectMenu();
         this.header.clickCreateNewProject();

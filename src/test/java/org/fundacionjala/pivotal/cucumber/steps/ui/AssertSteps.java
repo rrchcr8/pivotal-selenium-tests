@@ -33,6 +33,7 @@ public class AssertSteps {
         Assert.assertTrue(true);
     }
 
+
     /**
      * This steps verify that workspace.
      *
@@ -173,17 +174,26 @@ public class AssertSteps {
      */
     @And("verifies that {string} appears on {string} group list")
     public void verifiesThatAppearsOnGroupList(final String key, final String specificGroup) {
-        final String name = ScenarioContext.getContextAsString(key);
+        // final String name = ScenarioContext.getContextAsString(key);
+        final String name = StringUtil.getValueFromMap(key);
 
         if (specificGroup.equals(WORKSPACE)) {
             Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         } else {
-            final String projName = StringUtil.getValueFromMap(key);
-            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(projName),
+            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         }
     }
 
+    /**
+     * @param key is the name of the project stored in a datatable.
+     */
+    @And("verifies that {string} appears on dashboard tab")
+    public void verifiesThatAppearsOnProjectTab(final String key) {
+        final String name = StringUtil.getValueFromMap(key);
+        Assert.assertTrue(this.dashboard.existProject(name),
+                String.format(" %s found on dashboard page inside projects", name));
+    }
 }
 

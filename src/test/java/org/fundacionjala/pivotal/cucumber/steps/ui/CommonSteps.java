@@ -19,19 +19,41 @@ import org.testng.asserts.SoftAssert;
  */
 public class CommonSteps {
 
+    private static Assertion assertion;
     @Autowired
     private Login login;
-
     @Autowired
     private Dashboard dashboard;
-
     @Autowired
     private Header header;
-
     @Autowired
     private HeaderMenu headerMenu;
 
-    private static Assertion assertion;
+    /**
+     * Based on tag annotation enable soft assert.
+     */
+    @Before("@SoftAssert")
+    public static void initialize() {
+        assertion = new SoftAssert();
+    }
+
+    /**
+     * Based on tag annotation enable soft assert.
+     */
+    @Before
+    public static void initializeHardAssert() {
+        assertion = new Assertion();
+    }
+
+    /**
+     * Final step validation for soft assert.
+     */
+    @And("asserts all")
+    public static void assertAll() {
+        if (assertion instanceof SoftAssert) {
+            ((SoftAssert) assertion).assertAll();
+        }
+    }
 
     /**
      * Logs in with user.
@@ -80,35 +102,11 @@ public class CommonSteps {
         this.header.openMenu();
     }
 
-    /**  This method selects show all project option in menu. */
+    /** This method selects show all project option in menu. */
     @And("clicks show all projects")
     public void selectsShowAllProjects() {
         this.headerMenu.showAllProjectsWorkSpaces();
     }
 
-    /**
-     * Based on tag annotation enable soft assert.
-     */
-    @Before("@SoftAssert")
-    public static void initialize() {
-        assertion = new SoftAssert();
-    }
 
-    /**
-     * Based on tag annotation enable soft assert.
-     */
-    @Before
-    public static void initializeHardAssert() {
-        assertion = new Assertion();
-    }
-
-    /**
-     * Final step validation for soft assert.
-     */
-    @And("asserts all")
-    public static void assertAll() {
-        if (assertion instanceof SoftAssert) {
-            ((SoftAssert) assertion).assertAll();
-        }
-    }
 }

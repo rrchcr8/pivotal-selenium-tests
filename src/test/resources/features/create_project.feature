@@ -14,15 +14,14 @@ Feature: Project
     Then validates "project_datatable.name" name on project's header title
     And opens the popover from header title
     And verifies that "project_datatable.name" appears on "Projects" group list
-    And goes to dashboard "Workspaces"
-    And validates "workspace.name" on "Workspaces" dashboard tab
+    And goes to dashboard "Projects"
+    And verifies that "project_datatable.name" appears on dashboard tab
     And opens the popover from header title
     And clicks show all projects
-    And verifies that project "a1" doesn't appear on project list
-     # And validate creation on header project's list
-#    And validate creation on project's section
+    And verifies that project "project_datatable.name" appears on project list
     And stores "project_id" that matches with "project_datatable.name" from "/projects"
     And sends a DELETE request "/projects/{project_id}"
+
 
   Scenario: Create new project from header menu
     Given clicks new button on header menu
@@ -31,10 +30,16 @@ Feature: Project
       | account | two   |
     And stores datatable as "project_datatable"
     Then validates "project_datatable.name" name on project's header title
-#    And validate creation on header project's list
-    And validate creation on project's section
+    And opens the popover from header title
+    And verifies that "project_datatable.name" appears on "Projects" group list
+    And goes to dashboard "Projects"
+    And verifies that "project_datatable.name" appears on dashboard tab
+    And opens the popover from header title
+    And clicks show all projects
+    And verifies that project "project_datatable.name" appears on project list
     And stores "project_id" that matches with "project_datatable.name" from "/projects"
     And sends a DELETE request "/projects/{project_id}"
+
 
   Scenario: Create new project from project's section
     Given An option to create a new project on project's section
@@ -42,16 +47,15 @@ Feature: Project
       | name    | at-03   |
       | account | three   |
       | privacy | private |
-#    And get project id
-#    And set "project_id"
-#    And saves data "project_id"
-#    And saves "project_id | workspace_id" from url
-#    And sends a GET request "/projects/{project_id}"
-#    And stores response as "project_response"
     And stores datatable as "project_datatable"
-#    Then validates "project_datatable.name" name on project's header title
-#    And validate creation "project_datatable.name" on header project's list
-#    And validate creation "project_datatable.name" on project's section
+    Then validates "project_datatable.name" name on project's header title
+    And opens the popover from header title
+    And verifies that "project_datatable.name" appears on "Projects" group list
+    And goes to dashboard "Projects"
+    And verifies that "project_datatable.name" appears on dashboard tab
+    And opens the popover from header title
+    And clicks show all projects
+    And verifies that project "project_datatable.name" appears on project list
     And stores "project_id" that matches with "project_datatable.name" from "/projects"
     And sends a DELETE request "/projects/{project_id}"
 
