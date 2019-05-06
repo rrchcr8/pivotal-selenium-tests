@@ -11,16 +11,12 @@ public class Assert {
 
     private Assertion assertion;
 
-    /**
-     * Gets assertion instance.
-     */
     public Assert() {
         assertion = new Assertion();
     }
 
     /**
      * Gets assertion instance.
-     *
      * @return {@link Assertion}
      */
     public Assertion getAssertion() {
@@ -28,8 +24,7 @@ public class Assert {
     }
 
     /**
-     * Sets assertion instance.
-     *
+     * Sets assertion instance
      * @param assertion {@link Assertion}
      */
     public void setAssertion(final Assertion assertion) {
