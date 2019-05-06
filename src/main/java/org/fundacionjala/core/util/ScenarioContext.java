@@ -45,7 +45,7 @@ public final class ScenarioContext {
      * @param key string
      * @return object value.
      */
-    public static String getContextAsString(final String key) {
+    public String getContextAsString(final String key) {
         return INSTANCE.context.get(key).toString();
     }
 
