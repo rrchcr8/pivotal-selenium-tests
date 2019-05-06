@@ -75,7 +75,7 @@ public class ProjectSteps {
     /**
      * was project created with specific name.
      *
-     * @param projectName name of the project, defined as a string.
+     * @param projectName name of the project defined as a string.
      */
     @Then("validates {string} name on project's header title")
     public void validateTheProjectIsCreatedWithSpecifyName(final String projectName) {
