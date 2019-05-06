@@ -294,7 +294,6 @@ public class ProjectSteps {
      */
     @And("verifies that {string} appears on {string} group list")
     public void verifiesThatAppearsOnGroupList(final String key, final String specificGroup) {
-        // final String name = ScenarioContext.getContextAsString(key);
         final String name = StringUtil.getValueFromMap(key);
 
         if (specificGroup.equals("Workspaces")) {
