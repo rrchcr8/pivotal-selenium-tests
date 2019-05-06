@@ -1,59 +1,33 @@
 package org.fundacionjala.pivotal.cucumber.steps.ui;
 
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import org.fundacionjala.core.Environment;
-import org.fundacionjala.core.ui.driver.DriverManager;
-import org.fundacionjala.pivotal.pages.Dashboard;
-import org.fundacionjala.pivotal.pages.Header;
-import org.fundacionjala.pivotal.pages.HeaderMenu;
-import org.fundacionjala.pivotal.pages.Login;
-import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.asserts.Assertion;
-import org.testng.asserts.SoftAssert;
+
+import org.fundacionjala.core.ui.driver.DriverManager;
+import org.fundacionjala.core.util.Environment;
+import org.fundacionjala.core.util.StringUtil;
+import org.fundacionjala.pivotal.pages.common.Dashboard;
+import org.fundacionjala.pivotal.pages.common.Header;
+import org.fundacionjala.pivotal.pages.common.HeaderMenu;
+import org.fundacionjala.pivotal.pages.common.Login;
 
 /**
  * Common steps.
  */
 public class CommonSteps {
 
-    private static Assertion assertion;
     @Autowired
     private Login login;
+
     @Autowired
     private Dashboard dashboard;
+
     @Autowired
     private Header header;
+
     @Autowired
     private HeaderMenu headerMenu;
-
-    /**
-     * Based on tag annotation enable soft assert.
-     */
-    @Before("@SoftAssert")
-    public static void initialize() {
-        assertion = new SoftAssert();
-    }
-
-    /**
-     * Based on tag annotation enable soft assert.
-     */
-    @Before
-    public static void initializeHardAssert() {
-        assertion = new Assertion();
-    }
-
-    /**
-     * Final step validation for soft assert.
-     */
-    @And("asserts all")
-    public static void assertAll() {
-        if (assertion instanceof SoftAssert) {
-            ((SoftAssert) assertion).assertAll();
-        }
-    }
 
     /**
      * Logs in with user.
@@ -102,11 +76,10 @@ public class CommonSteps {
         this.header.openMenu();
     }
 
-    /** This method selects show all project option in menu. */
+    /**  This method selects show all project option in menu. */
     @And("clicks show all projects")
     public void selectsShowAllProjects() {
         this.headerMenu.showAllProjectsWorkSpaces();
     }
-
 
 }

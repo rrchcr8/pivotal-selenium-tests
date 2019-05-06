@@ -6,7 +6,20 @@ import org.fundacionjala.pivotal.pages.*;
 import org.fundacionjala.util.ScenarioContext;
 import org.fundacionjala.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+
+import org.fundacionjala.core.util.Assert;
+import org.fundacionjala.core.util.ScenarioContext;
+import org.fundacionjala.core.util.StringUtil;
+import org.fundacionjala.pivotal.pages.common.Dashboard;
+import org.fundacionjala.pivotal.pages.common.Header;
+import org.fundacionjala.pivotal.pages.common.HeaderMenu;
+import org.fundacionjala.pivotal.pages.common.ToastMessage;
+import org.fundacionjala.pivotal.pages.workspace.WorkSpaceNew;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Assertion on common steps with soft assert.
@@ -16,23 +29,33 @@ public class AssertSteps {
     private static final String WORKSPACE = "Workspaces";
     @Autowired
     private Dashboard dashboard;
+
     @Autowired
     private WorkSpaceNew workSpaceNew;
+
     @Autowired
     private Header header;
+
     @Autowired
     private HeaderMenu headerMenu;
+
     @Autowired
     private ToastMessage toastMessage;
 
-    /**
-     * This step verify that workspace is displayed.
-     **/
-    @And("the workspace board should be displayed")
-    public static void theWorkspaceBoardShouldBeDisplayed() {
-        Assert.assertTrue(true);
-    }
+    @Autowired
+    private Assert assertion;
 
+    private static final String WORKSPACE = "Workspaces";
+
+    /**
+     * Final step validation for soft assert.
+     */
+    @Then("asserts all")
+    public void assertAll() {
+        if (assertion.getAssertion() instanceof SoftAssert) {
+            ((SoftAssert) assertion.getAssertion()).assertAll();
+        }
+    }
 
     /**
      * This steps verify that workspace.
@@ -41,8 +64,8 @@ public class AssertSteps {
      **/
     @Then("the workspace should be created: {string}")
     public void theWorkspaceShouldBeCreated(final String name) {
-        final String actualresult = this.workSpaceNew.getWorkSpaceLabel();
-        Assert.assertEquals(actualresult, name);
+        final String actualResult = this.workSpaceNew.getWorkSpaceLabel();
+        assertEquals(actualResult, name);
     }
 
     /**
@@ -52,10 +75,10 @@ public class AssertSteps {
      */
     @Then("validates {string} on header title")
     public void validatesOnHeaderTitle(final String headerTitle) {
-        final String name = ScenarioContext.getContextAsString(headerTitle);
+        final String name = ScenarioContext.getInstance().getContextAsString(headerTitle);
 
         final String actual = this.header.getTitleName();
-        Assert.assertEquals(actual, name, String.format(" %s match on header title", name));
+        assertEquals(actual, name, String.format(" %s match on header title", name));
     }
 
     /**
@@ -65,10 +88,10 @@ public class AssertSteps {
      */
     @Then("validates {string} on workspace header title")
     public void validatesOnWSHeaderTitle(final String headerWSTitle) {
-        final String name = ScenarioContext.getContextAsString(headerWSTitle);
+        final String name = ScenarioContext.getInstance().getContextAsString(headerWSTitle);
 
         final String actual = this.header.getTitleWSName();
-        Assert.assertEquals(actual, name, String.format(" %s match on workspace header title", name));
+        assertEquals(actual, name, String.format(" %s match on workspace header title", name));
     }
 
     /**
@@ -79,14 +102,12 @@ public class AssertSteps {
      */
     @And("validates {string} on {string} group list")
     public void validatesOnGroupList(final String key, final String specificGroup) {
-        final String name = ScenarioContext.getContextAsString(key);
-
-        if (specificGroup.equals(WORKSPACE)) {
-            Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
+        final String name = ScenarioContext.getInstance().getContextAsString(key);
+        if (WORKSPACE.equals(specificGroup)) {
+            assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         } else {
-            final String projName = StringUtil.getValueFromMap(key);
-            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(projName),
+            assertTrue(this.headerMenu.isProjectListedOnMenu(name),
                     String.format(" %s match inside group list on %s", name, specificGroup));
         }
     }
@@ -99,12 +120,12 @@ public class AssertSteps {
      */
     @And("validates {string} on {string} dashboard tab")
     public void validatesOnDashboardTab(final String key, final String specificList) {
-        final String name = ScenarioContext.getContextAsString(key);
-        if (specificList.equals(WORKSPACE)) {
-            Assert.assertTrue(this.dashboard.existWorkSpace(name),
+        final String name = ScenarioContext.getInstance().getContextAsString(key);
+        if (WORKSPACE.equals(specificList)) {
+            assertTrue(this.dashboard.existWorkSpace(name),
                     String.format(" %s found on dashboard page inside %s", name, specificList));
         } else {
-            Assert.assertTrue(this.dashboard.existProject(name),
+            assertTrue(this.dashboard.existProject(name),
                     String.format(" %s found on dashboard page inside %s", name, specificList));
         }
     }
@@ -118,11 +139,11 @@ public class AssertSteps {
     @And("validates {string} not listed on {string} group list")
     public void validatesNotListedOnGroupList(final String key, final String specificGroup) {
         final String name = StringUtil.getValue(key);
-        if (specificGroup.equals(WORKSPACE)) {
-            Assert.assertFalse(this.headerMenu.isWorkspaceListedOnMenu(name),
+        if (WORKSPACE.equals(specificGroup)) {
+            assertFalse(this.headerMenu.isWorkspaceListedOnMenu(name),
                     String.format(" %s not listed on %s group", name, specificGroup));
         } else {
-            Assert.assertFalse(this.headerMenu.isProjectListedOnMenu(name),
+            assertFalse(this.headerMenu.isProjectListedOnMenu(name),
                     String.format(" %s not listed on %s group", name, specificGroup));
         }
     }
@@ -137,11 +158,11 @@ public class AssertSteps {
     public void validatesNotListedOnDashboardTab(final String key, final String specificList) {
         final String name = StringUtil.getValue(key);
 
-        if (specificList.equals(WORKSPACE)) {
-            Assert.assertFalse(this.dashboard.existWorkSpace(name),
+        if (WORKSPACE.equals(specificList)) {
+            assertFalse(this.dashboard.existWorkSpace(name),
                     String.format(" %s not listed on %s dashboard tab", name, specificList));
         } else {
-            Assert.assertFalse(this.dashboard.existProject(name),
+            assertFalse(this.dashboard.existProject(name),
                     String.format(" %s not listed on %s dashboard tab", name, specificList));
         }
     }
@@ -153,7 +174,7 @@ public class AssertSteps {
      */
     @Then("a {string} message should be displayed")
     public void aMessageShouldBeDisplayed(final String messageOnScreen) {
-        Assert.assertTrue(this.toastMessage.checkVisibilityOfMessage(messageOnScreen));
+        assertTrue(this.toastMessage.checkVisibilityOfMessage(messageOnScreen));
     }
 
     /**
@@ -165,35 +186,6 @@ public class AssertSteps {
     @Then("a {string} {string} message should be displayed")
     public void aPersonalizedMessageShouldBeDisplayed(final String key, final String messageOnScreen) {
         final String name = StringUtil.getValue(key);
-        Assert.assertTrue(this.toastMessage.checkVisibilityOfMessage(String.format("%s %s", name, messageOnScreen)));
-    }
-
-    /**
-     * ----------------------------------------------------------
-     * from this point I will overwrite the softassert method.
-     */
-    @And("verifies that {string} appears on {string} group list")
-    public void verifiesThatAppearsOnGroupList(final String key, final String specificGroup) {
-        // final String name = ScenarioContext.getContextAsString(key);
-        final String name = StringUtil.getValueFromMap(key);
-
-        if (specificGroup.equals(WORKSPACE)) {
-            Assert.assertTrue(this.headerMenu.isWorkspaceListedOnMenu(name),
-                    String.format(" %s match inside group list on %s", name, specificGroup));
-        } else {
-            Assert.assertTrue(this.headerMenu.isProjectListedOnMenu(name),
-                    String.format(" %s match inside group list on %s", name, specificGroup));
-        }
-    }
-
-    /**
-     * @param key is the name of the project stored in a datatable.
-     */
-    @And("verifies that {string} appears on dashboard tab")
-    public void verifiesThatAppearsOnProjectTab(final String key) {
-        final String name = StringUtil.getValueFromMap(key);
-        Assert.assertTrue(this.dashboard.existProject(name),
-                String.format(" %s found on dashboard page inside projects", name));
+        assertTrue(this.toastMessage.checkVisibilityOfMessage(String.format("%s %s", name, messageOnScreen)));
     }
 }
-
