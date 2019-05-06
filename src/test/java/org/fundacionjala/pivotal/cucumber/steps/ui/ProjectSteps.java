@@ -288,6 +288,9 @@ public class ProjectSteps {
     /**
      * ----------------------------------------------------------
      * from this point I will overwrite the softassert method.
+     *
+     * @param key           key.
+     * @param specificGroup specific group.
      */
     @And("verifies that {string} appears on {string} group list")
     public void verifiesThatAppearsOnGroupList(final String key, final String specificGroup) {
@@ -315,6 +318,8 @@ public class ProjectSteps {
 
     /**
      * Validate existance on project's section.
+     *
+     * @param key key.
      */
     @And("verifies that project {string} appears on project list")
     public void validateCreationOnProjectsSection(final String key) {
