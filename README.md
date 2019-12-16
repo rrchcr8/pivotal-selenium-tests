@@ -6,10 +6,12 @@
 
 Pre-requisites
 
-You mus have installed following app:
+You must have installed following app:
 
     Java JDK 8+
     
-After cloning the repository, you must create a json file called :
+After cloning the repository, you must create a json file called (by copying and deleting deleting the .dist extension of environment.json):
 
     environment.json
+    
+ In this file you must include a PIvotal tracker valid credentials 
